@@ -10,14 +10,16 @@ class Wizard extends Collider{
     _maxHealth = maxHealth;
     _maxMana = maxMana;
     _leftFacing = leftFacing;
+    x = 100;
+    y = 100;
   }
   
   void create() {
     super.create();
     if (wizardStandingSheet == null) {
-      wizardStandingSheet = loadSpriteSheet("/assets/testsprite.png", 2, 1, 64, 64);
+      wizardStandingSheet = loadSpriteSheet("/assets/standing.png", 2, 1, 256, 256);
     }
-    wizardStandingAnimation = new Animation(wizardStandingSheet, 0.1, 0, 1);
+    wizardStandingAnimation = new Animation(wizardStandingSheet, 0.2, 0, 1);
   }
   
   void update(int phase, float delta) {
@@ -27,6 +29,7 @@ class Wizard extends Collider{
   
   void render() {
     super.render();
+    console.log(x + " " + y);
     wizardStandingAnimation.drawAnimation(x - 32, y - 32, 64, 64);
   }
   

@@ -1,4 +1,4 @@
-/* @pjs preload="/assets/testsprite.png, /assets/desert_background.png; */
+/* @pjs preload="/assets/standing.png, /assets/desert_background.png; */
 class Entity {
   // Called when the entity is added to the game
   void create() {}
@@ -50,7 +50,7 @@ void sortEntities() {
 
 void setup () {
   size(1000, 680); 
-  Wizard player = new Wizard(width / 2, height / 2);  
+  Wizard player = new Wizard(111, 111, false);  
   addEntity(player);
   groundImage = loadImage("/assets/desert_background.png");
 }

@@ -5,6 +5,7 @@ class Wizard extends Collider{
   float _mana;
   
   boolean leftFacing;
+  ArrayList<Spell> spellBook = new ArrayList<>();
   
   Wizard(float maxHealth, float maxMana, boolean leftFacing) {
     _maxHealth = maxHealth;

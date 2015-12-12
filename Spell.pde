@@ -3,7 +3,7 @@ class Spell {
   public abstract void invoke(Wizard owner) {
   }
   
-  public abstract double getManaCost() {
+  public abstract float getManaCost() {
     return 1.0;
   }
   

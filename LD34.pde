@@ -52,12 +52,12 @@ void setup () {
   size(1000, 680); 
   Wizard player = new Wizard(111, 111, false);  
   addEntity(player);
-  groundImage = loadImage("/assets/desert_background.png");
+  backgroundImage = loadImage("/assets/desert_background.png");
 }
 
 void draw () {    
   
-  image(groundImage, 0, 0);
+  image(backgroundImage, 0, 0);
   
   int now = millis();
   timeDelta = (now - lastUpdate) / 1000.0f;

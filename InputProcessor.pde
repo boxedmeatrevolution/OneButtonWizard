@@ -89,12 +89,3 @@ class InputProcessor {
   }
   
 }
-
-enum InputState {
-  WAITING_TO_START, WAITING_FOR_KEY_UP, WAITING_FOR_KEY_DOWN
-}
-
-enum InputType
-{
-    DOT, DASH
-};

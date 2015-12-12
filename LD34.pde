@@ -1,4 +1,4 @@
-/* @pjs preload="/assets/testsprite.png; */
+/* @pjs preload="/assets/testsprite.png, /assets/desert_background.png; */
 class Entity {
   // Called when the entity is added to the game
   void create() {}
@@ -26,6 +26,8 @@ int lastUpdatePhase = 0;
 int lastUpdate = millis();
 float timeDelta;
 
+PGraphics backgroundImage;
+
 void addEntity(Entity entity) {
   entitiesToBeAdded.add(entity);
 }
@@ -47,15 +49,15 @@ void sortEntities() {
 }
 
 void setup () {
-  size(600, 600); 
+  size(1000, 680); 
   Wizard player = new Wizard(width / 2, height / 2);  
   addEntity(player);
+  groundImage = loadImage("/assets/desert_background.png");
 }
 
 void draw () {    
   
-  background(0, 0, 0);
-  fill(255);
+  image(groundImage, 0, 0);
   
   int now = millis();
   timeDelta = (now - lastUpdate) / 1000.0f;

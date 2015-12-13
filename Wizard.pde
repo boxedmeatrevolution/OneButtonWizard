@@ -3,6 +3,7 @@ class Wizard extends Collider{
   float _maxMana;
   float _health;
   float _mana;
+  final float MANA_REGEN_RATE = 2.0;
   
   boolean leftFacing;
   ArrayList<Spell> spellBook = new ArrayList<Spell>();
@@ -13,6 +14,8 @@ class Wizard extends Collider{
     _maxHealth = maxHealth;
     _maxMana = maxMana;
     _leftFacing = leftFacing;
+    _health = _maxHealth;
+    _mana = _maxMana;
     x = x_;
     y = y_;
     _inputProcessor = inputProcessor;
@@ -30,12 +33,17 @@ class Wizard extends Collider{
   void update(int phase, float delta) {
     super.update(phase, delta);
     wizardStandingAnimation.update(delta);
+    _mana += MANA_REGEN_RATE * delta;
+    if (_mana > _maxMana) {
+      _mana = _maxMana;
+    }
     
     ArrayList<Integer> word = _inputProcessor.getNextWord();  
     if(word != null) {
       for(Spell spell : spellBook) {
         console.log("checking spell match");
-        if(checkForMatch(spell.getCombination(), word)) {
+        if(checkForMatch(spell.getCombination(), word) && spell.getManaCost() <= _mana) {
+          _mana -= spell.getManaCost();
           spell.invoke(this);
           console.log("spell invoked");
           break;

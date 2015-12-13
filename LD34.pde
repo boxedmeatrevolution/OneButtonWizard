@@ -61,8 +61,8 @@ void setup () {
   inputProcessors.add(input2);
   
   size(1000, 680); 
-  Wizard player1 = new Wizard(100, 500, 100, 100, false, input1);
-  Wizard player2 = new Wizard(width - 100, 500, 100, 100, true, input2);
+  player1 = new Wizard(100, 500, 100, 100, false, input1);
+  player2 = new Wizard(width - 100, 500, 100, 100, true, input2);
   addEntity(player1);
   addEntity(player2);
   backgroundImage = loadImage("/assets/desert_background.png");
@@ -133,6 +133,20 @@ void draw () {
   for (Entity entity : entities) {
     entity.render();
   }
+  
+  player1HealthPercent = player1._health / player1._maxHealth;
+  player1ManaPercent = player1._mana / player1._maxMana;
+  player2HealthPercent = player2._health / player2._maxHealth;
+  player2ManaPercent = player2._mana / player2._maxMana;
+  
+  fill(255, 0, 0);
+  rect(10, 10, (width / 2 - 20) * player1HealthPercent, 40);
+  rect(width / 2 + 10, 10, (width / 2 - 20) * player2HealthPercent, 40);
+  
+  fill(0, 0, 255);
+  rect(10, 60, (width / 2 - 20) * player1ManaPercent, 20);
+  rect(width / 2 + 10, 60, (width / 2 - 20) * player2ManaPercent, 20);
+  
 }
 
 void keyPressed() {

@@ -5,7 +5,7 @@ class Wizard extends Collider{
   float _mana;
   final float MANA_REGEN_RATE = 2.0;
   
-  boolean leftFacing;
+  boolean _leftFacing;
   ArrayList<Spell> spellBook = new ArrayList<Spell>();
   
   InputProcessor _inputProcessor;
@@ -54,7 +54,13 @@ class Wizard extends Collider{
   
   void render() {
     super.render();
-    wizardStandingAnimation.drawAnimation(x - 32, y - 32, 64, 64);
+    if(_leftFacing) {
+      scale(-1, 1);
+      wizardStandingAnimation.drawAnimation(-((x - 32) + 64), y - 32, 64, 64);
+      scale(-1, 1);
+    } else {
+      wizardStandingAnimation.drawAnimation(x - 32, y - 32, 64, 64);
+    }
   }
   
   void onCollision(Collider other, boolean wasHandled) {

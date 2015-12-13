@@ -16,7 +16,9 @@ class HealthOrb extends Collider{
     healthOrbAnimation.update(delta);
     accelToPoint(owner.x, owner.y - distY);
     
-    owner._health += healthRegen * delta;
+    if (!owner.phased) {
+      owner._health += healthRegen * delta;
+    }
     if (owner._health > owner._maxHealth) {
       owner._health = owner._maxHealth;
     }

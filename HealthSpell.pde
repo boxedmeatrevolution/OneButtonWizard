@@ -41,6 +41,9 @@ class HealthOrb extends Collider{
   
   void accelToPoint(float px, float py) {
     float mag = sqrt(sq(this.x - px) + sq(this.y - py));
+    if (mag == 0) {
+      return;
+    }
     float dirX = (px - this.x) / mag;
     float dirY = (py - this.y) / mag;
     this.accelX = dirX * 500;

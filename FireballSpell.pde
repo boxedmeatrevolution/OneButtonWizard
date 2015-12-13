@@ -1,5 +1,7 @@
 class Fireball extends Hazard {
   
+  float ACCELX = 400;
+  
   public Fireball(float x_, float y_, float velocityX_, float velocityY_, Wizard owner) {
     super(x_, y_, 20.0, 0.0, 1.0, owner);
     console.log("fireball " + y_);
@@ -31,6 +33,7 @@ class Fireball extends Hazard {
   
   void update(int phase, float delta) {
     super.update(phase, delta);
+    velocityX += delta * ACCELX;
   }
   
   int depth() {
@@ -41,7 +44,7 @@ class Fireball extends Hazard {
 
 class FireballSpell extends Spell {
   
-  int[] combination = new int[] { 0 };
+  int[] combination = new int[] { 0, 0 };
   
   public FireballSpell() {
   }

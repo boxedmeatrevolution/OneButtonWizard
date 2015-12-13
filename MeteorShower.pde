@@ -58,7 +58,7 @@ class Meteor extends Hazard {
   
   public Meteor(float x_, float y_, float velocityX_, float velocityY_, Wizard owner) {
     super(x_, y_, 80.0, 0.0, 0.0, owner);
-    this.damage = 2.0f;
+    this.damage = 10.0f;
     this.velocityX = velocityX_;
     this.velocityY = velocityY_;
   }

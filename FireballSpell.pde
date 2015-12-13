@@ -26,7 +26,7 @@ class Fireball extends Hazard {
   void render() {
     super.render();
     fill(255, 0, 0);
-    ellipse(x, y, radius / 2, radius / 2);
+    ellipse(x, y, 2 * radius, 2 * radius);
   }
   
   void update(int phase, float delta) {

@@ -1,8 +1,8 @@
 class Shield extends Hazard {
   
   float lifetime = 3.0;
-  float initialRadius = 64.0;
-  float finalRadius = 256.0;
+  float initialRadius = 16.0;
+  float finalRadius = 64.0;
   float timer = 0.0;
   
   public Shield(float x_, float y_, float velocityX_, float velocityY_, Wizard owner) {
@@ -13,8 +13,10 @@ class Shield extends Hazard {
   
   void onCollision(Collider other, boolean wasHandled) {
     super.onCollision(other, wasHandled);
-    if (triggered) {
-      removeEntity(other);
+    if (other instanceof Hazard) {
+      if (other.owner != owner) {
+        removeEntity(other);
+      }
     }
   }
   
@@ -29,7 +31,7 @@ class Shield extends Hazard {
   void render() {
     super.render();
     fill(255, 255, 0);
-    ellipse(x, y, radius / 2, radius / 2);
+    ellipse(x, y, 2 * radius, 2 * radius);
   }
   
   void update(int phase, float delta) {

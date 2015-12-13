@@ -75,7 +75,7 @@ class ShieldSpell extends Spell {
   }
   
   public float getManaCost() {
-    return 50.0f;
+    return 30.0f;
   }
   
   public int[] getCombination() {

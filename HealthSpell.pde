@@ -1,12 +1,11 @@
-class HealthOrb extends Moving{
+class HealthOrb extends Collider{
   Wizard owner;
   float distY = 200.0;
-  float healthRegen = 2.0; //health regenerated per second
-  float radius = 20;
-  float timer = 5.0;
+  float healthRegen = 1.0; //health regenerated per second
+  float timer = 10.0;
   
   public HealthOrb(Wizard owner_) {
-    super(owner_.x + 50, owner_.y - distY, 0.0);
+    super(owner_.x + 50, owner_.y - distY, 20, 0.0);
     this.velocityX = 25;
     this.velocityY = 15;
     owner = owner_;
@@ -41,11 +40,11 @@ class HealthOrb extends Moving{
   }
   
   void accelToPoint(float px, float py) {
-    //float mag = sqrt( pow((this.x - px), 2) + pow((this.y - py)) );
-    float dirX = px - this.x;
-    float dirY = py - this.y;
-    this.accelX = dirX * 50;
-    this.accelY = dirY * 50;
+    float mag = sqrt(sq(this.x - px) + sq(this.y - py));
+    float dirX = (px - this.x) / mag;
+    float dirY = (py - this.y) / mag;
+    this.accelX = dirX * 500;
+    this.accelY = dirY * 500;
   }
 } 
 

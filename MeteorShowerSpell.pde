@@ -30,7 +30,6 @@ class MeteorShower extends Entity {
   Wizard _owner;
   
   public MeteorShower(Wizard owner) {
-    super(0, 0, 0, 0.0, 0.0, owner);
     meteorCount = 0;
     timer = 0;
     _owner = owner;

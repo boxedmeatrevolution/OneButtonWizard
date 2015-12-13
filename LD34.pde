@@ -17,6 +17,9 @@ class Entity {
 
 ArrayList<InputProcessor> inputProcessors = new ArrayList<InputProcessor>();
 
+int MENU_STATE = 0, GAME_START_STATE = 1, IN_GAME_STATE = 2, GAME_OVER_STATE = 3;
+int state = 0;
+
 ArrayList<Entity> entities = new ArrayList<Entity>();
 ArrayList<Entity> entitiesToBeAdded = new ArrayList<Entity>();
 ArrayList<Entity> entitiesToBeRemoved = new ArrayList<Entity>();
@@ -89,7 +92,31 @@ void draw () {
     }*/
   }
   
-  // Add entities in the add queue
+  if (state == MENU_STATE) {
+    menuLoop();
+  } else if (state == GAME_START_STATE) {
+    gameStartLoop();
+  } else if (state == IN_GAME_STATE) {
+    inGameLoop();
+  } else if (state == GAME_OVER_STATE) {
+    gameOverLoop();
+  } else {
+    console.log("State " + state + " is not a valid state!");
+    console.log("Defaulting to menu state");
+    state = MENU_STATE;
+  }
+}
+
+void menuLoop() {
+  state = GAME_START_STATE;
+}
+
+void gameStartLoop() {
+  state = IN_GAME_STATE;
+}
+
+void inGameLoop() {
+    // Add entities in the add queue
   for (Entity entity : entitiesToBeAdded) {
     entities.add(entity);
     if (entity instanceof Collider) {
@@ -194,6 +221,13 @@ void draw () {
       currentX -= 40;
     }
   }
+  
+  if (player1._health < 0 || player2._health < 0) {
+    state = GAME_OVER_STATE;
+  }
+}
+
+void gameOverLoop() {
   
 }
 

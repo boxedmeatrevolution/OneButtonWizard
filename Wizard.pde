@@ -5,6 +5,9 @@ class Wizard extends Collider{
   float _mana;
   final float MANA_REGEN_RATE = 2.0;
   
+  float hurtTimer = 0;
+  float castTimer = 0;
+  
   boolean _leftFacing;
   ArrayList<Spell> spellBook = new ArrayList<Spell>();
   
@@ -33,11 +36,17 @@ class Wizard extends Collider{
       characterSpritesheet = loadSpriteSheet("/assets/character_spritesheet.png", 5, 5, 250, 250);
     }
     wizardStandingAnimation = new Animation(characterSpritesheet, 0.25, 0, 1);
-    wizardCastingAnimation = new Animation(characterSpritesheet, 0.2, 2, 2);
+    wizardCastPrepAnimation = new Animation(characterSpritesheet, 0.2, 2, 2);
+    wizardCastingAnimation = new Animation(characterSpritesheet, 0.2, 3, 3);
+    wizardHurtAnimation = new Animation(characterSpritesheet, 0.2, 4, 4);
   }
   
   void update(int phase, float delta) {
     super.update(phase, delta);
+    
+    hurtTimer -= delta;
+    castTimer -= delta;
+    
     wizardStandingAnimation.update(delta);
     _mana += MANA_REGEN_RATE * delta;
     if (_mana > _maxMana) {
@@ -49,6 +58,7 @@ class Wizard extends Collider{
       for(Spell spell : spellBook) {
         console.log("checking spell match");
         if(checkForMatch(spell.getCombination(), word) && spell.getManaCost() <= _mana) {
+          castTimer = 0.25;
           _mana -= spell.getManaCost();
           spell.invoke(this);
           console.log("spell invoked");
@@ -60,21 +70,28 @@ class Wizard extends Collider{
   
   void render() {
     super.render();
+    float xr = x - 128;
+    float xy = y - 128;
+    float size = 256;
+    
     if(_leftFacing) {
       scale(-1, 1);
-      if (_inputProcessor._inputState == 1 || _inputProcessor._inputState == 2) {
-        wizardCastingAnimation.drawAnimation(-((x - 128) + 256), y - 128, 256, 256);
-      } else {
-        wizardStandingAnimation.drawAnimation(-((x - 128) + 256), y - 128, 256, 256);
-      }
-      scale(-1, 1);
-    } else {
-      if (_inputProcessor._inputState == 1 || _inputProcessor._inputState == 2) {
-        wizardCastingAnimation.drawAnimation(x - 128, y - 128, 256, 256);
-      } else {
-        wizardStandingAnimation.drawAnimation(x - 128, y - 128, 256, 256);
-      }
+      xr = -((x - 128) + 256);
     }
+    
+    if (_inputProcessor._inputState == 1 || _inputProcessor._inputState == 2) {
+      wizardCastPrepAnimation.drawAnimation(xr, xy, size, size);
+    } else if (hurtTimer > 0) {
+     wizardHurtAnimation.drawAnimation(xr, xy, size, size);
+    } else if (castTimer > 0) {
+     wizardCastingAnimation.drawAnimation(xr, xy, size, size); 
+    } else {
+      wizardStandingAnimation.drawAnimation(xr, xy, size, size);
+    }
+    
+    if (_leftFacing) {
+      scale(-1, 1);
+    }    
   }
   
   void onCollision(Collider other, boolean wasHandled) {
@@ -82,7 +99,8 @@ class Wizard extends Collider{
   }
   
   void hurt(float damage) {
-    health -= damage;
+    _health -= damage;
+    hurtTimer = 0.25;
   }
   
   boolean checkForMatch(int[] spellSeq, ArrayList<Integer> word) {

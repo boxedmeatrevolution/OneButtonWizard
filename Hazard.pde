@@ -15,7 +15,7 @@ class Hazard extends Collider {
     super.onCollision(other, wasHandled);
     if (other instanceof Wizard) {
       if ((Wizard) other != owner) {
-        ((Wizard) other)._health -= damage;
+        ((Wizard) other).hurt(damage);
         triggered = true;
       }
     }

@@ -1,4 +1,4 @@
-class ZappyOrb extends Summon {
+class ManaSucker extends Summon {
   
   float lifetime = 15.0;
   float timer = 0.0;
@@ -7,7 +7,7 @@ class ZappyOrb extends Summon {
   Wizard target = null;
   Wizard owner;
   
-  ZappyOrb(float x_, float y_, Wizard owner_) {
+  ManaSucker(float x_, float y_, Wizard owner_) {
     super(x_, y_, 32.0f, 0.0f, 1.0f);
     owner = owner_;
     for (Entity entity : entities) {
@@ -21,12 +21,19 @@ class ZappyOrb extends Summon {
   
   void onCollision(Collider other, boolean wasHandled) {
     super.onCollision(other, wasHandled);
-    if (other instanceof ZappyOrb) {
+    if (other instanceof ManaSucker) {
       if (other.timer > this.timer) {
         removeEntity(other);
       }
       else {
         removeEntity(this);
+      }
+    }
+    if (other instanceof ManaSuckerShot) {
+      removeEntity(other);
+      target._mana -= 15.0f;
+      if (target._mana < 0.0) {
+        target._mana = 0.0;
       }
     }
   }
@@ -52,10 +59,10 @@ class ZappyOrb extends Summon {
       removeEntity(this);
     }
     if (timer > (shotsFired + 1) * timePerShot && target != null) {
-      if (shotsFired > 0) {
-        velocityX_ = -(x - target.x) / 3;
-        velocityY_ = -(y - target.y) / 3;
-        shot = new ZappyShot(x, y, velocityX_, velocityY_, owner);
+      if (shotsFired > 0 && shotsFired < 4) {
+        velocityX_ = (x - target.x) / 3;
+        velocityY_ = (y - target.y) / 3;
+        shot = new ManaSuckerShot(target.x, target.y, velocityX_, velocityY_);
         addEntity(shot);
       }
       shotsFired += 1;
@@ -68,23 +75,23 @@ class ZappyOrb extends Summon {
   
 }
 
-class ZappyOrbSpell extends Spell {
+class ManaSuckerSpell extends Spell {
   
-  int[] combination = new int[] { 0, 1, 1 };
+  int[] combination = new int[] { 1, 1, 0 };
   
-  public ZappyOrbSpell() {
+  public ManaSuckerSpell() {
   }
   
   public String name() {
-    return "Summon Electric Orb";
+    return "Summon Mana Leech";
   }
   
   public void invoke(Wizard owner) {
-    float _x = 200.0f;
+    float _x = 260.0f;
     if (owner.x > width / 2) {
       _x = width - _x;
     }
-    addEntity(new ZappyOrb(_x, 210.0f, owner));
+    addEntity(new ManaSucker(_x, 160.0f, owner));
   }
   
   public float getManaCost() {
@@ -97,28 +104,24 @@ class ZappyOrbSpell extends Spell {
   
 }
 
-class ZappyShot extends Hazard {
+class ManaSuckerShot extends Collider {
   
-  public ZappyShot(float x_, float y_, float velocityX_, float velocityY_, Wizard owner) {
-    super(x_, y_, 20.0, 0.0, 1.0, owner);
-    this.damage = 2.0f;
+  public ManaSuckerShot(float x_, float y_, float velocityX_, float velocityY_) {
+    super(x_, y_, 20.0, 0.0);
     this.velocityX = velocityX_;
     this.velocityY = velocityY_;
   }
   
   void onCollision(Collider other, boolean wasHandled) {
     super.onCollision(other, wasHandled);
-    if (triggered) {
-      removeEntity(this);
-    }
   }
   
   void create() {
     super.create();
-    if (zappyShotSpritesheet == null) {
-      zappyShotSpritesheet = loadSpriteSheet("/assets/blueFireball.png", 4, 1, 150, 150);
+    if (suckerShotSpritesheet == null) {
+      suckerShotSpritesheet = loadSpriteSheet("/assets/blueFireball.png", 4, 1, 150, 150);
     }
-    zappyShotAnimation = new Animation(zappyShotSpritesheet, 0.05, 0, 1, 2, 3);
+    suckerShotAnimation = new Animation(suckerShotSpritesheet, 0.05, 0, 1, 2, 3);
   }
   
   void destroy() {
@@ -136,7 +139,7 @@ class ZappyShot extends Hazard {
       xr = -((x - 128) + 256);
     }
     
-    zappyShotAnimation.drawAnimation(xr, xy, size, size);
+    suckerShotAnimation.drawAnimation(xr, xy, size, size);
      
     if (velocityX < 0) {
       scale(-1, 1);
@@ -145,16 +148,16 @@ class ZappyShot extends Hazard {
   
   void update(int phase, float delta) {
     super.update(phase, delta);
-    zappyShotAnimation.update(delta);
+    suckerShotAnimation.update(delta);
   }
   
   int depth() {
     return 0;
   }
   
-  Animation zappyShotAnimation;
+  Animation suckerShotAnimation;
   
 }
 
-SpriteSheet zappyShotSpritesheet;
+SpriteSheet suckerShotSpritesheet;
 

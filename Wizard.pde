@@ -35,6 +35,7 @@ class Wizard extends Collider{
     spellBook.add(new RapidShotSpell());
     spellBook.add(new PhaseSpell());
     spellBook.add(new ZappyOrbSpell());
+    spellBook.add(new ManaSuckerSpell());
   }
   
   void create() {

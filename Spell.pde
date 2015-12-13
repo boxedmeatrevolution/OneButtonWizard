@@ -1,6 +1,6 @@
 class Spell {
   
-  String name = "";
+  String name = "z";
   
   public abstract void invoke(Wizard owner) {
   }

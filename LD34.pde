@@ -51,8 +51,8 @@ void sortEntities() {
 }
 
 Wizard player1;
-//Wizard player2;
-WizardAI player2;
+Wizard player2;
+//WizardAI player2;
 
 void setup () {  
   InputProcessor input1 = new InputProcessor('z');
@@ -62,8 +62,8 @@ void setup () {
   inputProcessors.add(input2);
   
   size(1000, 680); 
-  player1 = new Wizard(100, 500, 100, 100, false, input1);
-  player2 = new WizardAI(width - 100, 500, 100, 100, true, input2);
+  player1 = new Wizard(100, 500, 50, 100, false, input1);
+  player2 = new Wizard(width - 100, 500, 50, 100, true, input2);
   addEntity(player1);
   addEntity(player2);
   backgroundImage = loadImage("/assets/desert_background.png");

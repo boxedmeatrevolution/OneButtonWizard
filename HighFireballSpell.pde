@@ -1,6 +1,6 @@
 class HighFireball extends Hazard {
   
-  int GRAV = 250;
+  int GRAV = 220;
   float ACCELX = 50;
   
   public HighFireball(float x_, float y_, float velocityX_, float velocityY_, Wizard owner) {
@@ -54,7 +54,7 @@ class HighFireballSpell extends Spell {
   
   public void invoke(Wizard owner) {
     console.log("invoked");
-    HighFireball fireball = new HighFireball(owner.x, owner.y, 100, -500, owner);
+    HighFireball fireball = new HighFireball(owner.x, owner.y, 100, -460, owner);
     if (owner.x < width / 2) {
       fireball.x += 10;
     }

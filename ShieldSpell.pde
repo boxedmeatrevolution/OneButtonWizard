@@ -85,19 +85,19 @@ class ShieldSpell extends Spell {
 
 class LowShieldSpell extends Spell {
   
-  int[] combination = new int[] { 0, 0 };
+  int[] combination = new int[] { 0, 1, 0 };
   
   public LowShieldSpell() {
   }
   
   public void invoke(Wizard owner) {
     console.log("invoked");
-    Shield shieldA = new Shield(owner.x, owner.y, 100, 0, owner);
+    Shield shieldA = new Shield(owner.x, owner.y, 0, 0, owner);
     if (owner.x < width / 2) {
-      
+      shieldA.x += 100;
     }
     else {
-      shieldA.velocityX = -shieldA.velocityX;
+      shieldA.x -= 100;
     }
     addEntity(shieldA);
   }
@@ -113,14 +113,14 @@ class LowShieldSpell extends Spell {
 
 class HighShieldSpell extends Spell {
   
-  int[] combination = new int[] { 0,  1};
+  int[] combination = new int[] { 0,  1, 1 };
   
   public HighShieldSpell() {
   }
   
   public void invoke(Wizard owner) {
     console.log("invoked");
-    Shield shieldC = new Shield(owner.x, owner.y - 50, 0, -100, owner);
+    Shield shieldC = new Shield(owner.x, owner.y - 200, 0, 0, owner);
     if (owner.x < width / 2) {
       
     }

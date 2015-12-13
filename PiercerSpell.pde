@@ -75,7 +75,7 @@ class PiercerSpell extends Spell {
   }
   
   public void invoke(Wizard owner) {
-    Piercer piercerA = new Piercer(owner.x, owner.y, 500, -500, owner);
+    Piercer piercerA = new Piercer(owner.x, owner.y, 350, -600, owner);
     Piercer piercerB = new Piercer(owner.x, owner.y, 600, -300, owner);
     if (owner.x < width / 2) {
       

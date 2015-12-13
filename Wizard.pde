@@ -3,12 +3,15 @@ class Wizard extends Collider{
   float _maxMana;
   float _health;
   float _mana;
-  final float MANA_REGEN_RATE = 2.0;
+  final float MANA_REGEN_RATE = 0.0;
   boolean phased = false;
   float phaseTimer = 0.0;
   
   float hurtTimer = 0;
   float castTimer = 0;
+  
+  boolean stunned = false;
+  float stunTimer = 0.0f;
   
   boolean _leftFacing;
   ArrayList<Spell> spellBook = new ArrayList<Spell>();
@@ -34,9 +37,9 @@ class Wizard extends Collider{
     spellBook.add(new PiercerSpell());
     spellBook.add(new RapidShotSpell());
     spellBook.add(new PhaseSpell());
-    spellBook.add(new GustSpell());
     spellBook.add(new ZappyOrbSpell());
     spellBook.add(new ManaSuckerSpell());
+    spellBook.add(new GustSpell());    
   }
   
   void create() {
@@ -65,6 +68,14 @@ class Wizard extends Collider{
       }
     }
     
+    if (stunned) {
+      stunTimer -= delta;
+      if (stunTimer < 0.0f) {
+        stunned = false;
+        _inputProcessor.canInput = true;
+      }
+    }
+    
     wizardFadeAnimation.update(delta);
     wizardStandingAnimation.update(delta);
     if (!phased) {
@@ -77,10 +88,16 @@ class Wizard extends Collider{
     ArrayList<Integer> word = _inputProcessor.getNextWord();  
     if(word != null) {
       for(Spell spell : spellBook) {
-        if(checkForMatch(spell.getCombination(), word) && spell.getManaCost() <= _mana && !phased) {
+        if(checkForMatch(spell.getCombination(), word) <= _mana && !phased) {
           castTimer = 0.25;
           _mana -= spell.getManaCost();
           spell.invoke(this);
+          if (_mana < 0.0f) {
+            _mana = 0.0f;
+            _inputProcessor.canInput = false;
+            stunned = true;
+            stunTimer = 3.0f;
+          }
           break;
         }
       }
@@ -98,26 +115,17 @@ class Wizard extends Collider{
       xr = -((x - 128) + 256);
     }
     
-    if (state == IN_GAME_STATE) {
-      if (phased) {
-        wizardFadeAnimation.drawAnimation(xr, xy, size, size);
-      } else if (_inputProcessor._inputState == 1 || _inputProcessor._inputState == 2) {
-        wizardCastPrepAnimation.drawAnimation(xr, xy, size, size);
-      } else if (hurtTimer > 0) {
-       wizardHurtAnimation.drawAnimation(xr, xy, size, size);
-      } else if (castTimer > 0) {
-       wizardCastingAnimation.drawAnimation(xr, xy, size, size); 
-      } else {
-        wizardStandingAnimation.drawAnimation(xr, xy, size, size);
-      }
-    } else if (state == GAME_OVER_STATE) {
-      if (_health >= 0) {
-        wizardWinAnimation.drawAnimation(xr, xy, size, size);
-      } else {
-        wizardLostAnimation.drawAnimation(xr, xy, size, size);
-      }
+    if (phased) {
+      wizardFadeAnimation.drawAnimation(xr, xy, size, size);
+    } else if (_inputProcessor._inputState == 1 || _inputProcessor._inputState == 2) {
+      wizardCastPrepAnimation.drawAnimation(xr, xy, size, size);
+    } else if (hurtTimer > 0) {
+     wizardHurtAnimation.drawAnimation(xr, xy, size, size);
+    } else if (castTimer > 0) {
+     wizardCastingAnimation.drawAnimation(xr, xy, size, size); 
+    } else {
+      wizardStandingAnimation.drawAnimation(xr, xy, size, size);
     }
-    
     
     if (_leftFacing) {
       scale(-1, 1);

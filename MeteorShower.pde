@@ -1,6 +1,6 @@
 class MeteorShower extends Entity {
   
-  int TOTAL_METEORS = 8;
+  int TOTAL_METEORS = 10;
   
   int meteorCount;
   float timer;
@@ -32,16 +32,14 @@ class MeteorShower extends Entity {
   void update(int phase, float delta) {
     super.update(phase, delta);
     timer += delta;
-    if(timer > 1) {
+    if(timer > 0.5) {
       timer = 0;
-      if(!_owner._leftFacing) {
-        addEntity(new Meteor(_owner.x + (width / 12)*meteorCount, 0, 40, 150, _owner));     
-       console.log("facing right");   
-      } else {
-        addEntity(new Meteor(_owner.x - (width / 12)*meteorCount, 0, -40, 150, _owner));   
-       console.log("facing left");   
-      }
       meteorCount ++;
+      if(!_owner._leftFacing) {
+        addEntity(new Meteor(_owner.x + (width / 12)*meteorCount, 0, 0, 150, _owner));   
+      } else {
+        addEntity(new Meteor(_owner.x - (width / 12)*meteorCount, 0, 0, 150, _owner));   
+      }
     }
     if(meteorCount >= TOTAL_METEORS) {
       removeEntity(this);
@@ -56,8 +54,10 @@ class MeteorShower extends Entity {
 
 class Meteor extends Hazard {
   
+  float accelerationY = 400;
+  
   public Meteor(float x_, float y_, float velocityX_, float velocityY_, Wizard owner) {
-    super(x_, y_, 40.0, 0.0, 0.0, owner);
+    super(x_, y_, 80.0, 0.0, 0.0, owner);
     this.damage = 2.0f;
     this.velocityX = velocityX_;
     this.velocityY = velocityY_;
@@ -81,11 +81,13 @@ class Meteor extends Hazard {
   void render() {
     super.render();
     fill(255, 50, 50);
-    ellipse(x, y, radius / 2, radius / 2);
+    ellipse(x, y, radius * 2, radius * 2);
   }
   
   void update(int phase, float delta) {
     super.update(phase, delta);
+    
+    velocityY += delta*accelerationY;
     
     if(y > height) {
       removeEntity(this);

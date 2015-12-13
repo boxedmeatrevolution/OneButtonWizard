@@ -25,9 +25,9 @@ class Piercer extends Hazard {
   void create() {
     super.create();
     if (piercerSpritesheet == null) {
-      piercerSpritesheet = loadSpriteSheet("/assets/blueFireball.png", 4, 1, 150, 150);
+      piercerSpritesheet = loadSpriteSheet("/assets/piercer.png", 4, 1, 120, 120);
     }
-    piercerAnimation = new Animation(piercerSpritesheet, 0.05, 0, 1, 2, 3);
+    piercerAnimation = new Animation(piercerSpritesheet, 0.3, 0, 1);
   }
   
   void destroy() {
@@ -36,20 +36,18 @@ class Piercer extends Hazard {
   
   void render() {
     super.render();
-    float xr = x - 75;
-    float xy = y - 75;
-    float size = 150;
+    float size = 120;
     
+    pushMatrix();
+    translate(x, y);
+    
+    rotate(atan(velocityY/velocityX));
     if(_leftFacing) {
       scale(-1, 1);
-      xr = -((x - 128) + 256);
     }
-    
-    piercerAnimation.drawAnimation(xr, xy, size, size);
+    piercerAnimation.drawAnimation(-size/2, -size/2, size, size);
      
-    if (_leftFacing) {
-      scale(-1, 1);
-    }
+    popMatrix();
   }
   
   void update(int phase, float delta) {

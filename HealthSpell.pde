@@ -1,22 +1,20 @@
 class HealthOrb extends Moving{
   Wizard owner;
   float distY = 200.0;
-  float healthRegen = 5.0; //health regenerated per second
+  float healthRegen = 2.0; //health regenerated per second
   float radius = 20;
   float timer = 5.0;
   
   public HealthOrb(Wizard owner_) {
-    super(owner_.x + 50, owner_.y - distY, 10);
-    console.log("Health Orb");
-    this.velocityX = 20;
-    this.velocityY = 10;
-    console.log("Health Orb");
+    super(owner_.x + 50, owner_.y - distY, 0.0);
+    this.velocityX = 25;
+    this.velocityY = 15;
     owner = owner_;
-    console.log("Health Orb");
   }
   
   void update(int phase, float delta) {
-    accelToPoint(owner.x, owner.y + distY);
+    super.update(phase, delta);
+    accelToPoint(owner.x, owner.y - distY);
     
     owner._health += healthRegen * delta;
     if (owner._health > owner._maxHealth) {
@@ -38,7 +36,7 @@ class HealthOrb extends Moving{
   
   void render() {
     super.render();
-    fill(255, 0, 0);
+    fill(0, 255, 0);
     ellipse(this.x, this.y, radius * 2, radius * 2);
   }
   
@@ -46,8 +44,8 @@ class HealthOrb extends Moving{
     //float mag = sqrt( pow((this.x - px), 2) + pow((this.y - py)) );
     float dirX = px - this.x;
     float dirY = py - this.y;
-    this.accelY = dirX;
-    this.accelY = dirY;
+    this.accelX = dirX * 50;
+    this.accelY = dirY * 50;
   }
 } 
 

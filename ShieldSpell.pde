@@ -1,12 +1,12 @@
 class Shield extends Hazard {
   
-  float lifetime = 5.0;
-  float initialRadius = 1.0;
-  float finalRadius = 64.0;
+  float lifetime = 3.0;
+  float initialRadius = 64.0;
+  float finalRadius = 256.0;
   float timer = 0.0;
   
   public Shield(float x_, float y_, float velocityX_, float velocityY_, Wizard owner) {
-    super(x_, y_, initialRadius, 2.0, 10.0, owner);
+    super(x_, y_, initialRadius, 20.0, 10.0, owner);
     velocityX = velocityX_;
     velocityY = velocityY_;
   }
@@ -28,7 +28,7 @@ class Shield extends Hazard {
   
   void render() {
     super.render();
-    fill(0, 255, 0);
+    fill(255, 255, 0);
     ellipse(x, y, radius / 2, radius / 2);
   }
   
@@ -63,9 +63,9 @@ class ShieldSpell extends Spell {
       
     }
     else {
-      shieldA.x = -shieldA.x;
-      shieldB.x = -shieldB.x;
-      shieldC.x = -shieldC.x;
+      shieldA.velocityX = -shieldA.velocityX;
+      shieldB.velocityX = -shieldB.velocityX;
+      shieldC.velocityX = -shieldC.velocityX;
     }
     addEntity(shieldA);
     addEntity(shieldB);

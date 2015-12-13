@@ -11,15 +11,15 @@ class Wizard extends Collider{
   InputProcessor _inputProcessor;
   
   Wizard(float x_, float y_, float maxHealth, float maxMana, boolean leftFacing, InputProcessor inputProcessor) {
+    super(x_, y_, 100, 0);
     _maxHealth = maxHealth;
     _maxMana = maxMana;
     _leftFacing = leftFacing;
     _health = _maxHealth;
     _mana = _maxMana;
-    x = x_;
-    y = y_;
     _inputProcessor = inputProcessor;
     spellBook.add(new FireballSpell());
+    spellBook.add(new MeteorShowerSpell());
   }
   
   void create() {
@@ -56,10 +56,10 @@ class Wizard extends Collider{
     super.render();
     if(_leftFacing) {
       scale(-1, 1);
-      wizardStandingAnimation.drawAnimation(-((x - 32) + 64), y - 32, 64, 64);
+      wizardStandingAnimation.drawAnimation(-((x - 128) + 256), y - 128, 256, 256);
       scale(-1, 1);
     } else {
-      wizardStandingAnimation.drawAnimation(x - 32, y - 32, 64, 64);
+      wizardStandingAnimation.drawAnimation(x - 128, y - 128, 256, 256);
     }
   }
   

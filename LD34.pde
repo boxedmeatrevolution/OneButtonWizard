@@ -147,6 +147,53 @@ void draw () {
   rect(10, 60, (width / 2 - 20) * player1ManaPercent, 20);
   rect(width / 2 + 10, 60, (width / 2 - 20) * player2ManaPercent, 20);
   
+  ArrayList<Integer> player1Word = new ArrayList<Integer>(player1._inputProcessor.getCurrentWord());
+  ArrayList<Integer> player2Word = new ArrayList<Integer>(player2._inputProcessor.getCurrentWord());
+  
+  int currentX = 20;
+  if (player1._inputProcessor._inputState == player1._inputProcessor.WAITING_FOR_KEY_UP || player1._inputProcessor._inputState == player1._inputProcessor.WAITING_FOR_KEY_DOWN) {
+    if (player1._inputProcessor._inputState == player1._inputProcessor.WAITING_FOR_KEY_UP) {
+      if (player1._inputProcessor._stateTimer <= player1._inputProcessor.DOT_TIME) {
+        player1Word.add(0);
+      }
+      else if (player1._inputProcessor._stateTimer <= player1._inputProcessor.DASH_TIME) {
+        player1Word.add(1);
+      }
+    }
+    for (Integer letter : player1Word) {
+      if (letter == 0) {
+        fill(0, 255, 0);
+      }
+      else if (letter == 1) {
+        fill(255, 0, 0);
+      }
+      ellipse(currentX, 100, 20, 20);
+      currentX += 40;
+    }
+  }
+  
+  if (player2._inputProcessor._inputState == player2._inputProcessor.WAITING_FOR_KEY_UP || player2._inputProcessor._inputState == player2._inputProcessor.WAITING_FOR_KEY_DOWN) {
+    if (player2._inputProcessor._inputState == player2._inputProcessor.WAITING_FOR_KEY_UP) {
+      if (player2._inputProcessor._stateTimer <= player2._inputProcessor.DOT_TIME) {
+        player2Word.add(0);
+      }
+      else if (player2._inputProcessor._stateTimer <= player2._inputProcessor.DASH_TIME) {
+        player2Word.add(1);
+      }
+    }
+    currentX = width - 20;
+    for (Integer letter : player2Word) {
+      if (letter == 0) {
+        fill(0, 255, 0);
+      }
+      else if (letter == 1) {
+        fill(255, 0, 0);
+      }
+      ellipse(currentX, 100, 20, 20);
+      currentX -= 40;
+    }
+  }
+  
 }
 
 void keyPressed() {

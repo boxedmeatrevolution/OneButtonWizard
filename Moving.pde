@@ -21,6 +21,8 @@ class Moving extends Entity {
   void update(int phase, float delta) {
     super.update(phase, delta);
     if (phase == 0) {
+      velocityX += accelX * delta;
+      velocityY += accelY * delta;
       x += velocityX * delta;
       y += velocityY * delta;
       velocity = sqrt(velocityX * velocityX + velocityY * velocityY);
@@ -40,5 +42,7 @@ class Moving extends Entity {
   float y;
   float velocityX;
   float velocityY;
+  float accelX = 0;
+  float accelY = 0;
   
 }

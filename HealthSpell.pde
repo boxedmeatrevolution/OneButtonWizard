@@ -13,6 +13,7 @@ class HealthOrb extends Collider{
   
   void update(int phase, float delta) {
     super.update(phase, delta);
+    healthOrbAnimation.update(delta);
     accelToPoint(owner.x, owner.y - distY);
     
     owner._health += healthRegen * delta;
@@ -27,6 +28,10 @@ class HealthOrb extends Collider{
   
   void create() {
     super.create();
+    if (healthOrbSpritesheet == null) {
+      healthOrbSpritesheet = loadSpriteSheet("/assets/healthOrb.png", 2, 1, 60, 60);
+    }
+    healthOrbAnimation = new Animation(healthOrbSpritesheet, 0.5, 0, 1);
   }
   
   void destroy() {
@@ -35,8 +40,11 @@ class HealthOrb extends Collider{
   
   void render() {
     super.render();
-    fill(0, 255, 0);
-    ellipse(this.x, this.y, radius * 2, radius * 2);
+    float xr = x - 30;
+    float xy = y - 30;
+    float size = 60;
+    
+    healthOrbAnimation.drawAnimation(xr, xy, size, size);
   }
   
   void accelToPoint(float px, float py) {
@@ -71,4 +79,7 @@ class HealthSpell extends Spell {
     return combination;
   }
   
+  Animation healthOrbAnimation;
 }
+
+SpriteSheet healthOrbSpritesheet;

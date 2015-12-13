@@ -13,6 +13,7 @@ class ManaOrb extends Collider{
   
   void update(int phase, float delta) {
     super.update(phase, delta);
+    manaOrbAnimation.update(delta);
     accelToPoint(owner.x, owner.y - distY);
     
     owner._mana += manaRegen * delta;
@@ -27,6 +28,10 @@ class ManaOrb extends Collider{
   
   void create() {
     super.create();
+    if (manaOrbSpritesheet == null) {
+      manaOrbSpritesheet = loadSpriteSheet("/assets/manaOrb.png", 2, 1, 60, 60);
+    }
+    manaOrbAnimation = new Animation(manaOrbSpritesheet, 0.5, 0, 1);
   }
   
   void destroy() {
@@ -35,8 +40,11 @@ class ManaOrb extends Collider{
   
   void render() {
     super.render();
-    fill(0, 0, 255);
-    ellipse(this.x, this.y, radius * 2, radius * 2);
+    float xr = x - 30;
+    float xy = y - 30;
+    float size = 60;
+    
+    manaOrbAnimation.drawAnimation(xr, xy, size, size);
   }
   
   void accelToPoint(float px, float py) {
@@ -71,4 +79,8 @@ class ManaSpell extends Spell {
   int[] getCombination() {
     return combination;
   }
+  
+  Animation manaOrbAnimation;
 }
+
+SpriteSheet manaOrbSpritesheet;

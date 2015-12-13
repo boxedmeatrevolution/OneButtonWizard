@@ -3,6 +3,8 @@ class HighFireball extends Hazard {
   int GRAV = 250;
   float ACCELX = 50;
   
+  boolean _leftFacing;
+  
   public HighFireball(float x_, float y_, float velocityX_, float velocityY_, Wizard owner) {
     super(x_, y_, 20.0, 0.0, 1.0, owner);
     console.log("fireball " + y_);
@@ -10,6 +12,7 @@ class HighFireball extends Hazard {
     this.velocityX = velocityX_;
     this.velocityY = velocityY_;
     ACCELX = (owner._leftFacing ? -ACCELX : ACCELX);
+    _leftFacing = owner._leftFacing;
   }
   
   void onCollision(Collider other, boolean wasHandled) {
@@ -21,6 +24,10 @@ class HighFireball extends Hazard {
   
   void create() {
     super.create();
+    if (spinningFireballSpritesheet == null) {
+      spinningFireballSpritesheet = loadSpriteSheet("/assets/spinningFireball.png", 4, 1, 60, 60);
+    }
+    spinningFireballAnimation = new Animation(spinningFireballSpritesheet, 0.1, 0, 1, 2, 3);
   }
   
   void destroy() {
@@ -29,12 +36,25 @@ class HighFireball extends Hazard {
   
   void render() {
     super.render();
-    fill(255, 0, 0);
-    ellipse(x, y, 2 * radius, 2 * radius);
+    float xr = x - 60;
+    float xy = y - 60;
+    float size = 120;
+    
+    if(_leftFacing) {
+      scale(-1, 1);
+      xr = -((x - size/2) + size);
+    }
+    
+    spinningFireballAnimation.drawAnimation(xr, xy, size, size);
+     
+    if (_leftFacing) {
+      scale(-1, 1);
+    }    
   }
   
   void update(int phase, float delta) {
     super.update(phase, delta);
+    spinningFireballAnimation.update(delta);
     velocityY += delta * GRAV;
     velocityX += delta * ACCELX;
   }
@@ -74,3 +94,4 @@ class HighFireballSpell extends Spell {
   }
 }
 
+SpriteSheet spinningFireballSpritesheet;

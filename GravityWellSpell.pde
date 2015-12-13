@@ -16,6 +16,10 @@ class GravityWell extends Collider {
   
   void create() {
     super.create();
+    if (gravityWellSpritesheet == null) {
+      gravityWellSpritesheet = loadSpriteSheet("/assets/gravityWell.png", 2, 1, 150, 150);
+    }
+    gravityWellAnimation = new Animation(gravityWellSpritesheet, 0.25, 0, 1);
   }
   
   void destroy() {
@@ -23,13 +27,17 @@ class GravityWell extends Collider {
   }
   
   void render() {
-    super.render();
-    fill(0, 0, 0);
-    ellipse(x, y, 2 * radius, 2 * radius);
+    super.render();    
+    float xr = x - 75;
+    float xy = y - 75;
+    float size = 150;
+    
+    gravityWellAnimation.drawAnimation(xr, xy, size, size);
   }
   
   void update(int phase, float delta) {
     super.update(phase, delta);
+    gravityWellAnimation.update(delta);
     timer += delta;
     if (timer > lifetime) {
       removeEntity(this);
@@ -50,6 +58,7 @@ class GravityWell extends Collider {
     return 0;
   }
   
+  Animation gravityWellAnimation;
 }
 
 class GravityWellSpell extends Spell {
@@ -73,3 +82,4 @@ class GravityWellSpell extends Spell {
   }
 }
 
+SpriteSheet gravityWellSpritesheet;

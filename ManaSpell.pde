@@ -1,11 +1,11 @@
-class HealthOrb extends Moving{
+class ManaOrb extends Moving{
   Wizard owner;
-  float distY = 200.0;
-  float healthRegen = 2.0; //health regenerated per second
+  float distY = 150.0;
+  float manaRegen = 5.0; //mana regenerated per second
   float radius = 20;
   float timer = 5.0;
   
-  public HealthOrb(Wizard owner_) {
+  public ManaOrb(Wizard owner_) {
     super(owner_.x + 50, owner_.y - distY, 0.0);
     this.velocityX = 25;
     this.velocityY = 15;
@@ -16,8 +16,8 @@ class HealthOrb extends Moving{
     super.update(phase, delta);
     accelToPoint(owner.x, owner.y - distY);
     
-    owner._health += healthRegen * delta;
-    if (owner._health > owner._maxHealth) {
+    owner._mana += manaRegen * delta;
+    if (owner._mana > owner._maxMana) {
       owner._health = owner._maxHealth;
     }
     timer -= delta;
@@ -36,7 +36,7 @@ class HealthOrb extends Moving{
   
   void render() {
     super.render();
-    fill(0, 255, 0);
+    fill(0, 0, 255);
     ellipse(this.x, this.y, radius * 2, radius * 2);
   }
   
@@ -49,24 +49,24 @@ class HealthOrb extends Moving{
   }
 } 
 
-class HealthSpell extends Spell {
-  int[] combination = new int[] {0, 1, 1};
+class ManaSpell extends Spell {
+  int[] combination = new int[] {1, 1};
+  String name = "ManaSpell";
  
-  public HealthSpell() {
+  public ManaSpell() {
+    super();
   }
   
   void invoke(Wizard owner) {
-    console.log("Health Orb Invoked");
-    HealthOrb healthOrb = new HealthOrb(owner);
-    addEntity(healthOrb);
+    ManaOrb manaOrb = new ManaOrb(owner);
+    addEntity(manaOrb);
   }
   
   float getManaCost() {
-    return 25.0f;
+    return 0.0f;
   }
   
   int[] getCombination() {
     return combination;
   }
-  
 }

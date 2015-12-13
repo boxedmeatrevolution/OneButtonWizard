@@ -1,5 +1,7 @@
 class Spell {
   
+  String name = "";
+  
   public abstract void invoke(Wizard owner) {
   }
   

@@ -119,6 +119,8 @@ class Wizard extends Collider{
   
   Animation wizardStandingAnimation;
   Animation wizardCastingAnimation;
+  Animation wizardCastPrepAnimation;
+  Animation wizardHurtAnimation;
 }
 
 SpriteSheet characterSpritesheet;

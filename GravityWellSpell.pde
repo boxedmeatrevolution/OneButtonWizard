@@ -35,18 +35,12 @@ class GravityWell extends Collider {
       removeEntity(this);
     }
     for (Entity entity : entities) {
-      if (entity != this && entity != player1 && entity != player2) {
-        if (entity instanceof Collider) {
-          factor = 1;
-          if (entity instanceof HealthOrb || entity instanceof ManaOrb) {
-            factor = 100;
-          }
-          dist = sq(entity.x - x) + sq(entity.y - y);
-          mag = pow(dist, 1.5);
-          if (dist != 0) {
-            entity.velocityX -= delta * factor * 1000000 * (entity.x - x) / mag;
-            entity.velocityY -= delta * factor * 1000000 * (entity.y - y) / mag;
-          }
+      if (entity instanceof HealthOrb || entity instanceof ManaOrb) {
+        dist = sq(entity.x - x) + sq(entity.y - y);
+        mag = pow(dist, 1.5);
+        if (dist != 0) {
+          entity.velocityX -= delta * 100000000 * (entity.x - x) / mag;
+          entity.velocityY -= delta * 100000000 * (entity.y - y) / mag;
         }
       }
     }

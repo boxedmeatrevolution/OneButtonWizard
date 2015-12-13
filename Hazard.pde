@@ -19,6 +19,12 @@ class Hazard extends Collider {
         triggered = true;
       }
     }
+    if (other instanceof Summon) {
+      if (other.owner != owner) {
+        other.hurt(damage);
+        triggered = true;
+      }
+    }
   }
   
   void create() {

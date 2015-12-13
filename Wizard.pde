@@ -3,12 +3,15 @@ class Wizard extends Collider{
   float _maxMana;
   float _health;
   float _mana;
-  final float MANA_REGEN_RATE = 2.0;
+  final float MANA_REGEN_RATE = 0.0;
   boolean phased = false;
   float phaseTimer = 0.0;
   
   float hurtTimer = 0;
   float castTimer = 0;
+  
+  boolean stunned = false;
+  float stunTimer = 0.0f;
   
   boolean _leftFacing;
   ArrayList<Spell> spellBook = new ArrayList<Spell>();
@@ -35,6 +38,8 @@ class Wizard extends Collider{
     spellBook.add(new RapidShotSpell());
     spellBook.add(new PhaseSpell());
     spellBook.add(new GustSpell());
+    spellBook.add(new ZappyOrbSpell());
+    spellBook.add(new ManaSuckerSpell());
   }
   
   void create() {
@@ -43,9 +48,12 @@ class Wizard extends Collider{
       characterSpritesheet = loadSpriteSheet("/assets/character_spritesheet.png", 5, 5, 250, 250);
     }
     wizardStandingAnimation = new Animation(characterSpritesheet, 0.25, 0, 1);
-    wizardCastPrepAnimation = new Animation(characterSpritesheet, 0.2, 2, 2);
-    wizardCastingAnimation = new Animation(characterSpritesheet, 0.2, 3, 3);
-    wizardHurtAnimation = new Animation(characterSpritesheet, 0.2, 4, 4);
+    wizardCastPrepAnimation = new Animation(characterSpritesheet, 0.2, 2);
+    wizardCastingAnimation = new Animation(characterSpritesheet, 0.2, 3);
+    wizardHurtAnimation = new Animation(characterSpritesheet, 0.2, 4);
+    wizardWinAnimation = new Animation(characterSpritesheet, 0.2, 5, 6, 7, 8);
+    wizardLoseAnimation = new Animation(characterSpritesheet, 0.2, 9, 10);
+    wizardFadeAnimation = new Animation(characterSpritesheet, 0.25, 13, 12);
   }
   
   void update(int phase, float delta) {
@@ -60,6 +68,15 @@ class Wizard extends Collider{
       }
     }
     
+    if (stunned) {
+      stunTimer -= delta;
+      if (stunTimer < 0.0f) {
+        stunned = false;
+        _inputProcessor.canInput = true;
+      }
+    }
+    
+    wizardFadeAnimation.update(delta);
     wizardStandingAnimation.update(delta);
     if (!phased) {
       _mana += MANA_REGEN_RATE * delta;
@@ -71,10 +88,16 @@ class Wizard extends Collider{
     ArrayList<Integer> word = _inputProcessor.getNextWord();  
     if(word != null) {
       for(Spell spell : spellBook) {
-        if(checkForMatch(spell.getCombination(), word) && spell.getManaCost() <= _mana && !phased) {
+        if(checkForMatch(spell.getCombination(), word) <= _mana && !phased) {
           castTimer = 0.25;
           _mana -= spell.getManaCost();
           spell.invoke(this);
+          if (_mana < 0.0f) {
+            _mana = 0.0f;
+            _inputProcessor.canInput = false;
+            stunned = true;
+            stunTimer = 3.0f;
+          }
           break;
         }
       }
@@ -92,7 +115,9 @@ class Wizard extends Collider{
       xr = -((x - 128) + 256);
     }
     
-    if (_inputProcessor._inputState == 1 || _inputProcessor._inputState == 2) {
+    if (phased) {
+      wizardFadeAnimation.drawAnimation(xr, xy, size, size);
+    } else if (_inputProcessor._inputState == 1 || _inputProcessor._inputState == 2) {
       wizardCastPrepAnimation.drawAnimation(xr, xy, size, size);
     } else if (hurtTimer > 0) {
      wizardHurtAnimation.drawAnimation(xr, xy, size, size);
@@ -134,6 +159,9 @@ class Wizard extends Collider{
   Animation wizardCastingAnimation;
   Animation wizardCastPrepAnimation;
   Animation wizardHurtAnimation;
+  Animation wizardWinAnimation;
+  Animation wizardLoseAnimation;
+  Animation wizardFadeAnimation;
 }
 
 SpriteSheet characterSpritesheet;

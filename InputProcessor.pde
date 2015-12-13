@@ -18,6 +18,8 @@ class InputProcessor {
   
   boolean _keyDown;
   
+  boolean canInput = true;
+  
   InputProcessor (char keyToProcess) {
     _keyToProcess = keyToProcess;
     _inputWord = new ArrayList<Integer>();
@@ -29,13 +31,13 @@ class InputProcessor {
   }
   
   void keyPressed() {
-    if(key == _keyToProcess) {
+    if(key == _keyToProcess && canInput) {
       _keyDown = true;
     }
   }
   
   void keyReleased() {
-    if(key == _keyToProcess) {
+    if(key == _keyToProcess && canInput) {
       _keyDown = false;
     }
   }

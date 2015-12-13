@@ -1,6 +1,6 @@
 class MeteorShowerSpell extends Spell {
   
-  int[] combination = new int[] { 0, 0, 0, 0, 1};
+  int[] combination = new int[] { 1, 0, 0, 0, 1};
   
   public MeteorShowerSpell() {
   }
@@ -10,7 +10,7 @@ class MeteorShowerSpell extends Spell {
   }
   
   public float getManaCost() {
-    return 30.0f;
+    return 40.0f;
   }
   
   public int[] getCombination() {

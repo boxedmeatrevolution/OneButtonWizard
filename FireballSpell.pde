@@ -45,7 +45,7 @@ class Fireball extends Hazard {
 
 class FireballSpell extends Spell {
   
-  int[] combination = new int[] { 0, 0 };
+  int[] combination = new int[] { 0, 0, 0, 1 };
   
   public FireballSpell() {
   }

@@ -23,15 +23,17 @@ class Wizard extends Collider{
     spellBook.add(new ShieldSpell());
     spellBook.add(new MeteorShowerSpell());
     spellBook.add(new HealthSpell());
+    spellBook.add(new GravityWellSpell());
     spellBook.add(new ManaSpell());
   }
   
   void create() {
     super.create();
-    if (wizardStandingSheet == null) {
-      wizardStandingSheet = loadSpriteSheet("/assets/standing.png", 2, 1, 256, 256);
+    if (characterSpritesheet == null) {
+      characterSpritesheet = loadSpriteSheet("/assets/character_spritesheet.png", 5, 5, 250, 250);
     }
-    wizardStandingAnimation = new Animation(wizardStandingSheet, 0.2, 0, 1);
+    wizardStandingAnimation = new Animation(characterSpritesheet, 0.25, 0, 1);
+    wizardCastingAnimation = new Animation(characterSpritesheet, 0.2, 2, 2);
   }
   
   void update(int phase, float delta) {
@@ -60,10 +62,18 @@ class Wizard extends Collider{
     super.render();
     if(_leftFacing) {
       scale(-1, 1);
-      wizardStandingAnimation.drawAnimation(-((x - 128) + 256), y - 128, 256, 256);
+      if (_inputProcessor._inputState == 1 || _inputProcessor._inputState == 2) {
+        wizardCastingAnimation.drawAnimation(-((x - 128) + 256), y - 128, 256, 256);
+      } else {
+        wizardStandingAnimation.drawAnimation(-((x - 128) + 256), y - 128, 256, 256);
+      }
       scale(-1, 1);
     } else {
-      wizardStandingAnimation.drawAnimation(x - 128, y - 128, 256, 256);
+      if (_inputProcessor._inputState == 1 || _inputProcessor._inputState == 2) {
+        wizardCastingAnimation.drawAnimation(x - 128, y - 128, 256, 256);
+      } else {
+        wizardStandingAnimation.drawAnimation(x - 128, y - 128, 256, 256);
+      }
     }
   }
   
@@ -88,6 +98,7 @@ class Wizard extends Collider{
   }
   
   Animation wizardStandingAnimation;
+  Animation wizardCastingAnimation;
 }
 
-SpriteSheet wizardStandingSheet;
+SpriteSheet characterSpritesheet;

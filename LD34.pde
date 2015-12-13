@@ -15,8 +15,6 @@ class Entity {
   boolean exists = false;
 }
 
-ArrayList<InputProcessor> inputProcessors = new ArrayList<InputProcessor>();
-
 ArrayList<Entity> entities = new ArrayList<Entity>();
 ArrayList<Entity> entitiesToBeAdded = new ArrayList<Entity>();
 ArrayList<Entity> entitiesToBeRemoved = new ArrayList<Entity>();
@@ -50,13 +48,16 @@ void sortEntities() {
   }
 }
 
+Wizard player1;
+Wizard player2;
+
 void setup () {
   size(1000, 680); 
-  Wizard player = new Wizard(111, 111, false);  
-  addEntity(player);
+  Wizard player1 = new Wizard(100, 500, 100, 100, false);
+  Wizard player2 = new Wizard(width - 100, 500, 100, 100, true);
+  addEntity(player1);
+  addEntity(player2);
   backgroundImage = loadImage("/assets/desert_background.png");
-  
-  inputProcessors.add(new InputProcessor('z'));
 }
 
 void draw () {    
@@ -66,18 +67,6 @@ void draw () {
   int now = millis();
   timeDelta = (now - lastUpdate) / 1000.0f;
   lastUpdate = now;
-
-  for(InputProcessor ip : inputProcessors) {     
-    ip.update(timeDelta);
-    ArrayList<Integer> word = ip.getNextWord();
-    if(word != null) {
-      String sequence = "";
-      for(Integer i : word) {
-        sequence += i;
-      }
-      console.log(sequence);
-    }
-  }
   
   // Add entities in the add queue
   for (Entity entity : entitiesToBeAdded) {
@@ -123,18 +112,6 @@ void draw () {
   // Render every entity
   for (Entity entity : entities) {
     entity.render();
-  }
-}
-  
-void keyPressed() {
-  for(InputProcessor ip : inputProcessors) {    
-    ip.keyPressed();
-  }
-}
-
-void keyReleased() {
-  for(InputProcessor ip : inputProcessors) {    
-    ip.keyReleased();
   }
 }
 

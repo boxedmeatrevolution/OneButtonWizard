@@ -7,12 +7,12 @@ class Wizard extends Collider{
   boolean leftFacing;
   ArrayList<Spell> spellBook = new ArrayList<Spell>();
   
-  Wizard(float maxHealth, float maxMana, boolean leftFacing) {
+  Wizard(float x_, float y_, float maxHealth, float maxMana, boolean leftFacing) {
     _maxHealth = maxHealth;
     _maxMana = maxMana;
     _leftFacing = leftFacing;
-    x = 100;
-    y = 100;
+    x = x_;
+    y = y_;
   }
   
   void create() {
@@ -30,6 +30,7 @@ class Wizard extends Collider{
   
   void render() {
     super.render();
+    console.log(x + " " + y);
     wizardStandingAnimation.drawAnimation(x - 32, y - 32, 64, 64);
   }
   

@@ -7,24 +7,15 @@ class Wizard extends Collider{
   boolean leftFacing;
   ArrayList<Spell> spellBook = new ArrayList<Spell>();
   
-<<<<<<< HEAD
   InputProcessor _inputProcessor;
   
-  Wizard(float maxHealth, float maxMana, boolean leftFacing, InputProcessor inputProcessor) {
-    _maxHealth = maxHealth;
-    _maxMana = maxMana;
-    _leftFacing = leftFacing;
-    x = 100;
-    y = 100;
-    _inputProcessor = inputProcessor;
-=======
-  Wizard(float x_, float y_, float maxHealth, float maxMana, boolean leftFacing) {
+  Wizard(float x_, float y_, float maxHealth, float maxMana, boolean leftFacing, InputProcessor inputProcessor) {
     _maxHealth = maxHealth;
     _maxMana = maxMana;
     _leftFacing = leftFacing;
     x = x_;
     y = y_;
->>>>>>> a07b0b7dd437ed47adad94ec6b85922eac7a5049
+    _inputProcessor = inputProcessor;
   }
   
   void create() {

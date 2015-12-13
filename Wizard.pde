@@ -16,6 +16,7 @@ class Wizard extends Collider{
     x = x_;
     y = y_;
     _inputProcessor = inputProcessor;
+    spellBook.add(new FireballSpell());
   }
   
   void create() {

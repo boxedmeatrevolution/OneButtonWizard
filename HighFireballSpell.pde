@@ -6,7 +6,7 @@ class HighFireball extends Hazard {
   public HighFireball(float x_, float y_, float velocityX_, float velocityY_, Wizard owner) {
     super(x_, y_, 20.0, 0.0, 1.0, owner);
     console.log("fireball " + y_);
-    this.damage = 1.0f;
+    this.damage = 12.0f;
     this.velocityX = velocityX_;
     this.velocityY = velocityY_;
     ACCELX = (owner._leftFacing ? -ACCELX : ACCELX);
@@ -47,7 +47,7 @@ class HighFireball extends Hazard {
 
 class HighFireballSpell extends Spell {
   
-  int[] combination = new int[] { 0, 0, 0, 0, 0, 1 };
+  int[] combination = new int[] { 1, 0, 1 };
   
   public HighFireballSpell() {
   }
@@ -66,7 +66,7 @@ class HighFireballSpell extends Spell {
   }
   
   public float getManaCost() {
-    return 10.0f;
+    return 15.0f;
   }
   
   public int[] getCombination() {

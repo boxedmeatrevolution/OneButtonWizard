@@ -1,7 +1,7 @@
 class GravityWell extends Collider {
   
   float timer = 0.0;
-  float lifetime = 10.0;
+  float lifetime = 5.0;
   
   public GravityWell(float x_, float y_, float velocityX_, float velocityY_) {
     super(x_, y_, 32.0, 20.0);
@@ -54,7 +54,7 @@ class GravityWell extends Collider {
 
 class GravityWellSpell extends Spell {
   
-  int[] combination = new int[] { 1, 1, 0, 1, 0, 0 };
+  int[] combination = new int[] { 1, 0, 0, 1 };
   
   public GravityWellSpell() {
   }

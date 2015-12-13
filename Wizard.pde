@@ -23,6 +23,8 @@ class Wizard extends Collider{
     _inputProcessor = inputProcessor;
     spellBook.add(new FireballSpell());
     spellBook.add(new HighFireballSpell());
+    spellBook.add(new HighShieldSpell());
+    spellBook.add(new LowShieldSpell());
     spellBook.add(new ShieldSpell());
     spellBook.add(new MeteorShowerSpell());
     spellBook.add(new HealthSpell());

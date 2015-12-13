@@ -1,7 +1,7 @@
 class HealthOrb extends Collider{
   Wizard owner;
   float distY = 200.0;
-  float healthRegen = 1.0; //health regenerated per second
+  float healthRegen = 0.5; //health regenerated per second
   float timer = 10.0;
   
   public HealthOrb(Wizard owner_) {
@@ -52,7 +52,7 @@ class HealthOrb extends Collider{
 } 
 
 class HealthSpell extends Spell {
-  int[] combination = new int[] {0, 1, 1};
+  int[] combination = new int[] {0};
  
   public HealthSpell() {
   }
@@ -64,7 +64,7 @@ class HealthSpell extends Spell {
   }
   
   float getManaCost() {
-    return 25.0f;
+    return 15.0f;
   }
   
   int[] getCombination() {

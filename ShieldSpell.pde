@@ -51,7 +51,7 @@ class Shield extends Hazard {
 
 class ShieldSpell extends Spell {
   
-  int[] combination = new int[] { 0, 0, 1, 0, 0 };
+  int[] combination = new int[] { 0, 0, 0 };
   
   public ShieldSpell() {
   }
@@ -75,7 +75,7 @@ class ShieldSpell extends Spell {
   }
   
   public float getManaCost() {
-    return 30.0f;
+    return 50.0f;
   }
   
   public int[] getCombination() {

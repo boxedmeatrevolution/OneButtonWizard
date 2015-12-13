@@ -2,8 +2,6 @@ class Piercer extends Hazard {
   
   float ACCELY = 500;
   
-  boolean _leftFacing;
-  
   public Piercer(float x_, float y_, float velocityX_, float velocityY_, Wizard owner) {
     super(x_, y_, 20.0, 0.0, 1.0, owner);
     this.damage = 1.0f;
@@ -42,7 +40,7 @@ class Piercer extends Hazard {
     translate(x, y);
     
     rotate(atan(velocityY/velocityX));
-    if(_leftFacing) {
+    if(velocityX < 0) {
       scale(-1, 1);
     }
     piercerAnimation.drawAnimation(-size/2, -size/2, size, size);

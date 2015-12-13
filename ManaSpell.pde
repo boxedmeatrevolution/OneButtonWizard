@@ -16,7 +16,9 @@ class ManaOrb extends Collider{
     manaOrbAnimation.update(delta);
     accelToPoint(owner.x, owner.y - distY);
     
-    owner._mana += manaRegen * delta;
+    if (!owner.phased) {
+      owner._mana += manaRegen * delta;
+    }
     if (owner._mana > owner._maxMana) {
       owner._mana = owner._maxMana;
     }

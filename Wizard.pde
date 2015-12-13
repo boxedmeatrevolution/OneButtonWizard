@@ -4,6 +4,8 @@ class Wizard extends Collider{
   float _health;
   float _mana;
   final float MANA_REGEN_RATE = 2.0;
+  boolean phased = false;
+  float phaseTimer = 0.0;
   
   float hurtTimer = 0;
   float castTimer = 0;
@@ -24,12 +26,14 @@ class Wizard extends Collider{
     spellBook.add(new FireballSpell());
     spellBook.add(new HighFireballSpell());
     spellBook.add(new ShieldSpell());
+    spellBook.add(new ReflectorSpell());
     spellBook.add(new MeteorShowerSpell());
     spellBook.add(new HealthSpell());
     spellBook.add(new GravityWellSpell());
     spellBook.add(new ManaSpell());
     spellBook.add(new PiercerSpell());
     spellBook.add(new RapidShotSpell());
+    spellBook.add(new PhaseSpell());
   }
   
   void create() {
@@ -48,9 +52,17 @@ class Wizard extends Collider{
     
     hurtTimer -= delta;
     castTimer -= delta;
+    if (phased) {
+      phaseTimer -= delta;
+      if (phaseTimer < 0.0f) {
+        phased = false;
+      }
+    }
     
     wizardStandingAnimation.update(delta);
-    _mana += MANA_REGEN_RATE * delta;
+    if (!phased) {
+      _mana += MANA_REGEN_RATE * delta;
+    }
     if (_mana > _maxMana) {
       _mana = _maxMana;
     }
@@ -58,12 +70,10 @@ class Wizard extends Collider{
     ArrayList<Integer> word = _inputProcessor.getNextWord();  
     if(word != null) {
       for(Spell spell : spellBook) {
-        console.log("checking spell match");
-        if(checkForMatch(spell.getCombination(), word) && spell.getManaCost() <= _mana) {
+        if(checkForMatch(spell.getCombination(), word) && spell.getManaCost() <= _mana && !phased) {
           castTimer = 0.25;
           _mana -= spell.getManaCost();
           spell.invoke(this);
-          console.log("spell invoked");
           break;
         }
       }
@@ -101,8 +111,10 @@ class Wizard extends Collider{
   }
   
   void hurt(float damage) {
-    _health -= damage;
-    hurtTimer = 0.25;
+    if (!phased) {
+      _health -= damage;
+      hurtTimer = 0.25;
+    }
   }
   
   boolean checkForMatch(int[] spellSeq, ArrayList<Integer> word) {

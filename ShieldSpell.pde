@@ -22,6 +22,10 @@ class Shield extends Hazard {
   
   void create() {
     super.create();
+    if (shieldSpritesheet == null) {
+      shieldSpritesheet = loadSpriteSheet("/assets/shield.png", 4, 1, 400, 400);
+    }
+    shieldAnimation = new Animation(shieldSpritesheet, 0.2, 0, 1, 2, 3);
   }
   
   void destroy() {
@@ -30,12 +34,15 @@ class Shield extends Hazard {
   
   void render() {
     super.render();
-    fill(255, 255, 0);
-    ellipse(x, y, 2 * radius, 2 * radius);
+    shieldAnimation.drawAnimation(x - 200, y - 250 , 400, 400);
+    console.log(x + " " + y);
+//    fill(255, 255, 0);
+//    ellipse(x, y, 2 * radius, 2 * radius);
   }
   
   void update(int phase, float delta) {
     super.update(phase, delta);
+    shieldAnimation.update(delta);
     timer += delta;
     if (timer > lifetime) {
       removeEntity(this);
@@ -79,5 +86,7 @@ class ShieldSpell extends Spell {
   public int[] getCombination() {
     return combination;
   }
+  
+  Animation shieldAnimation;
 }
-
+SpriteSheet shieldSpritesheet;

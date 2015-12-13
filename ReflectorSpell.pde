@@ -1,11 +1,11 @@
-class Shield extends Hazard {
+class Reflector extends Hazard {
   
   float lifetime = 3.0;
   float initialRadius = 132.0;
   float finalRadius = 160.0;
   float timer = 0.0;
   
-  public Shield(float x_, float y_, float velocityX_, float velocityY_, Wizard owner) {
+  public Reflector(float x_, float y_, float velocityX_, float velocityY_, Wizard owner) {
     super(x_, y_, initialRadius, 20.0, 10.0, owner);
     velocityX = velocityX_;
     velocityY = velocityY_;
@@ -15,7 +15,10 @@ class Shield extends Hazard {
     super.onCollision(other, wasHandled);
     if (other instanceof Hazard) {
       if (other.owner != owner) {
-        removeEntity(other);
+        other.owner = owner;
+        other.velocityX *= -1;
+        other.velocityY *= -1;
+        removeEntity(this);
       }
     }
   }
@@ -30,7 +33,7 @@ class Shield extends Hazard {
   
   void render() {
     super.render();
-    fill(255, 255, 0);
+    fill(255, 0, 255);
     ellipse(x, y, 2 * radius, 2 * radius);
   }
   
@@ -49,15 +52,15 @@ class Shield extends Hazard {
   
 }
 
-class ShieldSpell extends Spell {
+class ReflectorSpell extends Spell {
   
-  int[] combination = new int[] { 0, 0 };
+  int[] combination = new int[] { 1, 0 };
   
-  public ShieldSpell() {
+  public ReflectorSpell() {
   }
   
   public String name() {
-    return "Bubble Shield";
+    return "Reflector Shield";
   }
   
   public void invoke(Wizard owner) {
@@ -68,8 +71,8 @@ class ShieldSpell extends Spell {
         }
       }
     }
-    Shield shield = new Shield(owner.x, owner.y, 0, 0, owner);
-    addEntity(shield);
+    Reflector reflector = new Reflector(owner.x, owner.y, 0, 0, owner);
+    addEntity(reflector);
   }
   
   public float getManaCost() {

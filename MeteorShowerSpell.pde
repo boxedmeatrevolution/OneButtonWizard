@@ -107,7 +107,13 @@ class Meteor extends Hazard {
   
   void render() {
     super.render();
+    if (velocityY < 0) {
+      scale(1, -1);
+    }
     meteorAnimation.drawAnimation(x - 125, y - 125, 250, 250);
+    if (velocityY < 0) {
+      scale(1, -1);
+    }
   }
   
   void update(int phase, float delta) {

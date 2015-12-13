@@ -2,8 +2,6 @@ class Fireball extends Hazard {
   
   float ACCELX = 50;
   
-  boolean _leftFacing;
-  
   public Fireball(float x_, float y_, float velocityX_, float velocityY_, Wizard owner) {
     super(x_, y_, 20.0, 0.0, 1.0, owner);
     console.log("fireball " + y_);
@@ -11,7 +9,6 @@ class Fireball extends Hazard {
     this.velocityX = velocityX_;
     this.velocityY = velocityY_;
     ACCELX = (owner._leftFacing ? -ACCELX : ACCELX);
-    _leftFacing = owner._leftFacing;
   }
   
   void onCollision(Collider other, boolean wasHandled) {
@@ -39,14 +36,14 @@ class Fireball extends Hazard {
     float xy = y - 75;
     float size = 150;
     
-    if(_leftFacing) {
+    if(velocityX < 0) {
       scale(-1, 1);
       xr = -((x - 128) + 256);
     }
     
     fireballAnimation.drawAnimation(xr, xy, size, size);
      
-    if (_leftFacing) {
+    if (velocityX < 0) {
       scale(-1, 1);
     }    
   }

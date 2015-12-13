@@ -6,7 +6,8 @@ class FireballSpell extends Spell {
   }
   
   public void invoke(Wizard owner) {
-    Fireball fireball = new Fireball(owner.x, owner.y, 10, 0, owner);
+    console.log("invoked");
+    Fireball fireball = new Fireball(owner.x, owner.y, 100, 0, owner);
     if (owner.x < width / 2) {
       fireball.x += 10;
     }

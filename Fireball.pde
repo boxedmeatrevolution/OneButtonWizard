@@ -1,15 +1,18 @@
 class Fireball extends Hazard {
   
   public Fireball(float x_, float y_, float velocityX_, float velocityY_, Wizard owner) {
-    super(x_, y_, 20.0, 0.0, owner);
-    this.damage = 10.0f;
+    super(x_, y_, 20.0, 0.0, 0.0, owner);
+    console.log("fireball " + y_);
+    this.damage = 1.0f;
     this.velocityX = velocityX_;
     this.velocityY = velocityY_;
   }
   
   void onCollision(Collider other, boolean wasHandled) {
     super.onCollision(other, wasHandled);
-    removeEntity(this);
+    if (triggered) {
+      removeEntity(this);
+    }
   }
   
   void create() {

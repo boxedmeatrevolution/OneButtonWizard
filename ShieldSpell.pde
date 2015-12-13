@@ -1,7 +1,7 @@
 class Shield extends Hazard {
   
   float lifetime = 3.0;
-  float initialRadius = 16.0;
+  float initialRadius = 64.0;
   float finalRadius = 64.0;
   float timer = 0.0;
   
@@ -83,3 +83,58 @@ class ShieldSpell extends Spell {
   }
 }
 
+class LowShieldSpell extends Spell {
+  
+  int[] combination = new int[] { 0, 0 };
+  
+  public LowShieldSpell() {
+  }
+  
+  public void invoke(Wizard owner) {
+    console.log("invoked");
+    Shield shieldA = new Shield(owner.x, owner.y, 100, 0, owner);
+    if (owner.x < width / 2) {
+      
+    }
+    else {
+      shieldA.velocityX = -shieldA.velocityX;
+    }
+    addEntity(shieldA);
+  }
+  
+  public float getManaCost() {
+    return 20.0f;
+  }
+  
+  public int[] getCombination() {
+    return combination;
+  }
+}
+
+class HighShieldSpell extends Spell {
+  
+  int[] combination = new int[] { 0,  1};
+  
+  public HighShieldSpell() {
+  }
+  
+  public void invoke(Wizard owner) {
+    console.log("invoked");
+    Shield shieldC = new Shield(owner.x, owner.y - 50, 0, -100, owner);
+    if (owner.x < width / 2) {
+      
+    }
+    else {
+      shieldC.velocityX = -shieldC.velocityX;
+    }
+    addEntity(shieldC);
+  }
+  
+  public float getManaCost() {
+    return 20.0f;
+  }
+  
+  public int[] getCombination() {
+    return combination;
+  }
+}

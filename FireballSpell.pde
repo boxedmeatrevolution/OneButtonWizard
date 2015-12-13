@@ -1,6 +1,6 @@
 class Fireball extends Hazard {
   
-  float ACCELX = 400;
+  float ACCELX = 50;
   
   public Fireball(float x_, float y_, float velocityX_, float velocityY_, Wizard owner) {
     super(x_, y_, 20.0, 0.0, 1.0, owner);

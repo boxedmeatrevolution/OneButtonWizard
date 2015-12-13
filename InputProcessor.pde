@@ -3,7 +3,7 @@ class InputProcessor {
   float DOT_TIME = 0.25f, DASH_TIME = 0.5f, PAUSE_TIME = 0.5f;
 
   // input states
-  int WAITING_TO_START = 0, WAITING_FOR_KEY_UP = 1, WAITING_FOR_KEY_DOWN = 2;
+  int WAITING_TO_START = 0, WAITING_FOR_KEY_UP = 1, WAITING_FOR_KEY_DOWN = 2, CANCELLING = 3;
 
   // input types
   int DOT = 0, DASH = 1;
@@ -62,10 +62,10 @@ class InputProcessor {
         }
       } else {
         _stateTimer += deltaTime; 
-        /*if (_stateTimer > DASH_TIME){ // if held too long will reset input sequence
-          _inputState = WAITING_TO_START;
+        if (_stateTimer > DASH_TIME){ // if held too long will reset input sequence
+          _inputState = CANCELLING;
           _stateTimer = 0;
-        }*/
+        }
       }
     } else if (_inputState == WAITING_FOR_KEY_DOWN) {
       if(_keyDown) {        
@@ -78,6 +78,10 @@ class InputProcessor {
           _inputState = WAITING_TO_START;
           _stateTimer = 0;
         }
+      }
+    } else if (_inputState == CANCELLING) {
+      if(!_keyDown) {
+        _inputState = WAITING_TO_START;
       }
     } else {
       // INVALID STATE!!!

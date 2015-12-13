@@ -30,6 +30,10 @@ class InputProcessor {
     _keyDown = false;
   }
   
+  void reset() {
+    
+  }
+  
   void keyPressed() {
     if(key == _keyToProcess && canInput) {
       _keyDown = true;

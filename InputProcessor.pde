@@ -1,6 +1,6 @@
 class InputProcessor {
   
-  float DOT_TIME = 0.25f, DASH_TIME = 1.0f, PAUSE_TIME = 0.5f;
+  float DOT_TIME = 0.25f, DASH_TIME = 1.0f, PAUSE_TIME = 0.35f;
 
   // input states
   int WAITING_TO_START = 0, WAITING_FOR_KEY_UP = 1, WAITING_FOR_KEY_DOWN = 2, CANCELLING = 3;

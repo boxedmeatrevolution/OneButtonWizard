@@ -34,8 +34,10 @@ class Wizard extends Collider{
     ArrayList<Integer> word = _inputProcessor.getNextWord();  
     if(word != null) {
       for(Spell spell : spellBook) {
-        if(checkForMatch(spell, word)) {
-          spell.inkove(this);
+        console.log("checking spell match");
+        if(checkForMatch(spell.getCombination(), word)) {
+          spell.invoke(this);
+          console.log("spell invoked");
           break;
         }
       }

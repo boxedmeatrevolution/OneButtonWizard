@@ -91,6 +91,10 @@ class Meteor extends Hazard {
   
   void create() {
     super.create();
+    if (meteorSpritesheet == null) {
+      meteorSpritesheet = loadSpriteSheet("/assets/meteor.png", 2, 1, 250, 250);
+    }
+    meteorAnimation = new Animation(meteorSpritesheet, 0.25, 0, 1);
   }
   
   void destroy() {
@@ -99,13 +103,13 @@ class Meteor extends Hazard {
   
   void render() {
     super.render();
-    fill(255, 50, 50);
-    ellipse(x, y, radius * 2, radius * 2);
+    meteorAnimation.drawAnimation(x - 125, y - 125, 250, 250);
   }
   
   void update(int phase, float delta) {
     super.update(phase, delta);
     
+    meteorAnimation.update(delta);
     velocityY += delta*accelerationY;
     
     if(y > height) {
@@ -117,5 +121,7 @@ class Meteor extends Hazard {
     return 0;
   }
   
+  Animation fireballAnimation;
 }
 
+SpriteSheet meteorSpritesheet;

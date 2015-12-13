@@ -2,6 +2,8 @@ class Fireball extends Hazard {
   
   float ACCELX = 50;
   
+  boolean _leftFacing;
+  
   public Fireball(float x_, float y_, float velocityX_, float velocityY_, Wizard owner) {
     super(x_, y_, 20.0, 0.0, 1.0, owner);
     console.log("fireball " + y_);
@@ -9,6 +11,7 @@ class Fireball extends Hazard {
     this.velocityX = velocityX_;
     this.velocityY = velocityY_;
     ACCELX = (owner._leftFacing ? -ACCELX : ACCELX);
+    _leftFacing = owner._leftFacing;
   }
   
   void onCollision(Collider other, boolean wasHandled) {
@@ -20,6 +23,10 @@ class Fireball extends Hazard {
   
   void create() {
     super.create();
+    if (fireballSpritesheet == null) {
+      fireballSpritesheet = loadSpriteSheet("/assets/blueFireball.png", 4, 1, 150, 150);
+    }
+    fireballAnimation = new Animation(fireballSpritesheet, 0.05, 0, 1, 2, 3);
   }
   
   void destroy() {
@@ -28,12 +35,25 @@ class Fireball extends Hazard {
   
   void render() {
     super.render();
-    fill(255, 0, 0);
-    ellipse(x, y, 2 * radius, 2 * radius);
+    float xr = x - 75;
+    float xy = y - 75;
+    float size = 150;
+    
+    if(_leftFacing) {
+      scale(-1, 1);
+      xr = -((x - 128) + 256);
+    }
+    
+    fireballAnimation.drawAnimation(xr, xy, size, size);
+     
+    if (_leftFacing) {
+      scale(-1, 1);
+    }    
   }
   
   void update(int phase, float delta) {
     super.update(phase, delta);
+    fireballAnimation.update(delta);
     velocityX += delta * ACCELX;
   }
   
@@ -41,6 +61,7 @@ class Fireball extends Hazard {
     return 0;
   }
   
+  Animation fireballAnimation;
 }
 
 class FireballSpell extends Spell {
@@ -72,3 +93,4 @@ class FireballSpell extends Spell {
   }
 }
 
+SpriteSheet fireballSpritesheet;

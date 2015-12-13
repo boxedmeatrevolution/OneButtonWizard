@@ -1,12 +1,11 @@
-class ManaOrb extends Moving{
+class ManaOrb extends Collider{
   Wizard owner;
   float distY = 150.0;
-  float manaRegen = 5.0; //mana regenerated per second
-  float radius = 20;
-  float timer = 5.0;
+  float manaRegen = 1.0; //mana regenerated per second
+  float timer = 15.0;
   
   public ManaOrb(Wizard owner_) {
-    super(owner_.x + 50, owner_.y - distY, 0.0);
+    super(owner_.x + 50, owner_.y - distY, 20, 0.0);
     this.velocityX = 25;
     this.velocityY = 15;
     owner = owner_;
@@ -18,7 +17,7 @@ class ManaOrb extends Moving{
     
     owner._mana += manaRegen * delta;
     if (owner._mana > owner._maxMana) {
-      owner._health = owner._maxHealth;
+      owner._mana = owner._maxMana;
     }
     timer -= delta;
     if (timer <= 0) {
@@ -41,11 +40,11 @@ class ManaOrb extends Moving{
   }
   
   void accelToPoint(float px, float py) {
-    //float mag = sqrt( pow((this.x - px), 2) + pow((this.y - py)) );
-    float dirX = px - this.x;
-    float dirY = py - this.y;
-    this.accelX = dirX * 50;
-    this.accelY = dirY * 50;
+    float mag = sqrt(sq(this.x - px) + sq(this.y - py));
+    float dirX = (px - this.x) / mag;
+    float dirY = (py - this.y) / mag;
+    this.accelX = dirX * 500;
+    this.accelY = dirY * 500;
   }
 } 
 
@@ -63,7 +62,7 @@ class ManaSpell extends Spell {
   }
   
   float getManaCost() {
-    return 0.0f;
+    return 5.0f;
   }
   
   int[] getCombination() {

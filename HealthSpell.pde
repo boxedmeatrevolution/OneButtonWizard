@@ -65,14 +65,17 @@ class HealthSpell extends Spell {
   public HealthSpell() {
   }
   
+  String name() {
+    return "Health Orb";
+  }
+  
   void invoke(Wizard owner) {
-    console.log("Health Orb Invoked");
     HealthOrb healthOrb = new HealthOrb(owner);
     addEntity(healthOrb);
   }
   
   float getManaCost() {
-    return 15.0f;
+    return 10.0f;
   }
   
   int[] getCombination() {

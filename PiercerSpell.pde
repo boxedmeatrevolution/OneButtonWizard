@@ -67,9 +67,13 @@ SpriteSheet piercerSpritesheet;
 
 class PiercerSpell extends Spell {
   
-  int[] combination = new int[] { 0, 0, 1 };
+  int[] combination = new int[] { 1, 0, 0 };
   
   public PiercerSpell() {
+  }
+  
+  public String name() {
+    return "Piercing Bolt";
   }
   
   public void invoke(Wizard owner) {
@@ -87,7 +91,7 @@ class PiercerSpell extends Spell {
   }
   
   public float getManaCost() {
-    return 5.0f;
+    return 10.0f;
   }
   
   public int[] getCombination() {

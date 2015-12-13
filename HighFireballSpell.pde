@@ -67,13 +67,16 @@ class HighFireball extends Hazard {
 
 class HighFireballSpell extends Spell {
   
-  int[] combination = new int[] { 1, 0, 1 };
+  int[] combination = new int[] { 0, 0, 1 };
   
   public HighFireballSpell() {
   }
   
+  public String name() {
+    return "Arcane Disk";
+  }
+  
   public void invoke(Wizard owner) {
-    console.log("invoked");
     HighFireball fireball = new HighFireball(owner.x, owner.y, 100, -460, owner);
     if (owner.x < width / 2) {
       fireball.x += 10;
@@ -86,7 +89,7 @@ class HighFireballSpell extends Spell {
   }
   
   public float getManaCost() {
-    return 15.0f;
+    return 10.0f;
   }
   
   public int[] getCombination() {

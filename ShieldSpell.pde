@@ -1,8 +1,8 @@
 class Shield extends Hazard {
   
   float lifetime = 3.0;
-  float initialRadius = 64.0;
-  float finalRadius = 64.0;
+  float initialRadius = 132.0;
+  float finalRadius = 160.0;
   float timer = 0.0;
   
   public Shield(float x_, float y_, float velocityX_, float velocityY_, Wizard owner) {
@@ -51,31 +51,22 @@ class Shield extends Hazard {
 
 class ShieldSpell extends Spell {
   
-  int[] combination = new int[] { 0, 0, 0 };
+  int[] combination = new int[] { 0, 0 };
   
   public ShieldSpell() {
   }
   
+  public String name() {
+    return "Bubble Shield";
+  }
+  
   public void invoke(Wizard owner) {
-    console.log("invoked");
-    Shield shieldA = new Shield(owner.x, owner.y, 100, 0, owner);
-    Shield shieldB = new Shield(owner.x, owner.y, 100 / sqrt(2), -100 / sqrt(2), owner);
-    Shield shieldC = new Shield(owner.x, owner.y, 0, -100, owner);
-    if (owner.x < width / 2) {
-      
-    }
-    else {
-      shieldA.velocityX = -shieldA.velocityX;
-      shieldB.velocityX = -shieldB.velocityX;
-      shieldC.velocityX = -shieldC.velocityX;
-    }
-    addEntity(shieldA);
-    addEntity(shieldB);
-    addEntity(shieldC);
+    Shield shield = new Shield(owner.x, owner.y, 0, 0, owner);
+    addEntity(shield);
   }
   
   public float getManaCost() {
-    return 50.0f;
+    return 10.0f;
   }
   
   public int[] getCombination() {
@@ -83,58 +74,3 @@ class ShieldSpell extends Spell {
   }
 }
 
-class LowShieldSpell extends Spell {
-  
-  int[] combination = new int[] { 0, 1, 0 };
-  
-  public LowShieldSpell() {
-  }
-  
-  public void invoke(Wizard owner) {
-    console.log("invoked");
-    Shield shieldA = new Shield(owner.x, owner.y, 0, 0, owner);
-    if (owner.x < width / 2) {
-      shieldA.x += 100;
-    }
-    else {
-      shieldA.x -= 100;
-    }
-    addEntity(shieldA);
-  }
-  
-  public float getManaCost() {
-    return 20.0f;
-  }
-  
-  public int[] getCombination() {
-    return combination;
-  }
-}
-
-class HighShieldSpell extends Spell {
-  
-  int[] combination = new int[] { 0,  1, 1 };
-  
-  public HighShieldSpell() {
-  }
-  
-  public void invoke(Wizard owner) {
-    console.log("invoked");
-    Shield shieldC = new Shield(owner.x, owner.y - 200, 0, 0, owner);
-    if (owner.x < width / 2) {
-      
-    }
-    else {
-      shieldC.velocityX = -shieldC.velocityX;
-    }
-    addEntity(shieldC);
-  }
-  
-  public float getManaCost() {
-    return 20.0f;
-  }
-  
-  public int[] getCombination() {
-    return combination;
-  }
-}

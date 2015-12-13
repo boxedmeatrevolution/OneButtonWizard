@@ -45,7 +45,7 @@ class Fireball extends Hazard {
 
 class FireballSpell extends Spell {
   
-  int[] combination = new int[] { 0, 0, 0, 1 };
+  int[] combination = new int[] { 1, 0, 0 };
   
   public FireballSpell() {
   }
@@ -64,7 +64,7 @@ class FireballSpell extends Spell {
   }
   
   public float getManaCost() {
-    return 20.0f;
+    return 15.0f;
   }
   
   public int[] getCombination() {

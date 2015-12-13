@@ -1,8 +1,8 @@
 class ManaOrb extends Collider{
   Wizard owner;
   float distY = 150.0;
-  float manaRegen = 1.0; //mana regenerated per second
-  float timer = 15.0;
+  float manaRegen = 2.0; //mana regenerated per second
+  float timer = 8.0;
   
   public ManaOrb(Wizard owner_) {
     super(owner_.x + 50, owner_.y - distY, 20, 0.0);
@@ -52,7 +52,7 @@ class ManaOrb extends Collider{
 } 
 
 class ManaSpell extends Spell {
-  int[] combination = new int[] {1, 1};
+  int[] combination = new int[] { 1 };
   String name = "ManaSpell";
  
   public ManaSpell() {

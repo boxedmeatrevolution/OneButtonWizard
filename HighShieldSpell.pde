@@ -1,6 +1,6 @@
 class HighShieldSpell extends Spell {
   
-  int[] combination = new int[] { 0, 0, 1, 1 };
+  int[] combination = new int[] { 1, 1 };
   
   public HighShieldSpell() {
   }
@@ -18,7 +18,7 @@ class HighShieldSpell extends Spell {
   }
   
   public float getManaCost() {
-    return 30.0f;
+    return 20.0f;
   }
   
   public int[] getCombination() {

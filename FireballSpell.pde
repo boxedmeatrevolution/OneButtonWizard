@@ -17,7 +17,9 @@ class FireballSpell extends Spell {
   }
   
   public int[] getCombination() {
-  
+    return combination;
   }
+  
+  combination = int[] { 0 };
 }
 

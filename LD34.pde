@@ -15,6 +15,8 @@ class Entity {
   boolean exists = false;
 }
 
+ArrayList<InputProcessor> inputProcessors = new ArrayList<InputProcessor>();
+
 ArrayList<Entity> entities = new ArrayList<Entity>();
 ArrayList<Entity> entitiesToBeAdded = new ArrayList<Entity>();
 ArrayList<Entity> entitiesToBeRemoved = new ArrayList<Entity>();
@@ -51,10 +53,16 @@ void sortEntities() {
 Wizard player1;
 Wizard player2;
 
-void setup () {
+void setup () {  
+  InputProcessor input1 = new InputProcessor('z');
+  InputProcessor input2 = new InputProcessor('.');
+  
+  inputProcessors.add(input1);
+  inputProcessors.add(input2);
+  
   size(1000, 680); 
-  Wizard player1 = new Wizard(100, 500, 100, 100, false);
-  Wizard player2 = new Wizard(width - 100, 500, 100, 100, true);
+  Wizard player1 = new Wizard(100, 500, 100, 100, false, input1);
+  Wizard player2 = new Wizard(width - 100, 500, 100, 100, true, input2);
   addEntity(player1);
   addEntity(player2);
   backgroundImage = loadImage("/assets/desert_background.png");
@@ -124,6 +132,18 @@ void draw () {
   // Render every entity
   for (Entity entity : entities) {
     entity.render();
+  }
+}
+
+void keyPressed() {
+  for(InputProcessor ip : inputProcessors) {     
+    ip.keyPressed();
+  }
+}
+
+void keyReleased() {
+  for(InputProcessor ip : inputProcessors) {     
+    ip.keyReleased();
   }
 }
 

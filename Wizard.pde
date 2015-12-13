@@ -44,7 +44,6 @@ class Wizard extends Collider{
   
   void render() {
     super.render();
-    console.log(x + " " + y);
     wizardStandingAnimation.drawAnimation(x - 32, y - 32, 64, 64);
   }
   

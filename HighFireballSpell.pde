@@ -9,6 +9,7 @@ class HighFireball extends Hazard {
     this.damage = 1.0f;
     this.velocityX = velocityX_;
     this.velocityY = velocityY_;
+    ACCELX = (owner._leftFacing ? -ACCELX : ACCELX);
   }
   
   void onCollision(Collider other, boolean wasHandled) {

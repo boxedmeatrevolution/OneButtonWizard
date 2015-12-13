@@ -47,8 +47,8 @@ class GravityWell extends Collider {
         dist = sq(entity.x - x) + sq(entity.y - y);
         mag = pow(dist, 1.5);
         if (dist != 0) {
-          entity.velocityX -= delta * 100000000 * (entity.x - x) / mag;
-          entity.velocityY -= delta * 100000000 * (entity.y - y) / mag;
+          entity.velocityX -= delta * 1000000000.0 * (entity.x - x) / mag;
+          entity.velocityY -= delta * 1000000000.0 * (entity.y - y) / mag;
         }
       }
     }
@@ -63,18 +63,28 @@ class GravityWell extends Collider {
 
 class GravityWellSpell extends Spell {
   
-  int[] combination = new int[] { 1, 0, 0, 1 };
+  int[] combination = new int[] { 1, 0, 1 };
   
   public GravityWellSpell() {
   }
   
+  public String name() {
+    return "Black Hole";
+  }
+  
   public void invoke(Wizard owner) {
     GravityWell well = new GravityWell(width / 2, height / 2, 0, 0);
+    if (owner.x < width / 2) {
+      well.x -= 200;
+    }
+    else {
+      well.x += 200;
+    }
     addEntity(well);
   }
   
   public float getManaCost() {
-    return 50.0f;
+    return 10.0f;
   }
   
   public int[] getCombination() {

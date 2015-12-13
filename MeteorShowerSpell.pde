@@ -5,12 +5,16 @@ class MeteorShowerSpell extends Spell {
   public MeteorShowerSpell() {
   }
   
+  public String name() {
+    return "Meteor Shower";
+  }
+  
   public void invoke(Wizard owner) {
     addEntity(new MeteorShower(owner));
   }
   
   public float getManaCost() {
-    return 40.0f;
+    return 10.0f;
   }
   
   public int[] getCombination() {

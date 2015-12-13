@@ -66,13 +66,16 @@ class Fireball extends Hazard {
 
 class FireballSpell extends Spell {
   
-  int[] combination = new int[] { 1, 0, 0 };
+  int[] combination = new int[] { 0, 0, 0 };
   
   public FireballSpell() {
   }
   
+  public String name() {
+    return "Fireball";
+  }
+  
   public void invoke(Wizard owner) {
-    console.log("invoked");
     Fireball fireball = new Fireball(owner.x, owner.y, 100, 0, owner);
     if (owner.x < width / 2) {
       fireball.x += 10;
@@ -85,7 +88,7 @@ class FireballSpell extends Spell {
   }
   
   public float getManaCost() {
-    return 15.0f;
+    return 10.0f;
   }
   
   public int[] getCombination() {

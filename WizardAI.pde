@@ -22,7 +22,7 @@ class WizardAI extends Wizard {
           spell.invoke(this);
         } else {
           for(Spell spell : spellBook) {
-            if (spell.name == "ManaSpell" && spell.getManaCost() < _mana) {
+            if (spell.name() == "Mana Orb" && spell.getManaCost() < _mana) {
               spell.invoke(this);
             }
           }

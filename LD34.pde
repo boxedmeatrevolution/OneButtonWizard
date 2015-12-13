@@ -1,4 +1,4 @@
-/* @pjs preload="/assets/standing.png, /assets/desert_background.png; */
+/* @pjs preload="/assets/character_spritesheet.png, /assets/desert_background.png; */
 class Entity {
   // Called when the entity is added to the game
   void create() {}

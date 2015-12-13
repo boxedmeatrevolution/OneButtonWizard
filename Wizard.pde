@@ -42,9 +42,12 @@ class Wizard extends Collider{
       characterSpritesheet = loadSpriteSheet("/assets/character_spritesheet.png", 5, 5, 250, 250);
     }
     wizardStandingAnimation = new Animation(characterSpritesheet, 0.25, 0, 1);
-    wizardCastPrepAnimation = new Animation(characterSpritesheet, 0.2, 2, 2);
-    wizardCastingAnimation = new Animation(characterSpritesheet, 0.2, 3, 3);
-    wizardHurtAnimation = new Animation(characterSpritesheet, 0.2, 4, 4);
+    wizardCastPrepAnimation = new Animation(characterSpritesheet, 0.2, 2);
+    wizardCastingAnimation = new Animation(characterSpritesheet, 0.2, 3);
+    wizardHurtAnimation = new Animation(characterSpritesheet, 0.2, 4);
+    wizardWinAnimation = new Animation(characterSpritesheet, 0.2, 5, 6, 7, 8);
+    wizardLoseAnimation = new Animation(characterSpritesheet, 0.2, 9, 10);
+    wizardFadeAnimation = new Animation(characterSpritesheet, 0.25, 13, 12);
   }
   
   void update(int phase, float delta) {
@@ -59,6 +62,7 @@ class Wizard extends Collider{
       }
     }
     
+    wizardFadeAnimation.update(delta);
     wizardStandingAnimation.update(delta);
     if (!phased) {
       _mana += MANA_REGEN_RATE * delta;
@@ -91,7 +95,9 @@ class Wizard extends Collider{
       xr = -((x - 128) + 256);
     }
     
-    if (_inputProcessor._inputState == 1 || _inputProcessor._inputState == 2) {
+    if (phased) {
+      wizardFadeAnimation.drawAnimation(xr, xy, size, size);
+    } else if (_inputProcessor._inputState == 1 || _inputProcessor._inputState == 2) {
       wizardCastPrepAnimation.drawAnimation(xr, xy, size, size);
     } else if (hurtTimer > 0) {
      wizardHurtAnimation.drawAnimation(xr, xy, size, size);
@@ -133,6 +139,9 @@ class Wizard extends Collider{
   Animation wizardCastingAnimation;
   Animation wizardCastPrepAnimation;
   Animation wizardHurtAnimation;
+  Animation wizardWinAnimation;
+  Animation wizardLoseAnimation;
+  Animation wizardFadeAnimation;
 }
 
 SpriteSheet characterSpritesheet;

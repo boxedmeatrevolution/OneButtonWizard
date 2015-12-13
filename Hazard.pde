@@ -3,9 +3,10 @@ class Hazard extends Collider {
   float damage;
   Wizard owner;
   
-  public Hazard(float x_, float y_, float radius_, float friction_, float damage_) {
+  public Hazard(float x_, float y_, float radius_, float friction_, float damage_, Wizard owner_) {
     super(x_, y_, radius_, friction_);
     this.damage = damage_;
+    this.owner = owner_;
   }
   
   void onCollision(Collider other, boolean wasHandled) {

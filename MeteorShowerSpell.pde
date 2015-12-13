@@ -143,7 +143,7 @@ class Meteor extends Hazard {
     return 0;
   }
   
-  Animation fireballAnimation;
+  Animation meteorAnimation;
 }
 
 SpriteSheet meteorSpritesheet;

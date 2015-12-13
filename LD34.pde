@@ -69,14 +69,14 @@ void draw () {
 
   for(InputProcessor ip : inputProcessors) {     
     ip.update(timeDelta);
-    ArrayList<Integer> word = ip.getNextWord();
+    /*ArrayList<Integer> word = ip.getNextWord();
     if(word != null) {
       String sequence = "";
       for(Integer i : word) {
         sequence += i;
       }
       console.log(sequence);
-    }
+    }*/
   }
   
   // Add entities in the add queue

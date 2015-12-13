@@ -87,8 +87,9 @@ class Wizard extends Collider{
     
     ArrayList<Integer> word = _inputProcessor.getNextWord();  
     if(word != null) {
+      console.log(word.toArray());
       for(Spell spell : spellBook) {
-        if(checkForMatch(spell.getCombination(), word) <= _mana && !phased) {
+        if(checkForMatch(spell.getCombination(), word) && !phased) {
           castTimer = 0.25;
           _mana -= spell.getManaCost();
           spell.invoke(this);

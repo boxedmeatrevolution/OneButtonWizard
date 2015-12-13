@@ -1,5 +1,10 @@
 class FireballSpell extends Spell {
   
+  int[] combination = new int[] { 0 };
+  
+  public FireballSpell() {
+  }
+  
   public void invoke(Wizard owner) {
     Fireball fireball = new Fireball(owner.x, owner.y, 10, 0, owner);
     if (owner.x < width / 2) {
@@ -19,7 +24,5 @@ class FireballSpell extends Spell {
   public int[] getCombination() {
     return combination;
   }
-  
-  combination = int[] { 0 };
 }
 

@@ -98,6 +98,7 @@ class RapidShooter extends Entity {
     super.update(phase, delta);
     timer += delta;
     if(timer > 0.25) {
+      //playSound("miniFireball");
       RapidShot rapidShot = new RapidShot(owner.x, owner.y + 50 - 100 * random(1), 500, 0, owner);
       if (owner.x < width / 2) {
         rapidShot.x += 10;

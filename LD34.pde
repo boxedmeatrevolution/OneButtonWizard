@@ -169,10 +169,29 @@ void setup () {
   
   backgroundImage = loadImage("/assets/desert_background.png");
   
+  loadAudio("fireball", "/assets/music/fireballSFX.ogg");
+  loadAudio("gravityWell", "/assets/music/gravityWellSFX.ogg");
+  loadAudio("meteor", "/assets/music/meteorSFX.ogg");
+  loadAudio("miniFireball", "/assets/music/miniFireballSFX.ogg");
+  loadAudio("reflector", "/assets/music/reflectorSFX.ogg");
+  loadAudio("shieldBreaker", "/assets/music/shieldBreakerSFX.ogg");
+  loadAudio("shieldDeactivate", "/assets/music/shieldBreakerSFX.ogg");
+  loadAudio("shield", "/assets/music/shieldSFX.ogg");
+  loadAudio("hit", "/assets/music/hit.ogg");
+  loadAudio("orb", "/assets/music/orb.ogg");
+  loadAudio("stun", "/assets/music/stun.ogg");
+  loadAudio("music", "/assets/music/ld34.ogg");
+  sounds["music"].loop = true;
+  //sounds["music"].play();
+  
   gotoMainMenuState();
 }
 
 void draw () {
+  
+  if (audioFilesLoaded != nAudioFiles) {
+    text("Loading", 64, 64);
+  }
   
   image(backgroundImage, 0, 0);
   

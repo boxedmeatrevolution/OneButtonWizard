@@ -57,6 +57,7 @@ class MeteorShower extends Entity {
     if(timer > 0.5) {
       timer = 0;
       meteorCount ++;
+      //playSound("meteor");
       if(!_owner._leftFacing) {
         addEntity(new Meteor(_owner.x + (width / 12)*meteorCount, 0, 0, 150, _owner));   
       } else {

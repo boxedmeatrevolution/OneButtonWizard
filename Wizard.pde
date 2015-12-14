@@ -114,6 +114,7 @@ class Wizard extends Collider{
           _mana -= spell.getManaCost();
           spell.invoke(this);
           if (_mana < 0.0f) {
+            playSound("stun");
             _mana = 0.0f;
             _inputProcessor.canInput = false;
             stunned = true;
@@ -164,6 +165,7 @@ class Wizard extends Collider{
   
   void hurt(float damage) {
     if (!phased && !(loser || winner)) {
+      playSound("hit");
       _health -= damage;
       hurtTimer = 0.25;
     }

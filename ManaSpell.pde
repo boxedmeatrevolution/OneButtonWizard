@@ -73,6 +73,7 @@ class ManaSpell extends Spell {
   }
   
   void invoke(Wizard owner) {
+    playSound("orb");
     ManaOrb manaOrb = new ManaOrb(owner);
     addEntity(manaOrb);
   }

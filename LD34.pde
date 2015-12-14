@@ -189,6 +189,18 @@ void setup () {
   gotoMainMenuState();
 }
 
+float clamp(float min, float value, float max) {
+  if (value < min) {
+    return min;
+  }
+  else if (value > max) {
+    return max;
+  }
+  else {
+    return value;
+  }
+}
+
 void draw () {
   
   image(backgroundImage, 0, 0);
@@ -308,9 +320,14 @@ void draw () {
   /*
   draw the ui
   */
-  else if (state == STATE_DUEL || state == STATE_FIGHT) {
+  if (state == STATE_DUEL || state == STATE_FIGHT || state == STATE_PRE_DUEL || state == STATE_PRE_FIGHT || state == STATE_POST_DUEL || state == STATE_POST_FIGHT_WIN || state == STATE_POST_FIGHT_LOSE) {
     
     noStroke();
+    
+    float player1HealthPercent;
+    float player1ManaPercent;
+    float player2HealthPercent;
+    float player2ManaPercent;
     
     if (player1HealthGradual > player1._health) {
       player1HealthGradual -= 10 * timeDelta;
@@ -340,15 +357,21 @@ void draw () {
       player2ManaGradual = player2._mana;
     }
     
-    player1HealthPercent = player1._health / player1._maxHealth;
-    player1ManaPercent = player1._mana / player1._maxMana;
-    player2HealthPercent = player2._health / player2._maxHealth;
-    player2ManaPercent = player2._mana / player2._maxMana;
-    
-    player1HealthGradualPercent = player1HealthGradual / player1._maxHealth;
-    player1ManaGradualPercent = player1ManaGradual / player1._maxMana;
-    player2HealthGradualPercent = player2HealthGradual / player2._maxHealth;
-    player2ManaGradualPercent = player2ManaGradual / player2._maxMana;
+    if (state == STATE_DUEL || state == STATE_FIGHT || state == STATE_POST_DUEL || state == STATE_POST_FIGHT_WIN || state == STATE_POST_FIGHT_LOSE) {
+      player1HealthPercent = clamp(0.0f, player1._health / player1._maxHealth, 1.0f);
+      player1ManaPercent = clamp(0.0f, player1._mana / player1._maxMana, 1.0f);
+      player2HealthPercent = clamp(0.0f, player2._health / player2._maxHealth, 1.0f);
+      player2ManaPercent = clamp(0.0f, player2._mana / player2._maxMana, 1.0f);
+      
+      player1HealthGradualPercent = clamp(0.0f, player1HealthGradual / player1._maxHealth, 1.0f);
+      player1ManaGradualPercent = clamp(0.0f, player1ManaGradual / player1._maxMana, 1.0f);
+      player2HealthGradualPercent = clamp(0.0f, player2HealthGradual / player2._maxHealth, 1.0f);
+      player2ManaGradualPercent = clamp(0.0f, player2ManaGradual / player2._maxMana, 1.0f);
+    }
+    else {
+      player1HealthPercent = player1ManaPercent = player2HealthPercent = player2ManaPercent = 1.0f - timer / 3.0f;
+      player1HealthGradualPercent = player1ManaGradualPercent = player2HealthGradualPercent = player2ManaGradualPercent = 0.0f;
+    }
     
     fill(100, 100, 100);
     rect(0, 0, width, 4 + 64 + 32 + 4);

@@ -42,7 +42,7 @@ class ManaSucker extends Summon {
     }
     if (other instanceof ManaSuckerShot) {
       removeEntity(other);
-      target._mana -= 15.0f;
+      target._mana -= 11.0f;
       if (target._mana < 0.0) {
         target._mana = 0.0;
       }
@@ -83,10 +83,10 @@ class ManaSucker extends Summon {
       removeEntity(this);
     }
     if (timer > (shotsFired + 1) * timePerShot && target != null) {
-      if (shotsFired > 0 && shotsFired < 4) {
+      if (shotsFired > 0 && shotsFired < 5) {
         velocityX_ = (x - target.x) / 3;
         velocityY_ = (y - target.y) / 3;
-        shot = new ManaSuckerShot(target.x, target.y, velocityX_, velocityY_);
+        shot = new ManaSuckerShot(target.x, target.y + 20.0f, velocityX_, velocityY_);
         addEntity(shot);
       }
       shotsFired += 1;
@@ -156,13 +156,13 @@ class ManaSuckerShot extends Collider {
   
   void render() {
     super.render();
-    float xr = x - 20;
-    float xy = y - 20;
+    float xr = x - 30;
+    float xy = y - 30;
     float size = 60;
     
     if(velocityX < 0) {
       scale(-1, 1);
-      xr = -((x - 20 - size/2) + size);
+      xr = -((x - size/2) + size);
     }
     
     suckerShotAnimation.drawAnimation(xr, xy, size, size);

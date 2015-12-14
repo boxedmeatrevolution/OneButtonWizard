@@ -72,11 +72,11 @@ class ZappyOrb extends Summon {
       if (shotsFired > 0) {
         velocityX_ = -(x - target.x) / 3;
         velocityY_ = -(y - target.y) / 3;
-        int xoffset = 100;
+        int xoffset = 40;
         if (owner.x > width/2){
           xoffset *= -1;
         }
-        shot = new ZappyShot(x + xoffset, y + 70, velocityX_, velocityY_, owner);
+        shot = new ZappyShot(x + xoffset, y + 30, velocityX_, velocityY_, owner);
         addEntity(shot);
       }
       shotsFired += 1;
@@ -150,13 +150,13 @@ class ZappyShot extends Hazard {
   
   void render() {
     super.render();
-    float xr = x - 75;
-    float xy = y - 75;
+    float xr = x - 25;
+    float xy = y - 25;
     float size = 50;
     
     if(velocityX < 0) {
       scale(-1, 1);
-      xr = -((x + 75 - size/2) + size);
+      xr = -((x - size/2) + size);
     }
     
     zappyShotAnimation.drawAnimation(xr, xy, size, size);

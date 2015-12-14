@@ -38,7 +38,7 @@ class Fireball extends Hazard {
     
     if(velocityX < 0) {
       scale(-1, 1);
-      xr = -((x - 128) + 256);
+      xr = -((x - 75) + 150);
     }
     
     fireballAnimation.drawAnimation(xr, xy, size, size);

@@ -14,7 +14,6 @@ class WizardAI extends Wizard {
     timer += delta;  
     if (timer > 2.0) {
       timer = 0;
-      console.log(spellBook.size());
       if (spellBook.size() > 0) {
         Spell spell = spellBook.get(floor(random(0, spellBook.size())));
         if (spell.getManaCost() < _mana) {

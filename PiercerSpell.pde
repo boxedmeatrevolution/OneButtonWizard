@@ -31,6 +31,7 @@ class Piercer extends Hazard {
   
   void destroy() {
     super.destroy();
+    addEntity(new Poof(x, y));
   }
   
   void render() {

@@ -37,6 +37,7 @@ class Reflector extends Hazard {
   
   void destroy() {
     super.destroy();
+    addEntity(new Poof(x, y, 192, 192));
   }
   
   void render() {

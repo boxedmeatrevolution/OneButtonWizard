@@ -51,10 +51,12 @@ class ManaSucker extends Summon {
   
   void create() {
     super.create();
+    addEntity(new Poof(x, y));
   }
   
   void destroy() {
     super.destroy();
+    addEntity(new Poof(x, y));
   }
   
   void render() {

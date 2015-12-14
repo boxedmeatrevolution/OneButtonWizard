@@ -8,7 +8,6 @@ class RapidShot extends Hazard {
   
   public RapidShot(float x_, float y_, float velocityX_, float velocityY_, Wizard owner) {
     super(x_, y_, 20.0, 0.0, 1.0, owner);
-    console.log("rapidShot " + y_);
     this.damage = 12.0f/TOTAL_SHOTS;
     this.velocityX = velocityX_;
     this.velocityY = velocityY_;
@@ -33,6 +32,7 @@ class RapidShot extends Hazard {
   
   void destroy() {
     super.destroy();
+    addEntity(new Poof(x, y, 64, 64));
   }
   
   void render() {

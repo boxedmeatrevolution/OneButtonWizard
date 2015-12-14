@@ -364,20 +364,20 @@ void draw () {
     }
   }
   else if (state == STATE_POST_FIGHT_LOSE) {
-    text("You lose! Game over.", 50, 50);
+    image(loseText, (width - loseText.width) / 2, (height - loseText.height) / 2);
   }
   else if (state == STATE_POST_FIGHT_WIN) {
-    text("You win!", 50, 50);
+    image(winText, (width - winText.width) / 2, (height - winText.height) / 2);
   }
   else if (state == STATE_POST_DUEL) {
     if (player1.winner) {
-      text("Player 1 wins!", 50, 50);
+      image(p1WinsText, (width - p1WinsText.width) / 2, (height - p1WinsText.height) / 2);
     }
     else if (player2.winner) {
-      text("Player 2 wins!", 50, 50);
+      image(p2WinsText, (width - p2WinsText.width) / 2, (height - p2WinsText.height) / 2);
     }
     else {
-      text("You both lose!", 50, 50);
+      
     }
   }
   /*

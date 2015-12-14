@@ -1,4 +1,4 @@
-/* @pjs preload="/assets/character_spritesheet.png, /assets/mana_suck.png, /assets/shield.png, /assets/desert_background.png, /assets/blueFireball.png, /assets/meteor.png, /assets/gravityWell.png, /assets/healthOrb.png, /assets/manaOrb.png, /assets/spinningFireball.png, /assets/piercer.png, /assets/wind.png; */
+/* @pjs preload="/assets/character_spritesheet.png, /assets/ui.png, /assets/mana_suck.png, /assets/shield.png, /assets/desert_background.png, /assets/blueFireball.png, /assets/meteor.png, /assets/gravityWell.png, /assets/healthOrb.png, /assets/manaOrb.png, /assets/spinningFireball.png, /assets/piercer.png, /assets/wind.png; */
 class Entity {
   // Called when the entity is added to the game
   void create() {}
@@ -32,6 +32,7 @@ int lastUpdate = millis();
 float timeDelta;
 
 PGraphics backgroundImage;
+PImage userInterface;
 
 void addEntity(Entity entity) {
   entitiesToBeAdded.add(entity);
@@ -168,6 +169,7 @@ void setup () {
   size(1000, 680);
   
   backgroundImage = loadImage("/assets/desert_background.png");
+  userInterface = loadImage("/assets/ui.png");
   
   gotoMainMenuState();
 }
@@ -305,6 +307,8 @@ void draw () {
     fill(0, 0, 255);
     rect(32 + 5, 65, (width / 2 - 32 - 4 - 4) * player1ManaPercent, 32);
     rect(width / 2 + 5, 60, (width / 2 - 32 - 4 - 4) * player2ManaPercent, 32);
+    
+    image(userInterface, 0, 0);
     
     ArrayList<Integer> player1Word = new ArrayList<Integer>(player1._inputProcessor.getCurrentWord());
     ArrayList<Integer> player2Word = new ArrayList<Integer>(player2._inputProcessor.getCurrentWord());

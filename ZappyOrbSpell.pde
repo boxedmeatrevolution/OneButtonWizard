@@ -9,6 +9,12 @@ class ZappyOrb extends Summon {
   
   ZappyOrb(float x_, float y_, Wizard owner_) {
     super(x_, y_, 32.0f, 0.0f, 1.0f);
+    
+    if (zappySpritesheet == null) {
+      zappySpritesheet = loadSpriteSheet("/assets/zapper.png", 3, 1, 200, 200);
+    }
+    zappyAnimation = new Animation(zappySpritesheet, 0.2, 0, 1, 2);
+    
     owner = owner_;
     for (Entity entity : entities) {
       if (entity instanceof Wizard) {
@@ -41,12 +47,22 @@ class ZappyOrb extends Summon {
   
   void render() {
     super.render();
-    fill(255, 255, 0);
-    ellipse(x, y, 2 * radius, 2 * radius);
+    console.log(y + " " + x);
+    if (owner.x < 500) {    
+      zappyAnimation.drawAnimation(x - 100, y - 100, 200, 200);
+    } else {
+      scale(-1, 1);
+      zappyAnimation.drawAnimation(- (x + 100), y - 100, 200, 200);
+      scale(-1, 1);
+    }
+    
+//    fill(255, 255, 0);
+//    ellipse(x, y, 2 * radius, 2 * radius);
   }
   
   void update(int phase, float delta) {
     super.update(phase, delta);
+    zappyAnimation.update(delta);
     timer += delta;
     if (timer > lifetime) {
       removeEntity(this);
@@ -55,7 +71,11 @@ class ZappyOrb extends Summon {
       if (shotsFired > 0) {
         velocityX_ = -(x - target.x) / 3;
         velocityY_ = -(y - target.y) / 3;
-        shot = new ZappyShot(x, y, velocityX_, velocityY_, owner);
+        int xoffset = 100;
+        if (owner.x > width/2){
+          xoffset *= -1;
+        }
+        shot = new ZappyShot(x + xoffset, y + 70, velocityX_, velocityY_, owner);
         addEntity(shot);
       }
       shotsFired += 1;
@@ -66,6 +86,7 @@ class ZappyOrb extends Summon {
     return 0;
   }
   
+  Animation zappyAnimation;
 }
 
 class ZappyOrbSpell extends Spell {
@@ -82,7 +103,7 @@ class ZappyOrbSpell extends Spell {
   public void invoke(Wizard owner) {
     float _x = 200.0f;
     if (owner.x > width / 2) {
-      _x = width - _x;
+      _x = 800;
     }
     addEntity(new ZappyOrb(_x, 210.0f, owner));
   }
@@ -116,9 +137,9 @@ class ZappyShot extends Hazard {
   void create() {
     super.create();
     if (zappyShotSpritesheet == null) {
-      zappyShotSpritesheet = loadSpriteSheet("/assets/blueFireball.png", 4, 1, 150, 150);
+      zappyShotSpritesheet = loadSpriteSheet("/assets/zap.png", 2, 1, 50, 50);
     }
-    zappyShotAnimation = new Animation(zappyShotSpritesheet, 0.05, 0, 1, 2, 3);
+    zappyShotAnimation = new Animation(zappyShotSpritesheet, 0.02, 0, 1);
   }
   
   void destroy() {
@@ -129,11 +150,11 @@ class ZappyShot extends Hazard {
     super.render();
     float xr = x - 75;
     float xy = y - 75;
-    float size = 150;
+    float size = 50;
     
     if(velocityX < 0) {
       scale(-1, 1);
-      xr = -((x - 128) + 256);
+      xr = -((x + 75 - size/2) + size);
     }
     
     zappyShotAnimation.drawAnimation(xr, xy, size, size);
@@ -157,4 +178,5 @@ class ZappyShot extends Hazard {
 }
 
 SpriteSheet zappyShotSpritesheet;
+SpriteSheet zappySpritesheet;
 

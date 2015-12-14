@@ -7,12 +7,19 @@ class Reflector extends Hazard {
   
   public Reflector(float x_, float y_, float velocityX_, float velocityY_, Wizard owner) {
     super(x_, y_, initialRadius, 20.0, 10.0, owner);
+    
+    if (reflectorSpritesheet == null) {
+      reflectorSpritesheet = loadSpriteSheet("/assets/reflector.png", 4, 1, 400, 400);
+    }
+    reflectorAnimation = new Animation(reflectorSpritesheet, 0.3, 0, 1, 2, 3);
+    
     velocityX = velocityX_;
     velocityY = velocityY_;
   }
   
   void onCollision(Collider other, boolean wasHandled) {
     super.onCollision(other, wasHandled);
+    
     if (other instanceof Hazard) {
       if (other.owner != owner) {
         playSound("shieldDeactivate");
@@ -34,12 +41,21 @@ class Reflector extends Hazard {
   
   void render() {
     super.render();
-    fill(255, 0, 255);
-    ellipse(x, y, 2 * radius, 2 * radius);
+    if (owner.x < 500) {    
+      reflectorAnimation.drawAnimation(x - 200, y - 180 , 400, 400);
+    } else {
+      scale(-1, 1);
+      reflectorAnimation.drawAnimation(- (x + 200), y - 180, 400, 400);
+      scale(-1, 1);
+    }
+    
+//    fill(255, 0, 255);
+//    ellipse(x, y, 2 * radius, 2 * radius);
   }
   
   void update(int phase, float delta) {
     super.update(phase, delta);
+    reflectorAnimation.update(delta);
     timer += delta;
     if (timer > lifetime) {
       playSound("shieldDeactivate");
@@ -52,6 +68,7 @@ class Reflector extends Hazard {
     return 0;
   }
   
+  Animation reflectorAnimation;
 }
 
 class ReflectorSpell extends Spell {
@@ -87,3 +104,4 @@ class ReflectorSpell extends Spell {
   }
 }
 
+Spritesheet reflectorSpritesheet;

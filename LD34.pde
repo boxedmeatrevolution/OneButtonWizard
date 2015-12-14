@@ -57,6 +57,11 @@ void sortEntities() {
 Wizard player1;
 Wizard player2;
 
+float player1HealthGradual;
+float player2HealthGradual;
+float player1ManaGradual;
+float player2ManaGradual;
+
 int state = STATE_MAIN_MENU;
 
 int STATE_PRE_DUEL = -1, STATE_DUEL = 0, STATE_POST_DUEL = 1, STATE_MAIN_MENU = 2, STATE_PRE_FIGHT = 3, STATE_FIGHT = 4, STATE_POST_FIGHT_LOSE = 5, STATE_POST_FIGHT_WIN = 6;
@@ -93,6 +98,11 @@ void gotoPreDuelState() {
   
   player1 = new Wizard(100, 500, 50, 100, false, inputProcessors.get(0));
   player2 = new Wizard(width - 100, 500, 50, 100, true, inputProcessors.get(1));
+  
+  player1HealthGradual = player1._maxHealth;
+  player2HealthGradual = player2._maxHealth;
+  player1ManaGradual = player1._maxMana;
+  player2ManaGradual = player2._maxMana;
   
   addEntity(player1);
   addEntity(player2);
@@ -132,6 +142,11 @@ void gotoPreFightState() {
   
   player1 = new Wizard(100, 500, 50, 100, false, inputProcessors.get(0));
   player2 = getFight(currentFight);
+  
+  player1HealthGradual = player1._maxHealth;
+  player2HealthGradual = player2._maxHealth;
+  player1ManaGradual = player1._maxMana;
+  player2ManaGradual = player2._maxMana;
   
   addEntity(player1);
   addEntity(player2);
@@ -295,21 +310,62 @@ void draw () {
   */
   else if (state == STATE_DUEL || state == STATE_FIGHT) {
     
+    noStroke();
+    
+    if (player1HealthGradual > player1._health) {
+      player1HealthGradual -= 10 * timeDelta;
+    }
+    if (player1HealthGradual < player1._health) {
+      player1HealthGradual = player1._health;
+    }
+    
+    if (player2HealthGradual > player2._health) {
+      player2HealthGradual -= 10 * timeDelta;
+    }
+    if (player2HealthGradual < player2._health) {
+      player2HealthGradual = player2._health;
+    }
+    
+    if (player1ManaGradual > player1._mana) {
+      player1ManaGradual -= 10 * timeDelta;
+    }
+    if (player1ManaGradual < player1._mana) {
+      player1ManaGradual = player1._mana;
+    }
+    
+    if (player2ManaGradual > player2._mana) {
+      player2ManaGradual -= 10 * timeDelta;
+    }
+    if (player2ManaGradual < player2._mana) {
+      player2ManaGradual = player2._mana;
+    }
+    
     player1HealthPercent = player1._health / player1._maxHealth;
     player1ManaPercent = player1._mana / player1._maxMana;
     player2HealthPercent = player2._health / player2._maxHealth;
     player2ManaPercent = player2._mana / player2._maxMana;
     
-    noStroke();
+    player1HealthGradualPercent = player1HealthGradual / player1._maxHealth;
+    player1ManaGradualPercent = player1ManaGradual / player1._maxMana;
+    player2HealthGradualPercent = player2HealthGradual / player2._maxHealth;
+    player2ManaGradualPercent = player2ManaGradual / player2._maxMana;
     
-    fill(240, 240, 240);
+    fill(100, 100, 100);
     rect(0, 0, width, 4 + 64 + 32 + 4);
     
-    fill(255, 0, 0);
+    fill(220, 120, 40);
+    rect(32 + 4, 4, (width / 2 - 32 - 4 - 4) * player1HealthGradualPercent, 64);
+    rect(width / 2 + 4, 4, (width / 2 - 32 - 4 - 4) * player2HealthGradualPercent, 64);
+    
+    fill(40, 160, 220);
+    rect(32 + 4, 4 + 64, (width / 2 - 32 - 4 - 4) * player1ManaGradualPercent, 32);
+    rect(width / 2 + 4, 4 + 64, (width / 2 - 32 - 4 - 4) * player2ManaGradualPercent, 32);
+    
+    fill(220, 40, 40);
     rect(32 + 4, 4, (width / 2 - 32 - 4 - 4) * player1HealthPercent, 64);
     rect(width / 2 + 4, 4, (width / 2 - 32 - 4 - 4) * player2HealthPercent, 64);
     
-    fill(0, 0, 255);
+    fill(70, 40, 220);
     rect(32 + 4, 4 + 64, (width / 2 - 32 - 4 - 4) * player1ManaPercent, 32);
     rect(width / 2 + 4, 4 + 64, (width / 2 - 32 - 4 - 4) * player2ManaPercent, 32);
     

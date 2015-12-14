@@ -1,4 +1,4 @@
-/* @pjs preload="/assets/character_spritesheet.png, /assets/desert_background.png, /assets/blueFireball.png, /assets/meteor.png, /assets/gravityWell.png, /assets/healthOrb.png, /assets/manaOrb.png, /assets/spinningFireball.png, /assets/piercer.png, /assets/wind.png; */
+/* @pjs preload="/assets/character_spritesheet.png, /assets/shield.png, /assets/desert_background.png, /assets/blueFireball.png, /assets/meteor.png, /assets/gravityWell.png, /assets/healthOrb.png, /assets/manaOrb.png, /assets/spinningFireball.png, /assets/piercer.png, /assets/wind.png; */
 class Entity {
   // Called when the entity is added to the game
   void create() {}
@@ -55,24 +55,86 @@ void sortEntities() {
 
 Wizard player1;
 Wizard player2;
-//WizardAI player2;
+
+int state = STATE_MAIN_MENU;
+
+int STATE_PRE_DUEL = -1, STATE_DUEL = 0, STATE_POST_DUEL = 1, STATE_MAIN_MENU = 2, STATE_PRE_FIGHT = 3, STATE_FIGHT = 4, STATE_POST_FIGHT_LOSE = 5, STATE_POST_FIGHT_WIN = 6;
+
+void cleanState() {
+  entities.clear();
+  entitiesToBeAdded.clear();
+  entitiesToBeRemoved.clear();
+  colliders.clear();
+}
+
+float timer = 10.0f;
+
+void gotoMainMenuState() {
+  state = STATE_MAIN_MENU;
+}
+
+void gotoPreDuelState() {
+  
+  state = STATE_PRE_DUEL;
+  
+  player1 = new Wizard(100, 500, 50, 100, false, inputProcessors.get(0));
+  player2 = new Wizard(width - 100, 500, 50, 100, true, inputProcessors.get(1));
+  
+  addEntity(player1);
+  addEntity(player2);
+  
+  timer = 3.0f;
+}
+
+void gotoDuelState() {
+  state = STATE_DUEL;
+  
+  player1._inputProcessor.reset();
+  player2._inputProcessor.reset();
+  
+  player1.preFight = false;
+  player2.preFight = false;
+}
+
+void gotoPostDuelState() {
+  state = STATE_POST_DUEL;
+  
+  player1.loser = player1._health < 0;
+  player1.winner = !player1.loser;
+  
+  player2.loser = player2._health < 0;
+  player2.winner = !player2.loser;
+  
+  timer = 3.0f;
+}
+
+void gotoPreFightState() {
+}
+
+void gotoFightState() {
+}
+
+void gotoPostFightWinState() {
+}
+
+void gotoPostFightLoseState() {
+}
 
 void setup () {  
+  size(1000, 680);
+  
+  backgroundImage = loadImage("/assets/desert_background.png");
+  
   InputProcessor input1 = new InputProcessor('z');
   InputProcessor input2 = new InputProcessor('.');
   
   inputProcessors.add(input1);
   inputProcessors.add(input2);
   
-  size(1000, 680); 
-  player1 = new Wizard(100, 500, 50, 100, false, input1);
-  player2 = new Wizard(width - 100, 500, 50, 100, true, input2);
-  addEntity(player1);
-  addEntity(player2);
-  backgroundImage = loadImage("/assets/desert_background.png");
+  gotoMainMenuState();
 }
 
-void draw () {    
+void draw () {
   
   image(backgroundImage, 0, 0);
   
@@ -82,41 +144,8 @@ void draw () {
 
   for(InputProcessor ip : inputProcessors) {     
     ip.update(timeDelta);
-    /*ArrayList<Integer> word = ip.getNextWord();
-    if(word != null) {
-      String sequence = "";
-      for(Integer i : word) {
-        sequence += i;
-      }
-      console.log(sequence);
-    }*/
   }
   
-  if (state == MENU_STATE) {
-    menuLoop();
-  } else if (state == GAME_START_STATE) {
-    gameStartLoop();
-  } else if (state == IN_GAME_STATE) {
-    inGameLoop();
-  } else if (state == GAME_OVER_STATE) {
-    gameOverLoop();
-  } else {
-    console.log("State " + state + " is not a valid state!");
-    console.log("Defaulting to menu state");
-    state = MENU_STATE;
-  }
-}
-
-void menuLoop() {
-  state = GAME_START_STATE;
-}
-
-void gameStartLoop() {
-  state = IN_GAME_STATE;
-}
-
-void inGameLoop() {
-    // Add entities in the add queue
   for (Entity entity : entitiesToBeAdded) {
     entities.add(entity);
     if (entity instanceof Collider) {
@@ -162,84 +191,117 @@ void inGameLoop() {
     entity.render();
   }
   
-  player1HealthPercent = player1._health / player1._maxHealth;
-  player1ManaPercent = player1._mana / player1._maxMana;
-  player2HealthPercent = player2._health / player2._maxHealth;
-  player2ManaPercent = player2._mana / player2._maxMana;
+  timer -= timeDelta;
   
-  fill(255, 0, 0);
-  rect(10, 10, (width / 2 - 20) * player1HealthPercent, 40);
-  rect(width / 2 + 10, 10, (width / 2 - 20) * player2HealthPercent, 40);
-  
-  fill(0, 0, 255);
-  rect(10, 60, (width / 2 - 20) * player1ManaPercent, 20);
-  rect(width / 2 + 10, 60, (width / 2 - 20) * player2ManaPercent, 20);
-  
-  ArrayList<Integer> player1Word = new ArrayList<Integer>(player1._inputProcessor.getCurrentWord());
-  ArrayList<Integer> player2Word = new ArrayList<Integer>(player2._inputProcessor.getCurrentWord());
-  
-  int currentX = 20;
-  if (player1._inputProcessor._inputState == player1._inputProcessor.WAITING_FOR_KEY_UP || player1._inputProcessor._inputState == player1._inputProcessor.WAITING_FOR_KEY_DOWN) {
-    if (player1._inputProcessor._inputState == player1._inputProcessor.WAITING_FOR_KEY_UP) {
-      if (player1._inputProcessor._stateTimer <= player1._inputProcessor.DOT_TIME) {
-        player1Word.add(0);
-      }
-      else if (player1._inputProcessor._stateTimer <= player1._inputProcessor.DASH_TIME) {
-        player1Word.add(1);
-      }
+  if (timer < 0.0f) {
+    if (state == STATE_PRE_DUEL) {
+      gotoDuelState();
     }
-    for (Integer letter : player1Word) {
-      if (letter == 0) {
-        fill(0, 255, 0);
-      }
-      else if (letter == 1) {
-        fill(255, 0, 0);
-      }
-      ellipse(currentX, 100, 20, 20);
-      currentX += 40;
+    else if (state == STATE_POST_DUEL) {
+      cleanState();
+      gotoMainMenuState();
     }
   }
   
-  if (player2._inputProcessor._inputState == player2._inputProcessor.WAITING_FOR_KEY_UP || player2._inputProcessor._inputState == player2._inputProcessor.WAITING_FOR_KEY_DOWN) {
-    if (player2._inputProcessor._inputState == player2._inputProcessor.WAITING_FOR_KEY_UP) {
-      if (player2._inputProcessor._stateTimer <= player2._inputProcessor.DOT_TIME) {
-        player2Word.add(0);
+  /*
+  draw the ui
+  */
+  if (state == STATE_DUEL || state == STATE_FIGHT) {
+    
+    player1HealthPercent = player1._health / player1._maxHealth;
+    player1ManaPercent = player1._mana / player1._maxMana;
+    player2HealthPercent = player2._health / player2._maxHealth;
+    player2ManaPercent = player2._mana / player2._maxMana;
+    
+    fill(255, 0, 0);
+    rect(10, 10, (width / 2 - 20) * player1HealthPercent, 40);
+    rect(width / 2 + 10, 10, (width / 2 - 20) * player2HealthPercent, 40);
+    
+    fill(0, 0, 255);
+    rect(10, 60, (width / 2 - 20) * player1ManaPercent, 20);
+    rect(width / 2 + 10, 60, (width / 2 - 20) * player2ManaPercent, 20);
+    
+    ArrayList<Integer> player1Word = new ArrayList<Integer>(player1._inputProcessor.getCurrentWord());
+    ArrayList<Integer> player2Word = new ArrayList<Integer>(player2._inputProcessor.getCurrentWord());
+    
+    int currentX = 20;
+    if (player1._inputProcessor._inputState == player1._inputProcessor.WAITING_FOR_KEY_UP || player1._inputProcessor._inputState == player1._inputProcessor.WAITING_FOR_KEY_DOWN) {
+      if (player1._inputProcessor._inputState == player1._inputProcessor.WAITING_FOR_KEY_UP) {
+        if (player1._inputProcessor._stateTimer <= player1._inputProcessor.DOT_TIME) {
+          player1Word.add(0);
+        }
+        else if (player1._inputProcessor._stateTimer <= player1._inputProcessor.DASH_TIME) {
+          player1Word.add(1);
+        }
       }
-      else if (player2._inputProcessor._stateTimer <= player2._inputProcessor.DASH_TIME) {
-        player2Word.add(1);
+      for (Integer letter : player1Word) {
+        if (letter == 0) {
+          fill(0, 255, 0);
+        }
+        else if (letter == 1) {
+          fill(255, 0, 0);
+        }
+        ellipse(currentX, 100, 20, 20);
+        currentX += 40;
       }
     }
-    currentX = width - 20;
-    for (Integer letter : player2Word) {
-      if (letter == 0) {
-        fill(0, 255, 0);
+    
+    if (player2._inputProcessor._inputState == player2._inputProcessor.WAITING_FOR_KEY_UP || player2._inputProcessor._inputState == player2._inputProcessor.WAITING_FOR_KEY_DOWN) {
+      if (player2._inputProcessor._inputState == player2._inputProcessor.WAITING_FOR_KEY_UP) {
+        if (player2._inputProcessor._stateTimer <= player2._inputProcessor.DOT_TIME) {
+          player2Word.add(0);
+        }
+        else if (player2._inputProcessor._stateTimer <= player2._inputProcessor.DASH_TIME) {
+          player2Word.add(1);
+        }
       }
-      else if (letter == 1) {
-        fill(255, 0, 0);
+      currentX = width - 20;
+      for (Integer letter : player2Word) {
+        if (letter == 0) {
+          fill(0, 255, 0);
+        }
+        else if (letter == 1) {
+          fill(255, 0, 0);
+        }
+        ellipse(currentX, 100, 20, 20);
+        currentX -= 40;
       }
-      ellipse(currentX, 100, 20, 20);
-      currentX -= 40;
+      
     }
-  }
+    
+    if (state == STATE_DUEL) {
+      if (player1._health < 0 || player2._health < 0) {
+        gotoPostDuelState();
+      }
+    }
   
-  if (player1._health < 0 || player2._health < 0) {
-    state = GAME_OVER_STATE;
   }
-}
-
-void gameOverLoop() {
   
 }
 
 void keyPressed() {
-  for(InputProcessor ip : inputProcessors) {     
-    ip.keyPressed();
+  if (state == STATE_DUEL || state == STATE_FIGHT) {
+    for(InputProcessor ip : inputProcessors) {     
+      ip.keyPressed();
+    }
+  }
+  if (state == STATE_MAIN_MENU) {
+    if (key == 'z') {
+      cleanState();
+      gotoPreDuelState();
+    }
+    else if (key == '.') {
+      cleanState();
+      gotoPreFightState();
+    }
   }
 }
 
 void keyReleased() {
-  for(InputProcessor ip : inputProcessors) {     
-    ip.keyReleased();
+  if (state == STATE_DUEL || state == STATE_FIGHT) {
+    for(InputProcessor ip : inputProcessors) {     
+      ip.keyReleased();
+    }
   }
 }
 

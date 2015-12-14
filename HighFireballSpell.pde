@@ -7,7 +7,6 @@ class HighFireball extends Hazard {
   
   public HighFireball(float x_, float y_, float velocityX_, float velocityY_, Wizard owner) {
     super(x_, y_, 20.0, 0.0, 1.0, owner);
-    console.log("fireball " + y_);
     this.damage = 12.0f;
     this.velocityX = velocityX_;
     this.velocityY = velocityY_;

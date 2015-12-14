@@ -13,10 +13,16 @@ class Wizard extends Collider{
   boolean stunned = false;
   float stunTimer = 0.0f;
   
+  boolean winner = false;
+  boolean loser = false;
+  boolean preFight = true;
+  float id;
   boolean _leftFacing;
   ArrayList<Spell> spellBook = new ArrayList<Spell>();
   
   InputProcessor _inputProcessor;
+  
+  Wizard opponent;
   
   Wizard(float x_, float y_, float maxHealth, float maxMana, boolean leftFacing, InputProcessor inputProcessor) {
     super(x_, y_, 100, 0);
@@ -59,6 +65,18 @@ class Wizard extends Collider{
   void update(int phase, float delta) {
     super.update(phase, delta);
     
+    if (loser) {
+      wizardLoseAnimation.update(delta);
+      return;
+    }
+    else if (winner) {
+      wizardWinAnimation.update(delta);
+      return;
+    }
+    else if (preFight) {
+      return;
+    }
+    
     hurtTimer -= delta;
     castTimer -= delta;
     if (phased) {
@@ -73,11 +91,13 @@ class Wizard extends Collider{
       if (stunTimer < 0.0f) {
         stunned = false;
         _inputProcessor.canInput = true;
+        _inputProcessor.reset();
       }
     }
     
     wizardFadeAnimation.update(delta);
     wizardStandingAnimation.update(delta);
+    
     if (!phased) {
       _mana += MANA_REGEN_RATE * delta;
     }
@@ -107,6 +127,7 @@ class Wizard extends Collider{
   
   void render() {
     super.render();
+    
     float xr = x - 128;
     float xy = y - 128;
     float size = 256;
@@ -116,7 +137,11 @@ class Wizard extends Collider{
       xr = -((x - 128) + 256);
     }
     
-    if (phased) {
+    if (winner) {
+      wizardWinAnimation.drawAnimation(xr, xy, size, size);
+    } else if(loser) {
+      wizardLoseAnimation.drawAnimation(xr, xy, size, size);
+    } else if (phased) {
       wizardFadeAnimation.drawAnimation(xr, xy, size, size);
     } else if (_inputProcessor._inputState == 1 || _inputProcessor._inputState == 2) {
       wizardCastPrepAnimation.drawAnimation(xr, xy, size, size);
@@ -138,7 +163,7 @@ class Wizard extends Collider{
   }
   
   void hurt(float damage) {
-    if (!phased) {
+    if (!phased && !(loser || winner)) {
       _health -= damage;
       hurtTimer = 0.25;
     }

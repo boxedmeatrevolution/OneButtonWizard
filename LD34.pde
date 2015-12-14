@@ -300,13 +300,18 @@ void draw () {
     player2HealthPercent = player2._health / player2._maxHealth;
     player2ManaPercent = player2._mana / player2._maxMana;
     
+    noStroke();
+    
+    fill(240, 240, 240);
+    rect(0, 0, width, 4 + 64 + 32 + 4);
+    
     fill(255, 0, 0);
-    rect(32 + 5, 32, (width / 2 - 32 - 4 - 4) * player1HealthPercent, 64);
-    rect(width / 2 + 5, 32, (width / 2 - 32 - 4 - 4) * player2HealthPercent, 64);
+    rect(32 + 4, 4, (width / 2 - 32 - 4 - 4) * player1HealthPercent, 64);
+    rect(width / 2 + 4, 4, (width / 2 - 32 - 4 - 4) * player2HealthPercent, 64);
     
     fill(0, 0, 255);
-    rect(32 + 5, 65, (width / 2 - 32 - 4 - 4) * player1ManaPercent, 32);
-    rect(width / 2 + 5, 60, (width / 2 - 32 - 4 - 4) * player2ManaPercent, 32);
+    rect(32 + 4, 4 + 64, (width / 2 - 32 - 4 - 4) * player1ManaPercent, 32);
+    rect(width / 2 + 4, 4 + 64, (width / 2 - 32 - 4 - 4) * player2ManaPercent, 32);
     
     image(userInterface, 0, 0);
     

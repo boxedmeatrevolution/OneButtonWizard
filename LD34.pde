@@ -1,4 +1,4 @@
-/* @pjs preload="/assets/character_spritesheet.png, /assets/ui.png, /assets/lose_text.png, /assets/win_text.png, /assets/p1wins_text.png, /assets/p2wins_text.png, /assets/background0.png, /assets/background1.png, /assets/background2.png, /assets/mana_suck.png, /assets/mana_steal.png, /assets/zapper.png, /assets/zap.png, /assets/shield.png, /assets/desert_background.png, /assets/blueFireball.png, /assets/meteor.png, /assets/gravityWell.png, /assets/healthOrb.png, /assets/manaOrb.png, /assets/spinningFireball.png, /assets/piercer.png, /assets/wind.png, /assets/spellOrb.png; */
+/* @pjs preload="/assets/character_spritesheet.png, /assets/ui.png, /assets/lose_text.png, /assets/win_text.png, /assets/p1wins_text.png, /assets/p2wins_text.png, /assets/background0.png, /assets/background1.png, /assets/background2.png, /assets/mana_suck.png, /assets/mana_steal.png, /assets/zapper.png, /assets/zap.png, /assets/shield.png, /assets/desert_background.png, /assets/blueFireball.png, /assets/meteor.png, /assets/gravityWell.png, /assets/healthOrb.png, /assets/manaOrb.png, /assets/spinningFireball.png, /assets/piercer.png, /assets/wind.png, /assets/spellOrb.png, /assets/123go.png; */
 
 class Entity {
   // Called when the entity is added to the game
@@ -40,6 +40,7 @@ int lastUpdate = millis();
 float timeDelta;
 
 SpriteSheet spellOrbSpritesheet;
+SpriteSheet readySetGoSpritesheet;
 
 Animation dotOrbAnimation;
 Animation dashOrbAnimation;
@@ -213,6 +214,8 @@ void setup () {
   dotOrbAnimation = new Animation(spellOrbSpritesheet, 0.25, 2, 3);
   dashOrbAnimation = new Animation(spellOrbSpritesheet, 0.25, 0, 1);
   
+  readySetGoSpritesheet = loadSpriteSheet("/assets/123go.png", 4, 1, 300, 300);  
+  
   userInterface = loadImage("/assets/ui.png");
   backgrounds = new PImage[] {
     loadImage("/assets/background0.png"),
@@ -351,16 +354,20 @@ void draw () {
   }
   else if (state == STATE_PRE_DUEL || state == STATE_PRE_FIGHT) {
     if (timer >= 2.25) {
-      text("3", 50, 50);
+      //text("3", 50, 50);
+      readySetGoSpritesheet.drawSprite(0, width / 2 - 150, height / 2 - 150, 300, 300);
     }
     else if (timer >= 1.5) {
-      text("2", 50, 50);
+      //text("2", 50, 50);
+      readySetGoSpritesheet.drawSprite(1, width / 2 - 150, height / 2 - 150, 300, 300);
     }
     else if (timer >= 0.75) {
-      text("1", 50, 50);
+      //text("1", 50, 50);
+      readySetGoSpritesheet.drawSprite(2, width / 2 - 150, height / 2 - 150, 300, 300);
     }
     else {
-      text("Fight!", 50, 50);
+      //text("Fight!", 50, 50);
+      readySetGoSpritesheet.drawSprite(3, width / 2 - 150, height / 2 - 150, 300, 300);
     }
   }
   else if (state == STATE_POST_FIGHT_LOSE) {

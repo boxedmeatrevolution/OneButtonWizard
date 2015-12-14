@@ -33,13 +33,12 @@ class HealthOrb extends Collider{
     if (healthOrbSpritesheet == null) {
       healthOrbSpritesheet = loadSpriteSheet("/assets/healthOrb.png", 2, 1, 60, 60);
     }
-    addEntity(new Poof(x, y, 32, 32));
     healthOrbAnimation = new Animation(healthOrbSpritesheet, 0.5, 0, 1);
   }
   
   void destroy() {
     super.destroy();
-    addEntity(new Poof(x, y, 64, 64));
+    addEntity(new Poof(x, y, 64));
   }
   
   void render() {

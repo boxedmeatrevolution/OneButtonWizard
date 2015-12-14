@@ -127,6 +127,9 @@ class Wizard extends Collider{
             stunned = true;
             stunTimer = 3.0f;
           }
+          else {
+            playSound("invoke");
+          }
           break;
         }
       }

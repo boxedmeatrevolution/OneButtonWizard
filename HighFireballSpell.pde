@@ -26,6 +26,7 @@ class HighFireball extends Hazard {
     if (spinningFireballSpritesheet == null) {
       spinningFireballSpritesheet = loadSpriteSheet("/assets/spinningFireball.png", 4, 1, 60, 60);
     }
+    playSound("fireball");
     spinningFireballAnimation = new Animation(spinningFireballSpritesheet, 0.1, 0, 1, 2, 3);
   }
   

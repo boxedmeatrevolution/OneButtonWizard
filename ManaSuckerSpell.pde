@@ -46,6 +46,7 @@ class ManaSucker extends Summon {
       if (target._mana < 0.0) {
         target._mana = 0.0;
       }
+      playSound("manaSteal1");
     }
   }
   
@@ -148,6 +149,7 @@ class ManaSuckerShot extends Collider {
       suckerShotSpritesheet = loadSpriteSheet("/assets/manaOrb.png", 2, 1, 60, 60);
     }
     suckerShotAnimation = new Animation(suckerShotSpritesheet, 0.05, 0, 1);
+    playSound("manaSteal0");
   }
   
   void destroy() {

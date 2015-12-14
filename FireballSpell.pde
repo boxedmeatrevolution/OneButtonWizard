@@ -22,6 +22,7 @@ class Fireball extends Hazard {
     if (fireballSpritesheet == null) {
       fireballSpritesheet = loadSpriteSheet("/assets/blueFireball.png", 4, 1, 150, 150);
     }
+    playSound("fireball");
     fireballAnimation = new Animation(fireballSpritesheet, 0.05, 0, 1, 2, 3);
   }
   
@@ -73,7 +74,6 @@ class FireballSpell extends Spell {
   }
   
   public void invoke(Wizard owner) {
-    //playSound("fireball");
     Fireball fireball = new Fireball(owner.x, owner.y, 100, 0, owner);
     if (owner.x < width / 2) {
       fireball.x += 10;

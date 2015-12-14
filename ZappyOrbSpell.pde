@@ -123,7 +123,7 @@ class ZappyShot extends Hazard {
   
   public ZappyShot(float x_, float y_, float velocityX_, float velocityY_, Wizard owner) {
     super(x_, y_, 20.0, 0.0, 1.0, owner);
-    this.damage = 2.0f;
+    this.damage = 3.0f;
     this.velocityX = velocityX_;
     this.velocityY = velocityY_;
   }
@@ -141,6 +141,7 @@ class ZappyShot extends Hazard {
       zappyShotSpritesheet = loadSpriteSheet("/assets/zap.png", 2, 1, 50, 50);
     }
     zappyShotAnimation = new Animation(zappyShotSpritesheet, 0.02, 0, 1);
+    playSound("zappyShoot");
   }
   
   void destroy() {

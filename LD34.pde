@@ -117,6 +117,8 @@ void gotoMainMenuState() {
 
 void gotoPreDuelState() {
   
+  readyStage = 0;
+  
   state = STATE_PRE_DUEL;
   
   lastBackground = backgroundImage;
@@ -167,6 +169,8 @@ void gotoPostDuelState() {
 }
 
 void gotoPreFightState() {
+  
+  readyStage = 0;
   
   state = STATE_PRE_FIGHT;
   
@@ -244,7 +248,7 @@ void setup () {
   p1WinsText = loadImage("/assets/p1wins_text.png");
   p2WinsText = loadImage("/assets/p2wins_text.png");
   
-  loadAudio("fireball", "/assets/music/fireballSFX.ogg");
+  loadAudio("fireball", "/assets/music/fireball.wav");
   loadAudio("gravityWell", "/assets/music/gravityWellSFX.ogg");
   loadAudio("meteor", "/assets/music/meteorSFX.ogg");
   loadAudio("miniFireball", "/assets/music/miniFireballSFX.ogg");
@@ -257,6 +261,15 @@ void setup () {
   loadAudio("stun", "/assets/music/stun.ogg");
   loadAudio("phase", "/assets/music/phase.ogg");
   loadAudio("music", "/assets/music/ld34.ogg");
+  loadAudio("invoke", "/assets/music/invoke.wav");
+  loadAudio("dot_orb", "/assets/music/dot_orb.wav");
+  loadAudio("meteor", "/assets/music/meteor.wav");
+  loadAudio("summonBlackHole", "/assets/music/summon_black_hole.wav");
+  loadAudio("blackHole", "/assets/music/black_hole.wav");
+  loadAudio("poof", "/assets/music/poof.wav");
+  loadAudio("manaSteal0", "/assets/music/mana_steal_0.wav");
+  loadAudio("manaSteal1", "/assets/music/mana_steal.wav");
+  loadAudio("zappyShoot", "/assets/music/zappy_shoot.wav");
   sounds["music"].loop = true;
   //sounds["music"].play();
   
@@ -274,6 +287,8 @@ float clamp(float min, float value, float max) {
     return value;
   }
 }
+
+int readyStage = 0;
 
 void draw () {
   
@@ -373,18 +388,34 @@ void draw () {
   else if ((state == STATE_PRE_DUEL || state == STATE_PRE_FIGHT) && !(player2 instanceof EnemyTutorial)) {
     if (timer >= 2.25) {
       //text("3", 50, 50);
+      if (readyStage == 0) {
+        readyStage = 1;
+        playSound("dot_orb");
+      }
       readySetGoSpritesheet.drawSprite(0, width / 2 - 150, height / 2 - 150, 300, 300);
     }
     else if (timer >= 1.5) {
       //text("2", 50, 50);
+      if (readyStage == 1) {
+        readyStage = 2;
+        playSound("dot_orb");
+      }
       readySetGoSpritesheet.drawSprite(1, width / 2 - 150, height / 2 - 150, 300, 300);
     }
     else if (timer >= 0.75) {
       //text("1", 50, 50);
+      if (readyStage == 2) {
+        readyStage = 3;
+        playSound("dot_orb");
+      }
       readySetGoSpritesheet.drawSprite(2, width / 2 - 150, height / 2 - 150, 300, 300);
     }
     else {
       //text("Fight!", 50, 50);
+      if (readyStage == 3) {
+        readyStage = 4;
+        playSound("dot_orb");
+      }
       readySetGoSpritesheet.drawSprite(3, width / 2 - 150, height / 2 - 150, 300, 300);
     }
   }

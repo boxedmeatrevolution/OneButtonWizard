@@ -20,6 +20,8 @@ class GravityWell extends Collider {
       gravityWellSpritesheet = loadSpriteSheet("/assets/gravityWell.png", 2, 1, 150, 150);
     }
     gravityWellAnimation = new Animation(gravityWellSpritesheet, 0.25, 0, 1);
+    //playSound("summonBlackHole");
+    playSound("blackHole");
   }
   
   void destroy() {

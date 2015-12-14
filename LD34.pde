@@ -1,4 +1,4 @@
-/* @pjs preload="/assets/character_spritesheet.png, /assets/shield.png, /assets/desert_background.png, /assets/blueFireball.png, /assets/meteor.png, /assets/gravityWell.png, /assets/healthOrb.png, /assets/manaOrb.png, /assets/spinningFireball.png, /assets/piercer.png, /assets/wind.png; */
+/* @pjs preload="/assets/character_spritesheet.png, /assets/mana_suck.png, /assets/shield.png, /assets/desert_background.png, /assets/blueFireball.png, /assets/meteor.png, /assets/gravityWell.png, /assets/healthOrb.png, /assets/manaOrb.png, /assets/spinningFireball.png, /assets/piercer.png, /assets/wind.png; */
 class Entity {
   // Called when the entity is added to the game
   void create() {}

@@ -39,10 +39,12 @@ class ZappyOrb extends Summon {
   
   void create() {
     super.create();
+    addEntity(new Poof(x, y));
   }
   
   void destroy() {
     super.destroy();
+    addEntity(new Poof(x, y));
   }
   
   void render() {
@@ -143,6 +145,7 @@ class ZappyShot extends Hazard {
   
   void destroy() {
     super.destroy();
+    addEntity(new Poof(x, y));
   }
   
   void render() {

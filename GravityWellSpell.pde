@@ -24,6 +24,7 @@ class GravityWell extends Collider {
   
   void destroy() {
     super.destroy();
+    addEntity(new Poof(x, y));
   }
   
   void render() {
@@ -82,6 +83,7 @@ class GravityWellSpell extends Spell {
       well.x += 200;
     }
     addEntity(well);
+    addEntity(new Poof(well.x, well.y));
   }
   
   public float getManaCost() {

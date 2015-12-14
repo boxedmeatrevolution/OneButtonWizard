@@ -56,12 +56,10 @@ class InputProcessor {
     } else if (_inputState == WAITING_FOR_KEY_UP) {
       if (!_keyDown) {
         if (_stateTimer <= DOT_TIME) {
-         console.log("state timer " + _stateTimer + " DOT "  + DOT_TIME);
           _inputState = WAITING_FOR_KEY_DOWN;
           _stateTimer = 0;
           _inputWord.add(DOT);
         } else if (_stateTimer <= DASH_TIME) {
-         console.log("state timer " + _stateTimer + " DASH "  + DASH_TIME);
           _inputState = WAITING_FOR_KEY_DOWN;
           _stateTimer = 0;
           _inputWord.add(DASH);

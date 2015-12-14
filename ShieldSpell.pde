@@ -34,8 +34,13 @@ class Shield extends Hazard {
   
   void render() {
     super.render();
-    shieldAnimation.drawAnimation(x - 200, y - 250 , 400, 400);
-    console.log(x + " " + y);
+    if (owner.x < 500) {    
+      shieldAnimation.drawAnimation(x - 200, y - 250 , 400, 400);
+    } else {
+      scale(-1, 1);
+      shieldAnimation.drawAnimation(- (x + 200), y - 250, 400, 400);
+      scale(-1, 1);
+    }
 //    fill(255, 255, 0);
 //    ellipse(x, y, 2 * radius, 2 * radius);
   }

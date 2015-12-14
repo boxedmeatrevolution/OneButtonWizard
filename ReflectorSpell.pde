@@ -15,6 +15,7 @@ class Reflector extends Hazard {
     super.onCollision(other, wasHandled);
     if (other instanceof Hazard) {
       if (other.owner != owner) {
+        playSound("shieldDeactivate");
         other.owner = owner;
         other.velocityX *= -1;
         other.velocityY *= -1;
@@ -41,6 +42,7 @@ class Reflector extends Hazard {
     super.update(phase, delta);
     timer += delta;
     if (timer > lifetime) {
+      playSound("shieldDeactivate");
       removeEntity(this);
     }
     radius = (finalRadius - initialRadius) * timer / lifetime + initialRadius;
@@ -71,6 +73,7 @@ class ReflectorSpell extends Spell {
         }
       }
     }
+    playSound("reflector");
     Reflector reflector = new Reflector(owner.x, owner.y, 0, 0, owner);
     addEntity(reflector);
   }

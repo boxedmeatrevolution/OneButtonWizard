@@ -72,6 +72,7 @@ class FireballSpell extends Spell {
   }
   
   public void invoke(Wizard owner) {
+    //playSound("fireball");
     Fireball fireball = new Fireball(owner.x, owner.y, 100, 0, owner);
     if (owner.x < width / 2) {
       fireball.x += 10;

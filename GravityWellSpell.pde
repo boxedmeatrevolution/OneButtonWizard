@@ -73,6 +73,7 @@ class GravityWellSpell extends Spell {
   }
   
   public void invoke(Wizard owner) {
+    playSound("gravityWell");
     GravityWell well = new GravityWell(width / 2, height / 2, 0, 0);
     if (owner.x < width / 2) {
       well.x -= 200;

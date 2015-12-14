@@ -13,6 +13,7 @@ class Piercer extends Hazard {
   void onCollision(Collider other, boolean wasHandled) {
     super.onCollision(other, wasHandled);
     if (other instanceof Shield) {
+      playSound("shieldBreaker");
       removeEntity(other);
     }
     if (triggered) {

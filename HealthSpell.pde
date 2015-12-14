@@ -72,6 +72,7 @@ class HealthSpell extends Spell {
   }
   
   void invoke(Wizard owner) {
+    playSound("orb");
     HealthOrb healthOrb = new HealthOrb(owner);
     addEntity(healthOrb);
   }

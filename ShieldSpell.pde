@@ -45,6 +45,7 @@ class Shield extends Hazard {
     shieldAnimation.update(delta);
     timer += delta;
     if (timer > lifetime) {
+      playSound("shieldDeactivate");
       removeEntity(this);
     }
     radius = (finalRadius - initialRadius) * timer / lifetime + initialRadius;
@@ -75,6 +76,7 @@ class ShieldSpell extends Spell {
         }
       }
     }
+    playSound("shield");
     Shield shield = new Shield(owner.x, owner.y, 0, 0, owner);
     addEntity(shield);
   }

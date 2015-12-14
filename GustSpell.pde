@@ -24,7 +24,7 @@ class GustSpell extends Spell {
 
 class Gust extends Entity {
     
-  float GUST_ACCEL = 500;
+  float GUST_ACCEL = 3;
   int TOTAL_PARTICLES = 8;
   
   int particleCount;
@@ -62,21 +62,21 @@ class Gust extends Entity {
       }
       if(entity instanceof Hazard) {
         Hazard hazard = (Hazard) entity;
-        
-        float velocityX = hazard.velocityX;
-        
-        if(hazard.owner = _owner) {
-          if(_owner._leftFacing) {
-            hazard.velocityX -= GUST_ACCEL * delta;
-          } else {
-            hazard.velocityX += GUST_ACCEL * delta;
-          }
-        } else {           
-          if(_owner._leftFacing) {
-            hazard.velocityX += GUST_ACCEL * delta;
-          } else {
-            hazard.velocityX -= GUST_ACCEL * delta;
-          }
+        float factor = 0.0f;
+        if (_owner.x >= width / 2) {
+          factor = 1.0f;
+        }
+        else {
+          factor = -1.0f;
+        }
+        if (hazard.velocityX > 10.0) {
+          hazard.velocityX *= 1.0 - factor * GUST_ACCEL * delta;
+        }
+        else if (hazard.velocityX < -10.0) {
+          hazard.velocityX *= 1.0 + factor * GUST_ACCEL * delta;
+        }
+        else {
+          hazard.velocityX -= 200 * factor * delta;
         }
       }
     }

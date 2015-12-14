@@ -1,7 +1,7 @@
 class ManaOrb extends Collider{
   Wizard owner;
   float distY = 150.0;
-  float manaRegen = 0.75; //mana regenerated per second
+  float manaRegen = 1.2; //mana regenerated per second
   float timer = 8.0;
   
   public ManaOrb(Wizard owner_) {

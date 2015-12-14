@@ -28,6 +28,7 @@ class RapidShot extends Hazard {
       rapidShotSpritesheet = loadSpriteSheet("/assets/blueFireball.png", 4, 1, 150, 150);
     }
     rapidShotAnimation = new Animation(rapidShotSpritesheet, 0.05, 0, 1, 2, 3);
+    playSound("rapidFire");
   }
   
   void destroy() {

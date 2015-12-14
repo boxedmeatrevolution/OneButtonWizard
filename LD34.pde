@@ -270,6 +270,8 @@ void setup () {
   loadAudio("manaSteal0", "/assets/music/mana_steal_0.wav");
   loadAudio("manaSteal1", "/assets/music/mana_steal.wav");
   loadAudio("zappyShoot", "/assets/music/zappy_shoot.wav");
+  loadAudio("piercer", "/assets/music/piercer.wav");
+  loadAudio("rapidFire", "/assets/music/rapid_fire.wav");
   sounds["music"].loop = true;
   //sounds["music"].play();
   
@@ -593,10 +595,12 @@ void keyPressed() {
   }
   if (state == STATE_MAIN_MENU) {
     if (key == 'm') {
+      playSound("hit");
       cleanState();
       gotoPreDuelState();
     }
     else if (key == 'z') {
+      playSound("hit");
       cleanState();
       gotoPreFightState();
     }
@@ -611,6 +615,7 @@ void keyReleased() {
     if (key == 'm') {
       if (player2 instanceof EnemyTutorial) {
         if (player2.phase <= 1 || player2.phase >= 7) {
+          playSound("hit");
           player2.phase += 1;
           if (player2.phase > 8) {
             player2.phase = 8;

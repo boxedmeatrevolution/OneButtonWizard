@@ -4,8 +4,8 @@ class EnemyEyeball extends Wizard {
   int comboChain;
   int rechargeOrbs;
   
-  EnemyEyeball(float x_, float y_, float maxHealth, float maxMana, boolean leftFacing, InputProcessor inputProcessor) {
-    super(x_, y_, maxHealth, maxMana, leftFacing, inputProcessor);
+  EnemyEyeball(float x_, float y_, boolean leftFacing, InputProcessor inputProcessor) {
+    super(x_, y_, 50.0f, 50.0f, leftFacing, inputProcessor);
     comboChain = 0;
     rechargeOrbs = 0;
   }

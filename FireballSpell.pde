@@ -4,7 +4,7 @@ class Fireball extends Hazard {
   
   public Fireball(float x_, float y_, float velocityX_, float velocityY_, Wizard owner) {
     super(x_, y_, 42.0, 0.0, 1.0, owner);
-    this.damage = 12.0f;
+    this.damage = 9.0f;
     this.velocityX = velocityX_;
     this.velocityY = velocityY_;
     ACCELX = (owner._leftFacing ? -ACCELX : ACCELX);

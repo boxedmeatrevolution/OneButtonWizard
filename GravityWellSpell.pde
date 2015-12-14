@@ -48,8 +48,8 @@ class GravityWell extends Collider {
         dist = sq(entity.x - x) + sq(entity.y - y);
         mag = pow(dist, 1.5);
         if (dist != 0) {
-          entity.velocityX -= delta * 1000000000.0 * (entity.x - x) / mag;
-          entity.velocityY -= delta * 1000000000.0 * (entity.y - y) / mag;
+          entity.velocityX -= delta * 200000000.0 * (entity.x - x) / mag;
+          entity.velocityY -= delta * 200000000.0 * (entity.y - y) / mag;
         }
       }
     }

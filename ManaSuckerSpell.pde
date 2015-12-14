@@ -15,6 +15,11 @@ class ManaSucker extends Summon {
     }
     manaSuckerAnimation = new Animation(manaSuckerSpritesheet, 0.15, 0, 1, 2);
     
+    if (manaBeamSpritesheet == null) {
+      manaBeamSpritesheet = loadSpriteSheet("/assets/mana_steal.png", 2, 1, 600, 400);
+    }
+    manaBeamAnimation = new Animation(manaBeamSpritesheet, 0.15, 0, 1);
+    
     owner = owner_;
     for (Entity entity : entities) {
       if (entity instanceof Wizard) {
@@ -56,9 +61,11 @@ class ManaSucker extends Summon {
     super.render();
     if (owner.x < 500) {    
       manaSuckerAnimation.drawAnimation(x - 100, y - 100, 200, 200);
+      manaBeamAnimation.drawAnimation(x + 30, y + 5, 600, 400);
     } else {
       scale(-1, 1);
       manaSuckerAnimation.drawAnimation(-(x + 100), y - 100, 200, 200);
+      manaBeamAnimation.drawAnimation(-(x - 30), y + 5, 600, 400);
       scale(-1, 1);
     }
 //    fill(255, 255, 0);
@@ -68,6 +75,7 @@ class ManaSucker extends Summon {
   void update(int phase, float delta) {
     super.update(phase, delta);
     manaSuckerAnimation.update(delta);
+    manaBeamAnimation.update(delta);
     timer += delta;
     if (timer > lifetime) {
       removeEntity(this);
@@ -87,6 +95,7 @@ class ManaSucker extends Summon {
     return 0;
   }
   
+  Animation manaBeamAnimation;
   Animation manaSuckerAnimation;
 }
 
@@ -174,6 +183,7 @@ class ManaSuckerShot extends Collider {
   
 }
 
+SpriteSheet manaBeamSpritesheet;
 SpriteSheet suckerShotSpritesheet;
 SpriteSheet manaSuckerSpritesheet;
 

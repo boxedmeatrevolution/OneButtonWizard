@@ -1,4 +1,4 @@
-/* @pjs preload="/assets/poof_strip.png, /assets/menu_background.png, /assets/character_spritesheet.png, /assets/ui.png, /assets/reflector.png, /assets/lose_text.png, /assets/win_text.png, /assets/p1wins_text.png, /assets/p2wins_text.png, /assets/background0.png, /assets/background1.png, /assets/background2.png, /assets/mana_suck.png, /assets/mana_steal.png, /assets/zapper.png, /assets/zap.png, /assets/shield.png, /assets/desert_background.png, /assets/blueFireball.png, /assets/meteor.png, /assets/gravityWell.png, /assets/healthOrb.png, /assets/manaOrb.png, /assets/spinningFireball.png, /assets/piercer.png, /assets/wind.png, /assets/spellOrb.png, /assets/123go.png; */
+/* @pjs preload="/assets/poof_strip.png, /assets/enemy0.png, /assets/enemy1.png, /assets/menu_background.png, /assets/character_spritesheet.png, /assets/ui.png, /assets/reflector.png, /assets/lose_text.png, /assets/win_text.png, /assets/p1wins_text.png, /assets/p2wins_text.png, /assets/background0.png, /assets/background1.png, /assets/background2.png, /assets/mana_suck.png, /assets/mana_steal.png, /assets/zapper.png, /assets/zap.png, /assets/shield.png, /assets/desert_background.png, /assets/blueFireball.png, /assets/meteor.png, /assets/gravityWell.png, /assets/healthOrb.png, /assets/manaOrb.png, /assets/spinningFireball.png, /assets/piercer.png, /assets/wind.png, /assets/spellOrb.png, /assets/123go.png; */
 
 class Entity {
   // Called when the entity is added to the game
@@ -87,11 +87,11 @@ void cleanState() {
 }
 
 Wizard getFight(int n) {
-  if(n == 0) {
+  /*if(n == 0) {
     return new WizardAI(width - 100, 500, 50, 100, true, new InputProcessor('.'));
-  } else {
-    return new FireballRushAI(width - 100, 500, 50, 100, true, new InputProcessor('.'));
-  }
+  } else {*/
+    return new EnemyWizard(width - 100, 500, true, new InputProcessor('.'));
+  //}
 }
 
 int currentFight = 0;
@@ -355,7 +355,6 @@ void draw () {
     }
     else if (state == STATE_POST_FIGHT_LOSE) {
       cleanState();
-      currentFight = 0;
       gotoMainMenuState();
     }
   }

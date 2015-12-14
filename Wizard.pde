@@ -3,7 +3,7 @@ class Wizard extends Collider{
   float _maxMana;
   float _health;
   float _mana;
-  final float MANA_REGEN_RATE = 0.0;
+  float MANA_REGEN_RATE = 0.0;
   boolean phased = false;
   float phaseTimer = 0.0;
   

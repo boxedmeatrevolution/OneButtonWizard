@@ -42,28 +42,33 @@ class EnemyFly extends Wizard {
     manaSuckerTimer += delta;
     blackHoleTimer += delta;
     
-    if (gustTimer >= 4.0f) {
+    if (gustTimer >= 4.0f && _mana > gustSpell.getManaCost()) {
       gustSpell.invoke(this);
+      _mana -= gustSpell.getManaCost();
       gustTimer = 0.0f;
     }
-    if (meteorTimer >= 8.0f) {
+    if (meteorTimer >= 8.0f && _mana > meteorSpell.getManaCost()) {
       meteorSpell.invoke(this);
+      _mana -= meteorSpell.getManaCost();
       meteorTimer = 0.0f;
     }
-    if (manaSuckerTimer >= 8.0f) {
+    if (manaSuckerTimer >= 8.0f && _mana > manaSuckerSpell.getManaCost()) {
       manaSuckerSpell.invoke(this);
+      _mana -= manaSuckerSpell.getManaCost();
       manaSuckerTimer = 0.0f;
     }
-    if (blackHoleTimer >= 8.0f) {
+    if (blackHoleTimer >= 8.0f && _mana > gravityWellSpell.getManaCost()) {
       gravityWellSpell.invoke(this);
+      _mana -= gravityWellSpell.getManaCost();
       blackHoleTimer = 0.0f;
     }
     
     if (random(1) > 1 - 0.2 * delta) {
       manaOrbSpell.invoke(this);
     }
-    if (random(1) > 1 - 0.2 * delta) {
+    if (_health < _maxHealth && random(1) > 1 - 0.2 * delta && _mana > healthOrbSpell.getManaCost()) {
       healthOrbSpell.invoke(this);
+      _mana -= healthOrbSpell.getManaCost();
     }
   }
   

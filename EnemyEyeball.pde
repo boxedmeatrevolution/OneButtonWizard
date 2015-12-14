@@ -23,6 +23,11 @@ class EnemyEyeball extends Wizard {
     wizardLoseAnimation = new Animation(eyeballSpritesheet, 0.25, 2);
     wizardFadeAnimation = wizardStandingAnimation;
     wizardStunAnimation = wizardStandingAnimation;
+    
+    shieldSpell = new ShieldSpell();
+    fireballSpell = new FireballSpell();
+    manaSpell = new ManaSpell();
+    gustSpell = new GustSpell();
   }
   
   void update(int phase, float delta) {
@@ -36,40 +41,30 @@ class EnemyEyeball extends Wizard {
       if (spellBook.size() > 0) {
         boolean spellInvoked = false;
         if(comboChain == 0) {
-          for(Spell spell : spellBook) {
-            if (spell.name() == "Fireball" && spell.getManaCost() < _mana && !winner && !loser && !stunned && !phased) {
-              _mana -= spell.getManaCost();
-              spell.invoke(this);
-              spellInvoked = true;
-              comboChain = 1;
-            }
+          if (_mana > fireballSpell.getManaCost()) {
+            fireballSpell.invoke(this);
+            _mana -= fireballSpell.getManaCost();
+            spellInvoked = true;
+            comboChain = 1;
           }
         } else if (comboChain == 1) {
-          for(Spell spell : spellBook) {
-            if (spell.name() == "Gust" && spell.getManaCost() < _mana && !winner && !loser && !stunned && !phased) {
-              _mana -= spell.getManaCost();
-              spell.invoke(this);
-              spellInvoked = true;
-              comboChain = 2;
-            }
+          if (_mana > gustSpell.getManaCost()) {
+            gustSpell.invoke(this);
+            _mana -= gustSpell.getManaCost();
+            spellInvoked = true;
+            comboChain = 2;
           }
-        } else if (comboChain != -1){          
-          for(Spell spell : spellBook) {
-            if (spell.name() == "Bubble Shield" && spell.getManaCost() < _mana && !winner && !loser && !stunned && !phased) {
-              _mana -= spell.getManaCost();
-              spell.invoke(this);
-              spellInvoked = true;
-              comboChain = 0;
-            }
+        } else if (comboChain != -1){
+          if (_mana > shieldSpell.getManaCost()) {
+            shieldSpell.invoke(this);
+            _mana -= shieldSpell.getManaCost();
+            spellInvoked = true;
+            comboChain = 0;
           }
         }
         if(!spellInvoked) {
           comboChain = -1;
-          for(Spell spell : spellBook) {
-            if (spell.name() == "Mana Orb" && spell.getManaCost() < _mana && !winner && !loser && !stunned && !phased) {
-              spell.invoke(this);
-            }
-          }
+          manaSpell.invoke(this);
           rechargeOrbs++;
           
           if(rechargeOrbs > 6) {
@@ -91,7 +86,13 @@ class EnemyEyeball extends Wizard {
   
   void hurt(float damage) {
     super.hurt(damage);
-  }  
+  }
+  
+  ShieldSpell shieldSpell;
+  ManaSpell manaSpell;
+  GustSpell gustSpell;
+  FireballSpell fireballSpell;
+  
 }
 
 SpriteSheet eyeballSpritesheet;

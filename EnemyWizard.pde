@@ -26,7 +26,7 @@ class EnemyWizard extends Wizard {
     reflectorSpell = new ReflectorSpell();
     manaOrbSpell = new ManaSpell();
     gravityWellSpell = new GravityWellSpell();
-    MANA_REGEN_RATE = 2.0f;
+    MANA_REGEN_RATE = 4.0f;
   }
   
   void update(int phase, float delta) {
@@ -39,12 +39,14 @@ class EnemyWizard extends Wizard {
     if (player1._mana / player1._maxMana > 0.25) {
       blackHoleTimer += 6 * delta;
     }
-    if (blackHoleTimer > 30.0f) {
+    if (blackHoleTimer > 30.0f && _mana > gravityWellSpell.getManaCost()) {
       gravityWellSpell.invoke(this);
+      _mana -= gravityWellSpell.getManaCost();
       blackHoleTimer = 0.0f;
     }
     if (!hasShield && reflectorTimer > 1.0f && _mana > reflectorSpell.getManaCost()) {
       reflectorSpell.invoke(this);
+      _mana -= reflectorSpell.getManaCost();
       hasShield = true;
     }
     if (reflectorTimer > 5.0f) {

@@ -36,6 +36,7 @@ class EnemySquid extends Wizard {
     phaseTimer += delta;
     if (phaseTimer > 3.0f && _mana > phaseSpell.getManaCost()) {
       phaseSpell.invoke(this);
+      _mana -= phaseSpell.getManaCost();
       phaseTimer = 10.0f;
     }
     if (phaseTimer > 13.0f) {
@@ -46,16 +47,17 @@ class EnemySquid extends Wizard {
     if (comboTimer > 3.0f) {
       if (_mana > piercerSpell.getManaCost()) {
         piercerSpell.invoke(this);
+        _mana -= piercerSpell.getManaCost();
       }
       if (_mana > rapidShotSpell.getManaCost()) {
         rapidShotSpell.invoke(this);
+        _mana -= rapidShotSpell.getManaCost();
       }
       comboTimer = 0.0f;
       
-    if (random(1) > 1 - 0.2 * delta) {
-      manaOrbSpell.invoke(this);
-    }
-      
+      if (random(1) > 1 - 0.2 * delta) {
+        manaOrbSpell.invoke(this);
+      }
     }
   }
   

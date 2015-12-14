@@ -9,6 +9,12 @@ class ManaSucker extends Summon {
   
   ManaSucker(float x_, float y_, Wizard owner_) {
     super(x_, y_, 32.0f, 0.0f, 1.0f);
+    
+    if (suckerShotSpritesheet == null) {
+      manaSuckerSpritesheet = loadSpriteSheet("/assets/mana_suck.png", 3, 1, 200, 200);
+    }
+    manaSuckerAnimation = new Animation(manaSuckerSpritesheet, 0.15, 0, 1, 2);
+    
     owner = owner_;
     for (Entity entity : entities) {
       if (entity instanceof Wizard) {
@@ -48,12 +54,20 @@ class ManaSucker extends Summon {
   
   void render() {
     super.render();
-    fill(255, 255, 0);
-    ellipse(x, y, 2 * radius, 2 * radius);
+    if (owner.x < 500) {    
+      manaSuckerAnimation.drawAnimation(x - 100, y - 100, 200, 200);
+    } else {
+      scale(-1, 1);
+      manaSuckerAnimation.drawAnimation(x, y, 200, 200);
+      scale(-1, 1);
+    }
+//    fill(255, 255, 0);
+//    ellipse(x, y, 2 * radius, 2 * radius);
   }
   
   void update(int phase, float delta) {
     super.update(phase, delta);
+    manaSuckerAnimation.update(delta);
     timer += delta;
     if (timer > lifetime) {
       removeEntity(this);
@@ -73,6 +87,7 @@ class ManaSucker extends Summon {
     return 0;
   }
   
+  Animation manaSuckerAnimation;
 }
 
 class ManaSuckerSpell extends Spell {
@@ -119,9 +134,9 @@ class ManaSuckerShot extends Collider {
   void create() {
     super.create();
     if (suckerShotSpritesheet == null) {
-      suckerShotSpritesheet = loadSpriteSheet("/assets/blueFireball.png", 4, 1, 150, 150);
+      suckerShotSpritesheet = loadSpriteSheet("/assets/manaOrb.png", 2, 1, 150, 150);
     }
-    suckerShotAnimation = new Animation(suckerShotSpritesheet, 0.05, 0, 1, 2, 3);
+    suckerShotAnimation = new Animation(suckerShotSpritesheet, 0.05, 0, 1);
   }
   
   void destroy() {
@@ -130,8 +145,8 @@ class ManaSuckerShot extends Collider {
   
   void render() {
     super.render();
-    float xr = x - 75;
-    float xy = y - 75;
+    float xr = x - 20;
+    float xy = y - 20;
     float size = 150;
     
     if(velocityX < 0) {
@@ -160,4 +175,5 @@ class ManaSuckerShot extends Collider {
 }
 
 SpriteSheet suckerShotSpritesheet;
+SpriteSheet manaSuckerSpritesheet;
 

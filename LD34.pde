@@ -1,4 +1,4 @@
-/* @pjs preload="/assets/character_spritesheet.png, /assets/ui.png, /assets/lose_text.png, /assets/win_text.png, /assets/p1wins_text.png, /assets/p2wins_text.png, /assets/background0.png, /assets/background1.png, /assets/background2.png, /assets/mana_suck.png, /assets/mana_steal.png, /assets/zapper.png, /assets/zap.png, /assets/shield.png, /assets/desert_background.png, /assets/blueFireball.png, /assets/meteor.png, /assets/gravityWell.png, /assets/healthOrb.png, /assets/manaOrb.png, /assets/spinningFireball.png, /assets/piercer.png, /assets/wind.png, /assets/spellOrb.png; */
+/* @pjs preload="/assets/menu_background.png, /assets/character_spritesheet.png, /assets/ui.png, /assets/lose_text.png, /assets/win_text.png, /assets/p1wins_text.png, /assets/p2wins_text.png, /assets/background0.png, /assets/background1.png, /assets/background2.png, /assets/mana_suck.png, /assets/mana_steal.png, /assets/zapper.png, /assets/zap.png, /assets/shield.png, /assets/desert_background.png, /assets/blueFireball.png, /assets/meteor.png, /assets/gravityWell.png, /assets/healthOrb.png, /assets/manaOrb.png, /assets/spinningFireball.png, /assets/piercer.png, /assets/wind.png, /assets/spellOrb.png; */
 
 class Entity {
   // Called when the entity is added to the game
@@ -21,6 +21,7 @@ PImage loseText;
 PImage winText;
 PImage p1WinsText;
 PImage p2WinsText;
+PImage menuBackground;
 PImage[] backgrounds;
 
 ArrayList<InputProcessor> inputProcessors = new ArrayList<InputProcessor>();
@@ -110,7 +111,7 @@ void gotoPreDuelState() {
   }
   
   InputProcessor input1 = new InputProcessor('z');
-  InputProcessor input2 = new InputProcessor('.');
+  InputProcessor input2 = new InputProcessor('m');
   
   inputProcessors.add(input1);
   inputProcessors.add(input2);
@@ -220,6 +221,7 @@ void setup () {
     loadImage("/assets/background2.png") };
     
   backgroundImage = backgrounds[int(random(backgrounds.length))];
+  menuBackground = loadImage("/assets/menu_background.png");
   
   loseText = loadImage("/assets/lose_text.png");
   winText = loadImage("/assets/win_text.png");
@@ -263,7 +265,12 @@ void draw () {
     text("Loading", 64, 64);
   }
   
-  image(backgroundImage, 0, 0);
+  if (state != STATE_MAIN_MENU) {
+    image(backgroundImage, 0, 0);
+  }
+  else {
+    image(menuBackground, 0, 0);
+  }
   
   int now = millis();
   timeDelta = (now - lastUpdate) / 1000.0f;
@@ -347,7 +354,6 @@ void draw () {
   }
   
   if (state == STATE_MAIN_MENU) {
-    text("Main menu. Press 'z' to play duel mode. Press '.' to play single player.", 50, 50);
   }
   else if (state == STATE_PRE_DUEL || state == STATE_PRE_FIGHT) {
     if (timer >= 2.25) {
@@ -536,11 +542,11 @@ void keyPressed() {
     }
   }
   if (state == STATE_MAIN_MENU) {
-    if (key == 'z') {
+    if (key == 'm') {
       cleanState();
       gotoPreDuelState();
     }
-    else if (key == '.') {
+    else if (key == 'z') {
       cleanState();
       gotoPreFightState();
     }

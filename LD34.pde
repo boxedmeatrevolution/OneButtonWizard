@@ -1,4 +1,4 @@
-/* @pjs preload="/assets/character_spritesheet.png, /assets/ui.png, /assets/mana_suck.png, /assets/zapper.png, /assets/zap.png, /assets/shield.png, /assets/desert_background.png, /assets/blueFireball.png, /assets/meteor.png, /assets/gravityWell.png, /assets/healthOrb.png, /assets/manaOrb.png, /assets/spinningFireball.png, /assets/piercer.png, /assets/wind.png; */
+/* @pjs preload="/assets/character_spritesheet.png, /assets/ui.png, /assets/mana_suck.png, /assets/zapper.png, /assets/zap.png, /assets/shield.png, /assets/desert_background.png, /assets/blueFireball.png, /assets/meteor.png, /assets/gravityWell.png, /assets/healthOrb.png, /assets/manaOrb.png, /assets/spinningFireball.png, /assets/piercer.png, /assets/wind.png, /assets/spellOrb.png; */
 class Entity {
   // Called when the entity is added to the game
   void create() {}
@@ -33,6 +33,11 @@ float timeDelta;
 
 PGraphics backgroundImage;
 PImage userInterface;
+
+SpriteSheet spellOrbSpritesheet;
+
+Animation dotOrbAnimation;
+Animation dashOrbAnimation;
 
 void addEntity(Entity entity) {
   entitiesToBeAdded.add(entity);
@@ -183,6 +188,10 @@ void gotoPostFightLoseState() {
 void setup () {  
   size(1000, 680);
   
+  spellOrbSpritesheet = loadSpriteSheet("/assets/spellOrb.png", 2, 2, 64, 64);  
+  dotOrbAnimation = new Animation(spellOrbSpritesheet, 0.25, 2, 3);
+  dashOrbAnimation = new Animation(spellOrbSpritesheet, 0.25, 0, 1);
+  
   backgroundImage = loadImage("/assets/desert_background.png");
   userInterface = loadImage("/assets/ui.png");
   
@@ -197,6 +206,7 @@ void setup () {
   loadAudio("hit", "/assets/music/hit.ogg");
   loadAudio("orb", "/assets/music/orb.ogg");
   loadAudio("stun", "/assets/music/stun.ogg");
+  loadAudio("phase", "/assets/music/phase.ogg");
   loadAudio("music", "/assets/music/ld34.ogg");
   sounds["music"].loop = true;
   //sounds["music"].play();
@@ -227,6 +237,9 @@ void draw () {
   int now = millis();
   timeDelta = (now - lastUpdate) / 1000.0f;
   lastUpdate = now;
+
+  dotOrbAnimation.update(timeDelta);
+  dashOrbAnimation.update(timeDelta);
 
   for(InputProcessor ip : inputProcessors) {     
     ip.update(timeDelta);
@@ -416,7 +429,7 @@ void draw () {
     ArrayList<Integer> player1Word = new ArrayList<Integer>(player1._inputProcessor.getCurrentWord());
     ArrayList<Integer> player2Word = new ArrayList<Integer>(player2._inputProcessor.getCurrentWord());
     
-    int currentX = 20;
+    int currentX = 40;
     if (player1._inputProcessor._inputState == player1._inputProcessor.WAITING_FOR_KEY_UP || player1._inputProcessor._inputState == player1._inputProcessor.WAITING_FOR_KEY_DOWN) {
       if (player1._inputProcessor._inputState == player1._inputProcessor.WAITING_FOR_KEY_UP) {
         if (player1._inputProcessor._stateTimer <= player1._inputProcessor.DOT_TIME) {
@@ -427,14 +440,17 @@ void draw () {
         }
       }
       for (Integer letter : player1Word) {
+        float x = currentX, y = height - 70;
+        float size = 64;
         if (letter == 0) {
           fill(0, 255, 0);
+          dotOrbAnimation.drawAnimation(x - size / 2, y - size / 2, size, size);
         }
         else if (letter == 1) {
           fill(255, 0, 0);
+          dashOrbAnimation.drawAnimation(x - size / 2, y - size / 2, size, size);
         }
-        ellipse(currentX, 100, 20, 20);
-        currentX += 40;
+        currentX += 80;
       }
     }
     
@@ -447,16 +463,19 @@ void draw () {
           player2Word.add(1);
         }
       }
-      currentX = width - 20;
+      currentX = width - 40 - (player2Word.size() - 1) * 80;
       for (Integer letter : player2Word) {
+        float x = currentX, y = height - 70;
+        float size = 64;
         if (letter == 0) {
           fill(0, 255, 0);
+          dotOrbAnimation.drawAnimation(x - size / 2, y - size / 2, size, size);
         }
         else if (letter == 1) {
           fill(255, 0, 0);
+          dashOrbAnimation.drawAnimation(x - size / 2, y - size / 2, size, size);
         }
-        ellipse(currentX, 100, 20, 20);
-        currentX -= 40;
+        currentX += 80;
       }
       
     }

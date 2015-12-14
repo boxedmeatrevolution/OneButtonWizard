@@ -1,4 +1,4 @@
-/* @pjs preload="/assets/poof_strip.png, /assets/enemy0.png, /assets/enemy1.png, /assets/enemy2.png, /assets/enemy3.png, /assets/menu_background.png, /assets/character_spritesheet.png, /assets/ui.png, /assets/reflector.png, /assets/lose_text.png, /assets/win_text.png, /assets/p1wins_text.png, /assets/p2wins_text.png, /assets/background0.png, /assets/background1.png, /assets/background2.png, /assets/mana_suck.png, /assets/mana_steal.png, /assets/zapper.png, /assets/zap.png, /assets/shield.png, /assets/desert_background.png, /assets/blueFireball.png, /assets/meteor.png, /assets/gravityWell.png, /assets/healthOrb.png, /assets/manaOrb.png, /assets/spinningFireball.png, /assets/piercer.png, /assets/wind.png, /assets/spellOrb.png, /assets/123go.png; */
+/* @pjs preload="/assets/tutorial_boss.png, /assets/tutorial_text.png, /assets/poof_strip.png, /assets/enemy0.png, /assets/enemy1.png, /assets/enemy2.png, /assets/enemy3.png, /assets/menu_background.png, /assets/character_spritesheet.png, /assets/ui.png, /assets/reflector.png, /assets/lose_text.png, /assets/win_text.png, /assets/p1wins_text.png, /assets/p2wins_text.png, /assets/background0.png, /assets/background1.png, /assets/background2.png, /assets/mana_suck.png, /assets/mana_steal.png, /assets/zapper.png, /assets/zap.png, /assets/shield.png, /assets/desert_background.png, /assets/blueFireball.png, /assets/meteor.png, /assets/gravityWell.png, /assets/healthOrb.png, /assets/manaOrb.png, /assets/spinningFireball.png, /assets/piercer.png, /assets/wind.png, /assets/spellOrb.png, /assets/123go.png; */
 
 class Entity {
   // Called when the entity is added to the game
@@ -87,6 +87,10 @@ void cleanState() {
 }
 
 Wizard getFight(int n) {
+  if (n == 0) {
+    return new EnemyTutorial(width - 100, 500, true, new InputProcessor('.'));
+  }
+  n -= 1;
   switch(n % 4) {
     case 0:
     return new EnemyEyeball(width - 100, 500, true, new InputProcessor('.'));
@@ -366,7 +370,7 @@ void draw () {
   
   if (state == STATE_MAIN_MENU) {
   }
-  else if (state == STATE_PRE_DUEL || state == STATE_PRE_FIGHT) {
+  else if ((state == STATE_PRE_DUEL || state == STATE_PRE_FIGHT) && !(player2 instanceof EnemyTutorial)) {
     if (timer >= 2.25) {
       //text("3", 50, 50);
       readySetGoSpritesheet.drawSprite(0, width / 2 - 150, height / 2 - 150, 300, 300);
@@ -441,7 +445,11 @@ void draw () {
       player2ManaGradual = player2._mana;
     }
     
-    if (state == STATE_DUEL || state == STATE_FIGHT || state == STATE_POST_DUEL || state == STATE_POST_FIGHT_WIN || state == STATE_POST_FIGHT_LOSE) {
+    if ((state == STATE_PRE_FIGHT || state == STATE_PRE_DUEL) && !(player2 instanceof EnemyTutorial)) {
+      player1HealthPercent = player1ManaPercent = player2HealthPercent = player2ManaPercent = 1.0f - timer / 3.0f;
+      player1HealthGradualPercent = player1ManaGradualPercent = player2HealthGradualPercent = player2ManaGradualPercent = 0.0f;
+    }
+    else {
       player1HealthPercent = clamp(0.0f, player1._health / player1._maxHealth, 1.0f);
       player1ManaPercent = clamp(0.0f, player1._mana / player1._maxMana, 1.0f);
       player2HealthPercent = clamp(0.0f, player2._health / player2._maxHealth, 1.0f);
@@ -451,10 +459,6 @@ void draw () {
       player1ManaGradualPercent = clamp(0.0f, player1ManaGradual / player1._maxMana, 1.0f);
       player2HealthGradualPercent = clamp(0.0f, player2HealthGradual / player2._maxHealth, 1.0f);
       player2ManaGradualPercent = clamp(0.0f, player2ManaGradual / player2._maxMana, 1.0f);
-    }
-    else {
-      player1HealthPercent = player1ManaPercent = player2HealthPercent = player2ManaPercent = 1.0f - timer / 3.0f;
-      player1HealthGradualPercent = player1ManaGradualPercent = player2HealthGradualPercent = player2ManaGradualPercent = 0.0f;
     }
     
     fill(100, 100, 100);
@@ -572,6 +576,16 @@ void keyReleased() {
   if (state == STATE_DUEL || state == STATE_FIGHT) {
     for(InputProcessor ip : inputProcessors) {     
       ip.keyReleased();
+    }
+    if (key == 'm') {
+      if (player2 instanceof EnemyTutorial) {
+        if (player2.phase <= 1 || player2.phase >= 7) {
+          player2.phase += 1;
+          if (player2.phase > 8) {
+            player2.phase = 8;
+          }
+        }
+      }
     }
   }
 }

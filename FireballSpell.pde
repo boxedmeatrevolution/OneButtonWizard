@@ -3,7 +3,7 @@ class Fireball extends Hazard {
   float ACCELX = 50;
   
   public Fireball(float x_, float y_, float velocityX_, float velocityY_, Wizard owner) {
-    super(x_, y_, 20.0, 0.0, 1.0, owner);
+    super(x_, y_, 42.0, 0.0, 1.0, owner);
     this.damage = 12.0f;
     this.velocityX = velocityX_;
     this.velocityY = velocityY_;
@@ -44,7 +44,7 @@ class Fireball extends Hazard {
      
     if (velocityX < 0) {
       scale(-1, 1);
-    }    
+    }
   }
   
   void update(int phase, float delta) {

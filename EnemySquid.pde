@@ -25,7 +25,7 @@ class EnemySquid extends Wizard {
     manaOrbSpell = new ManaSpell();
     phaseSpell = new PhaseSpell();
     piercerSpell = new PiercerSpell();
-    MANA_REGEN_RATE = 0.0f;
+    MANA_REGEN_RATE = 4.0f;
   }
   
   void update(int phase, float delta) {
@@ -54,10 +54,10 @@ class EnemySquid extends Wizard {
         _mana -= rapidShotSpell.getManaCost();
       }
       comboTimer = 0.0f;
-      
-      if (random(1) > 1 - 0.2 * delta) {
-        manaOrbSpell.invoke(this);
-      }
+    }
+    
+    if (random(1) > 1 - 0.2 * delta) {
+      manaOrbSpell.invoke(this);
     }
   }
   

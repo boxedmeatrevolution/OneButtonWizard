@@ -47,7 +47,6 @@ class ZappyOrb extends Summon {
   
   void render() {
     super.render();
-    console.log(y + " " + x);
     if (owner.x < 500) {    
       zappyAnimation.drawAnimation(x - 100, y - 100, 200, 200);
     } else {

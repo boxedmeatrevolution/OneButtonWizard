@@ -87,7 +87,11 @@ void cleanState() {
 }
 
 Wizard getFight(int n) {
-  return new WizardAI(width - 100, 500, 50, 100, true, new InputProcessor('.'));
+  if(n == 0) {
+    return new WizardAI(width - 100, 500, 50, 100, true, new InputProcessor('.'));
+  } else {
+    return new FireballRushAI(width - 100, 500, 50, 100, true, new InputProcessor('.'));
+  }
 }
 
 int currentFight = 0;

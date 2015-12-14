@@ -60,6 +60,7 @@ class Wizard extends Collider{
     wizardWinAnimation = new Animation(characterSpritesheet, 0.2, 5, 6, 7, 8);
     wizardLoseAnimation = new Animation(characterSpritesheet, 0.2, 9, 10);
     wizardFadeAnimation = new Animation(characterSpritesheet, 0.25, 13, 12);
+    wizardStunAnimation = new Animation(characterSpritesheet, 0.3, 14, 15);
   }
   
   void update(int phase, float delta) {
@@ -95,8 +96,15 @@ class Wizard extends Collider{
       }
     }
     
-    wizardFadeAnimation.update(delta);
-    wizardStandingAnimation.update(delta);
+    if (phased) {
+      wizardFadeAnimation.update(delta);
+    }
+    if (stunned) {
+      wizardStunAnimation.update(delta);
+    }
+    if (!stunned && !phased) {
+      wizardStandingAnimation.update(delta);
+    }
     
     if (!phased) {
       _mana += MANA_REGEN_RATE * delta;
@@ -144,6 +152,8 @@ class Wizard extends Collider{
       wizardLoseAnimation.drawAnimation(xr, xy, size, size);
     } else if (phased) {
       wizardFadeAnimation.drawAnimation(xr, xy, size, size);
+    } else if (stunned) {
+      wizardStunAnimation.drawAnimation(xr, xy, size, size);
     } else if (_inputProcessor._inputState == 1 || _inputProcessor._inputState == 2) {
       wizardCastPrepAnimation.drawAnimation(xr, xy, size, size);
     } else if (hurtTimer > 0) {
@@ -190,6 +200,7 @@ class Wizard extends Collider{
   Animation wizardWinAnimation;
   Animation wizardLoseAnimation;
   Animation wizardFadeAnimation;
+  Animation wizardStunAnimation;
 }
 
 SpriteSheet characterSpritesheet;

@@ -9,6 +9,7 @@ class PhaseSpell extends Spell {
   }
   
   public void invoke(Wizard owner) {
+    playSound("phase");
     owner.phased = true;
     owner.phaseTimer = 2.0f;
   }

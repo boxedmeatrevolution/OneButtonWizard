@@ -1,4 +1,4 @@
-/* @pjs preload="/assets/character_spritesheet.png, /assets/ui.png, /assets/mana_suck.png, /assets/reflector.png, /assets/mana_steal.png, /assets/zapper.png, /assets/zap.png, /assets/shield.png, /assets/desert_background.png, /assets/blueFireball.png, /assets/meteor.png, /assets/gravityWell.png, /assets/healthOrb.png, /assets/manaOrb.png, /assets/spinningFireball.png, /assets/piercer.png, /assets/wind.png; */
+/* @pjs preload="/assets/character_spritesheet.png, /assets/ui.png, /assets/reflector.png, /assets/lose_text.png, /assets/win_text.png, /assets/p1wins_text.png, /assets/p2wins_text.png, /assets/background0.png, /assets/background1.png, /assets/background2.png, /assets/mana_suck.png, /assets/mana_steal.png, /assets/zapper.png, /assets/zap.png, /assets/shield.png, /assets/desert_background.png, /assets/blueFireball.png, /assets/meteor.png, /assets/gravityWell.png, /assets/healthOrb.png, /assets/manaOrb.png, /assets/spinningFireball.png, /assets/piercer.png, /assets/wind.png, /assets/spellOrb.png; */
 class Entity {
   // Called when the entity is added to the game
   void create() {}
@@ -14,6 +14,13 @@ class Entity {
   }
   boolean exists = false;
 }
+
+PImage userInterface;
+PImage loseText;
+PImage winText;
+PImage p1WinsText;
+PImage p2WinsText;
+PImage[] backgrounds;
 
 ArrayList<InputProcessor> inputProcessors = new ArrayList<InputProcessor>();
 
@@ -31,8 +38,10 @@ int lastUpdatePhase = 0;
 int lastUpdate = millis();
 float timeDelta;
 
-PGraphics backgroundImage;
-PImage userInterface;
+SpriteSheet spellOrbSpritesheet;
+
+Animation dotOrbAnimation;
+Animation dashOrbAnimation;
 
 void addEntity(Entity entity) {
   entitiesToBeAdded.add(entity);
@@ -84,11 +93,20 @@ float timer = 10.0f;
 
 void gotoMainMenuState() {
   state = STATE_MAIN_MENU;
+  lastBackground = backgroundImage;
+  while (backgroundImage == lastBackground) {
+    backgroundImage = backgrounds[int(random(backgrounds.length))];
+  }
 }
 
 void gotoPreDuelState() {
   
   state = STATE_PRE_DUEL;
+  
+  lastBackground = backgroundImage;
+  while (backgroundImage == lastBackground) {
+    backgroundImage = backgrounds[int(random(backgrounds.length))];
+  }
   
   InputProcessor input1 = new InputProcessor('z');
   InputProcessor input2 = new InputProcessor('.');
@@ -136,6 +154,11 @@ void gotoPreFightState() {
   
   state = STATE_PRE_FIGHT;
   
+  lastBackground = backgroundImage;
+  while (backgroundImage == lastBackground) {
+    backgroundImage = backgrounds[int(random(backgrounds.length))];
+  }
+  
   InputProcessor input1 = new InputProcessor('z');
   
   inputProcessors.add(input1);
@@ -180,11 +203,27 @@ void gotoPostFightLoseState() {
   timer = 3.0f;
 }
 
+PImage backgroundImage;
+
 void setup () {  
   size(1000, 680);
   
-  backgroundImage = loadImage("/assets/desert_background.png");
+  spellOrbSpritesheet = loadSpriteSheet("/assets/spellOrb.png", 2, 2, 64, 64);  
+  dotOrbAnimation = new Animation(spellOrbSpritesheet, 0.25, 2, 3);
+  dashOrbAnimation = new Animation(spellOrbSpritesheet, 0.25, 0, 1);
+  
   userInterface = loadImage("/assets/ui.png");
+  backgrounds = new PImage[] {
+    loadImage("/assets/background0.png"),
+    loadImage("/assets/background1.png"),
+    loadImage("/assets/background2.png") };
+    
+  backgroundImage = backgrounds[int(random(backgrounds.length))];
+  
+  loseText = loadImage("/assets/lose_text.png");
+  winText = loadImage("/assets/win_text.png");
+  p1WinsText = loadImage("/assets/p1wins_text.png");
+  p2WinsText = loadImage("/assets/p2wins_text.png");
   
   loadAudio("fireball", "/assets/music/fireballSFX.ogg");
   loadAudio("gravityWell", "/assets/music/gravityWellSFX.ogg");
@@ -197,6 +236,7 @@ void setup () {
   loadAudio("hit", "/assets/music/hit.ogg");
   loadAudio("orb", "/assets/music/orb.ogg");
   loadAudio("stun", "/assets/music/stun.ogg");
+  loadAudio("phase", "/assets/music/phase.ogg");
   loadAudio("music", "/assets/music/ld34.ogg");
   sounds["music"].loop = true;
   //sounds["music"].play();
@@ -227,6 +267,9 @@ void draw () {
   int now = millis();
   timeDelta = (now - lastUpdate) / 1000.0f;
   lastUpdate = now;
+
+  dotOrbAnimation.update(timeDelta);
+  dashOrbAnimation.update(timeDelta);
 
   for(InputProcessor ip : inputProcessors) {     
     ip.update(timeDelta);
@@ -320,20 +363,20 @@ void draw () {
     }
   }
   else if (state == STATE_POST_FIGHT_LOSE) {
-    text("You lose! Game over.", 50, 50);
+    image(loseText, (width - loseText.width) / 2, (height - loseText.height) / 2);
   }
   else if (state == STATE_POST_FIGHT_WIN) {
-    text("You win!", 50, 50);
+    image(winText, (width - winText.width) / 2, (height - winText.height) / 2);
   }
   else if (state == STATE_POST_DUEL) {
     if (player1.winner) {
-      text("Player 1 wins!", 50, 50);
+      image(p1WinsText, (width - p1WinsText.width) / 2, (height - p1WinsText.height) / 2);
     }
     else if (player2.winner) {
-      text("Player 2 wins!", 50, 50);
+      image(p2WinsText, (width - p2WinsText.width) / 2, (height - p2WinsText.height) / 2);
     }
     else {
-      text("You both lose!", 50, 50);
+      
     }
   }
   /*
@@ -416,7 +459,7 @@ void draw () {
     ArrayList<Integer> player1Word = new ArrayList<Integer>(player1._inputProcessor.getCurrentWord());
     ArrayList<Integer> player2Word = new ArrayList<Integer>(player2._inputProcessor.getCurrentWord());
     
-    int currentX = 20;
+    int currentX = 40;
     if (player1._inputProcessor._inputState == player1._inputProcessor.WAITING_FOR_KEY_UP || player1._inputProcessor._inputState == player1._inputProcessor.WAITING_FOR_KEY_DOWN) {
       if (player1._inputProcessor._inputState == player1._inputProcessor.WAITING_FOR_KEY_UP) {
         if (player1._inputProcessor._stateTimer <= player1._inputProcessor.DOT_TIME) {
@@ -427,14 +470,17 @@ void draw () {
         }
       }
       for (Integer letter : player1Word) {
+        float x = currentX, y = height - 70;
+        float size = 64;
         if (letter == 0) {
           fill(0, 255, 0);
+          dotOrbAnimation.drawAnimation(x - size / 2, y - size / 2, size, size);
         }
         else if (letter == 1) {
           fill(255, 0, 0);
+          dashOrbAnimation.drawAnimation(x - size / 2, y - size / 2, size, size);
         }
-        ellipse(currentX, 100, 20, 20);
-        currentX += 40;
+        currentX += 80;
       }
     }
     
@@ -447,16 +493,19 @@ void draw () {
           player2Word.add(1);
         }
       }
-      currentX = width - 20;
+      currentX = width - 40 - (player2Word.size() - 1) * 80;
       for (Integer letter : player2Word) {
+        float x = currentX, y = height - 70;
+        float size = 64;
         if (letter == 0) {
           fill(0, 255, 0);
+          dotOrbAnimation.drawAnimation(x - size / 2, y - size / 2, size, size);
         }
         else if (letter == 1) {
           fill(255, 0, 0);
+          dashOrbAnimation.drawAnimation(x - size / 2, y - size / 2, size, size);
         }
-        ellipse(currentX, 100, 20, 20);
-        currentX -= 40;
+        currentX += 80;
       }
       
     }

@@ -15,6 +15,8 @@ class Piercer extends Hazard {
     if (other instanceof Shield) {
       playSound("shieldBreaker");
       removeEntity(other);
+      other.owner.stunned = true;
+      other.owner.stunTimer = 1.5f;
     }
     if (triggered) {
       removeEntity(this);

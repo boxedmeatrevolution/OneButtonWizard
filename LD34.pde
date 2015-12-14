@@ -1,4 +1,4 @@
-/* @pjs preload="/assets/character_spritesheet.png, /assets/ui.png, /assets/mana_suck.png, /assets/mana_steal.png, /assets/zapper.png, /assets/zap.png, /assets/shield.png, /assets/desert_background.png, /assets/blueFireball.png, /assets/meteor.png, /assets/gravityWell.png, /assets/healthOrb.png, /assets/manaOrb.png, /assets/spinningFireball.png, /assets/piercer.png, /assets/wind.png, /assets/spellOrb.png; */
+/* @pjs preload="/assets/character_spritesheet.png, /assets/ui.png, /assets/lose_text.png, /assets/win_text.png, /assets/p1wins_text.png, /assets/p2wins_text.png, /assets/background0.png, /assets/background1.png, /assets/background2.png, /assets/mana_suck.png, /assets/mana_steal.png, /assets/zapper.png, /assets/zap.png, /assets/shield.png, /assets/desert_background.png, /assets/blueFireball.png, /assets/meteor.png, /assets/gravityWell.png, /assets/healthOrb.png, /assets/manaOrb.png, /assets/spinningFireball.png, /assets/piercer.png, /assets/wind.png, /assets/spellOrb.png; */
 
 class Entity {
   // Called when the entity is added to the game
@@ -16,6 +16,13 @@ class Entity {
   boolean exists = false;
 }
 
+PImage userInterface;
+PImage loseText;
+PImage winText;
+PImage p1WinsText;
+PImage p2WinsText;
+PImage[] backgrounds;
+
 ArrayList<InputProcessor> inputProcessors = new ArrayList<InputProcessor>();
 
 int MENU_STATE = 0, GAME_START_STATE = 1, IN_GAME_STATE = 2, GAME_OVER_STATE = 3;
@@ -31,9 +38,6 @@ int lastUpdatePhase = 0;
 
 int lastUpdate = millis();
 float timeDelta;
-
-PGraphics backgroundImage;
-PImage userInterface;
 
 SpriteSheet spellOrbSpritesheet;
 
@@ -90,11 +94,20 @@ float timer = 10.0f;
 
 void gotoMainMenuState() {
   state = STATE_MAIN_MENU;
+  lastBackground = backgroundImage;
+  while (backgroundImage == lastBackground) {
+    backgroundImage = backgrounds[int(random(backgrounds.length))];
+  }
 }
 
 void gotoPreDuelState() {
   
   state = STATE_PRE_DUEL;
+  
+  lastBackground = backgroundImage;
+  while (backgroundImage == lastBackground) {
+    backgroundImage = backgrounds[int(random(backgrounds.length))];
+  }
   
   InputProcessor input1 = new InputProcessor('z');
   InputProcessor input2 = new InputProcessor('.');
@@ -142,6 +155,11 @@ void gotoPreFightState() {
   
   state = STATE_PRE_FIGHT;
   
+  lastBackground = backgroundImage;
+  while (backgroundImage == lastBackground) {
+    backgroundImage = backgrounds[int(random(backgrounds.length))];
+  }
+  
   InputProcessor input1 = new InputProcessor('z');
   
   inputProcessors.add(input1);
@@ -186,6 +204,8 @@ void gotoPostFightLoseState() {
   timer = 3.0f;
 }
 
+PImage backgroundImage;
+
 void setup () {  
   size(1000, 680);
   
@@ -193,8 +213,18 @@ void setup () {
   dotOrbAnimation = new Animation(spellOrbSpritesheet, 0.25, 2, 3);
   dashOrbAnimation = new Animation(spellOrbSpritesheet, 0.25, 0, 1);
   
-  backgroundImage = loadImage("/assets/desert_background.png");
   userInterface = loadImage("/assets/ui.png");
+  backgrounds = new PImage[] {
+    loadImage("/assets/background0.png"),
+    loadImage("/assets/background1.png"),
+    loadImage("/assets/background2.png") };
+    
+  backgroundImage = backgrounds[int(random(backgrounds.length))];
+  
+  loseText = loadImage("/assets/lose_text.png");
+  winText = loadImage("/assets/win_text.png");
+  p1WinsText = loadImage("/assets/p1wins_text.png");
+  p2WinsText = loadImage("/assets/p2wins_text.png");
   
   loadAudio("fireball", "/assets/music/fireballSFX.ogg");
   loadAudio("gravityWell", "/assets/music/gravityWellSFX.ogg");

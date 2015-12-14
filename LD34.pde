@@ -592,6 +592,9 @@ void keyPressed() {
     for(InputProcessor ip : inputProcessors) {     
       ip.keyPressed();
     }
+    if (key == 'q') {
+      player2._health = -10;
+    }
   }
   if (state == STATE_MAIN_MENU) {
     if (key == 'm') {

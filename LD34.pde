@@ -1,4 +1,4 @@
-/* @pjs preload="/assets/character_spritesheet.png, /assets/shield.png, /assets/desert_background.png, /assets/blueFireball.png, /assets/meteor.png, /assets/gravityWell.png, /assets/healthOrb.png, /assets/manaOrb.png, /assets/spinningFireball.png, /assets/piercer.png, /assets/wind.png; */
+/* @pjs preload="/assets/character_spritesheet.png, /assets/ui.png, /assets/mana_suck.png, /assets/zapper.png, /assets/zap.png, /assets/shield.png, /assets/desert_background.png, /assets/blueFireball.png, /assets/meteor.png, /assets/gravityWell.png, /assets/healthOrb.png, /assets/manaOrb.png, /assets/spinningFireball.png, /assets/piercer.png, /assets/wind.png; */
 class Entity {
   // Called when the entity is added to the game
   void create() {}
@@ -32,6 +32,7 @@ int lastUpdate = millis();
 float timeDelta;
 
 PGraphics backgroundImage;
+PImage userInterface;
 
 void addEntity(Entity entity) {
   entitiesToBeAdded.add(entity);
@@ -55,6 +56,11 @@ void sortEntities() {
 
 Wizard player1;
 Wizard player2;
+
+float player1HealthGradual;
+float player2HealthGradual;
+float player1ManaGradual;
+float player2ManaGradual;
 
 int state = STATE_MAIN_MENU;
 
@@ -92,6 +98,11 @@ void gotoPreDuelState() {
   
   player1 = new Wizard(100, 500, 50, 100, false, inputProcessors.get(0));
   player2 = new Wizard(width - 100, 500, 50, 100, true, inputProcessors.get(1));
+  
+  player1HealthGradual = player1._maxHealth;
+  player2HealthGradual = player2._maxHealth;
+  player1ManaGradual = player1._maxMana;
+  player2ManaGradual = player2._maxMana;
   
   addEntity(player1);
   addEntity(player2);
@@ -132,6 +143,11 @@ void gotoPreFightState() {
   player1 = new Wizard(100, 500, 50, 100, false, inputProcessors.get(0));
   player2 = getFight(currentFight);
   
+  player1HealthGradual = player1._maxHealth;
+  player2HealthGradual = player2._maxHealth;
+  player1ManaGradual = player1._maxMana;
+  player2ManaGradual = player2._maxMana;
+  
   addEntity(player1);
   addEntity(player2);
   
@@ -168,6 +184,7 @@ void setup () {
   size(1000, 680);
   
   backgroundImage = loadImage("/assets/desert_background.png");
+  userInterface = loadImage("/assets/ui.png");
   
   loadAudio("fireball", "/assets/music/fireballSFX.ogg");
   loadAudio("gravityWell", "/assets/music/gravityWellSFX.ogg");
@@ -185,6 +202,18 @@ void setup () {
   //sounds["music"].play();
   
   gotoMainMenuState();
+}
+
+float clamp(float min, float value, float max) {
+  if (value < min) {
+    return min;
+  }
+  else if (value > max) {
+    return max;
+  }
+  else {
+    return value;
+  }
 }
 
 void draw () {
@@ -310,20 +339,79 @@ void draw () {
   /*
   draw the ui
   */
-  else if (state == STATE_DUEL || state == STATE_FIGHT) {
+  if (state == STATE_DUEL || state == STATE_FIGHT || state == STATE_PRE_DUEL || state == STATE_PRE_FIGHT || state == STATE_POST_DUEL || state == STATE_POST_FIGHT_WIN || state == STATE_POST_FIGHT_LOSE) {
     
-    player1HealthPercent = player1._health / player1._maxHealth;
-    player1ManaPercent = player1._mana / player1._maxMana;
-    player2HealthPercent = player2._health / player2._maxHealth;
-    player2ManaPercent = player2._mana / player2._maxMana;
+    noStroke();
     
-    fill(255, 0, 0);
-    rect(10, 10, (width / 2 - 20) * player1HealthPercent, 40);
-    rect(width / 2 + 10, 10, (width / 2 - 20) * player2HealthPercent, 40);
+    float player1HealthPercent;
+    float player1ManaPercent;
+    float player2HealthPercent;
+    float player2ManaPercent;
     
-    fill(0, 0, 255);
-    rect(10, 60, (width / 2 - 20) * player1ManaPercent, 20);
-    rect(width / 2 + 10, 60, (width / 2 - 20) * player2ManaPercent, 20);
+    if (player1HealthGradual > player1._health) {
+      player1HealthGradual -= 10 * timeDelta;
+    }
+    if (player1HealthGradual < player1._health) {
+      player1HealthGradual = player1._health;
+    }
+    
+    if (player2HealthGradual > player2._health) {
+      player2HealthGradual -= 10 * timeDelta;
+    }
+    if (player2HealthGradual < player2._health) {
+      player2HealthGradual = player2._health;
+    }
+    
+    if (player1ManaGradual > player1._mana) {
+      player1ManaGradual -= 10 * timeDelta;
+    }
+    if (player1ManaGradual < player1._mana) {
+      player1ManaGradual = player1._mana;
+    }
+    
+    if (player2ManaGradual > player2._mana) {
+      player2ManaGradual -= 10 * timeDelta;
+    }
+    if (player2ManaGradual < player2._mana) {
+      player2ManaGradual = player2._mana;
+    }
+    
+    if (state == STATE_DUEL || state == STATE_FIGHT || state == STATE_POST_DUEL || state == STATE_POST_FIGHT_WIN || state == STATE_POST_FIGHT_LOSE) {
+      player1HealthPercent = clamp(0.0f, player1._health / player1._maxHealth, 1.0f);
+      player1ManaPercent = clamp(0.0f, player1._mana / player1._maxMana, 1.0f);
+      player2HealthPercent = clamp(0.0f, player2._health / player2._maxHealth, 1.0f);
+      player2ManaPercent = clamp(0.0f, player2._mana / player2._maxMana, 1.0f);
+      
+      player1HealthGradualPercent = clamp(0.0f, player1HealthGradual / player1._maxHealth, 1.0f);
+      player1ManaGradualPercent = clamp(0.0f, player1ManaGradual / player1._maxMana, 1.0f);
+      player2HealthGradualPercent = clamp(0.0f, player2HealthGradual / player2._maxHealth, 1.0f);
+      player2ManaGradualPercent = clamp(0.0f, player2ManaGradual / player2._maxMana, 1.0f);
+    }
+    else {
+      player1HealthPercent = player1ManaPercent = player2HealthPercent = player2ManaPercent = 1.0f - timer / 3.0f;
+      player1HealthGradualPercent = player1ManaGradualPercent = player2HealthGradualPercent = player2ManaGradualPercent = 0.0f;
+    }
+    
+    fill(100, 100, 100);
+    rect(0, 0, width, 4 + 64 + 32 + 4);
+    
+    fill(220, 120, 40);
+    rect(32 + 4, 4, (width / 2 - 32 - 4 - 4) * player1HealthGradualPercent, 64);
+    rect(width / 2 + 4, 4, (width / 2 - 32 - 4 - 4) * player2HealthGradualPercent, 64);
+    
+    fill(40, 160, 220);
+    rect(32 + 4, 4 + 64, (width / 2 - 32 - 4 - 4) * player1ManaGradualPercent, 32);
+    rect(width / 2 + 4, 4 + 64, (width / 2 - 32 - 4 - 4) * player2ManaGradualPercent, 32);
+    
+    fill(220, 40, 40);
+    rect(32 + 4, 4, (width / 2 - 32 - 4 - 4) * player1HealthPercent, 64);
+    rect(width / 2 + 4, 4, (width / 2 - 32 - 4 - 4) * player2HealthPercent, 64);
+    
+    fill(70, 40, 220);
+    rect(32 + 4, 4 + 64, (width / 2 - 32 - 4 - 4) * player1ManaPercent, 32);
+    rect(width / 2 + 4, 4 + 64, (width / 2 - 32 - 4 - 4) * player2ManaPercent, 32);
+    
+    image(userInterface, 0, 0);
     
     ArrayList<Integer> player1Word = new ArrayList<Integer>(player1._inputProcessor.getCurrentWord());
     ArrayList<Integer> player2Word = new ArrayList<Integer>(player2._inputProcessor.getCurrentWord());

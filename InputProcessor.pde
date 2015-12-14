@@ -70,7 +70,7 @@ class InputProcessor {
         }
       }
     } else if (_inputState == WAITING_FOR_KEY_DOWN) {
-      if(_keyDown) {        
+      if(_keyDown && _inputWord.size() < 3) {        
         _inputState = WAITING_FOR_KEY_UP;
         _stateTimer = 0;
       } else {

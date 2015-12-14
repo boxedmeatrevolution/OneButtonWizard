@@ -1,7 +1,7 @@
 class Poof extends Moving {
   
   float timer = 0.0;
-  float lifetime = 0.25;
+  float lifetime = 0.25f;
   float size;
   
   Poof(float x_, float y_) {

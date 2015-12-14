@@ -294,6 +294,7 @@ void draw () {
     entity.exists = true;
     entity.create();
   }
+  entitiesToBeAdded.clear();
   // Remove entities in the remove queue
   for (Entity entity : entitiesToBeRemoved) {
     entities.remove(entity);
@@ -303,7 +304,6 @@ void draw () {
     entity.exists = false;
     entity.destroy();
   }
-  entitiesToBeAdded.clear();
   entitiesToBeRemoved.clear();
   // Entities are sorted by depth
   sortEntities();

@@ -27,6 +27,8 @@ class Fireball extends Hazard {
   
   void destroy() {
     super.destroy();
+    console.log("fireball destroy");
+    addEntity(new Poof(x, y));
   }
   
   void render() {

@@ -65,7 +65,14 @@ void cleanState() {
   entitiesToBeAdded.clear();
   entitiesToBeRemoved.clear();
   colliders.clear();
+  inputProcessors.clear();
 }
+
+Wizard getFight(int n) {
+  return new WizardAI(width - 100, 500, 50, 100, true, new InputProcessor('.'));
+}
+
+int currentFight = 0;
 
 float timer = 10.0f;
 
@@ -76,6 +83,12 @@ void gotoMainMenuState() {
 void gotoPreDuelState() {
   
   state = STATE_PRE_DUEL;
+  
+  InputProcessor input1 = new InputProcessor('z');
+  InputProcessor input2 = new InputProcessor('.');
+  
+  inputProcessors.add(input1);
+  inputProcessors.add(input2);
   
   player1 = new Wizard(100, 500, 50, 100, false, inputProcessors.get(0));
   player2 = new Wizard(width - 100, 500, 50, 100, true, inputProcessors.get(1));
@@ -109,27 +122,52 @@ void gotoPostDuelState() {
 }
 
 void gotoPreFightState() {
+  
+  state = STATE_PRE_FIGHT;
+  
+  InputProcessor input1 = new InputProcessor('z');
+  
+  inputProcessors.add(input1);
+  
+  player1 = new Wizard(100, 500, 50, 100, false, inputProcessors.get(0));
+  player2 = getFight(currentFight);
+  
+  addEntity(player1);
+  addEntity(player2);
+  
+  timer = 3.0f;
 }
 
 void gotoFightState() {
+  state = STATE_FIGHT;
+  player1._inputProcessor.reset();
+  
+  player1.preFight = false;
+  player2.preFight = false;
 }
 
 void gotoPostFightWinState() {
+  state = STATE_POST_FIGHT_WIN;
+  player1.winner = true;
+  player1.loser = false;
+  player2.winner = false;
+  player2.loser = true;
+  timer = 3.0f;
 }
 
 void gotoPostFightLoseState() {
+  state = STATE_POST_FIGHT_LOSE;
+  player1.winner = false;
+  player1.loser = true;
+  player2.winner = true;
+  player2.loser = false;
+  timer = 3.0f;
 }
 
 void setup () {  
   size(1000, 680);
   
   backgroundImage = loadImage("/assets/desert_background.png");
-  
-  InputProcessor input1 = new InputProcessor('z');
-  InputProcessor input2 = new InputProcessor('.');
-  
-  inputProcessors.add(input1);
-  inputProcessors.add(input2);
   
   gotoMainMenuState();
 }
@@ -201,12 +239,59 @@ void draw () {
       cleanState();
       gotoMainMenuState();
     }
+    else if (state == STATE_PRE_FIGHT) {
+      gotoFightState();
+    }
+    else if (state == STATE_POST_FIGHT_WIN) {
+      cleanState();
+      currentFight += 1;
+      gotoPreFightState();
+    }
+    else if (state == STATE_POST_FIGHT_LOSE) {
+      cleanState();
+      currentFight = 0;
+      gotoMainMenuState();
+    }
   }
   
+  if (state == STATE_MAIN_MENU) {
+    text("Main menu. Press 'z' to play duel mode. Press '.' to play single player.", 50, 50);
+  }
+  else if (state == STATE_PRE_DUEL || state == STATE_PRE_FIGHT) {
+    if (timer >= 2.25) {
+      text("3", 50, 50);
+    }
+    else if (timer >= 1.5) {
+      text("2", 50, 50);
+    }
+    else if (timer >= 0.75) {
+      text("1", 50, 50);
+    }
+    else {
+      text("Fight!", 50, 50);
+    }
+  }
+  else if (state == STATE_POST_FIGHT_LOSE) {
+    text("You lose! Game over.", 50, 50);
+  }
+  else if (state == STATE_POST_FIGHT_WIN) {
+    text("You win!", 50, 50);
+  }
+  else if (state == STATE_POST_DUEL) {
+    if (player1.winner) {
+      text("Player 1 wins!", 50, 50);
+    }
+    else if (player2.winner) {
+      text("Player 2 wins!", 50, 50);
+    }
+    else {
+      text("You both lose!", 50, 50);
+    }
+  }
   /*
   draw the ui
   */
-  if (state == STATE_DUEL || state == STATE_FIGHT) {
+  else if (state == STATE_DUEL || state == STATE_FIGHT) {
     
     player1HealthPercent = player1._health / player1._maxHealth;
     player1ManaPercent = player1._mana / player1._maxMana;
@@ -272,6 +357,14 @@ void draw () {
     if (state == STATE_DUEL) {
       if (player1._health < 0 || player2._health < 0) {
         gotoPostDuelState();
+      }
+    }
+    else if (state == STATE_FIGHT) {
+      if (player1._health < 0) {
+        gotoPostFightLoseState();
+      }
+      else if (player2._health < 0) {
+        gotoPostFightWinState();
       }
     }
   

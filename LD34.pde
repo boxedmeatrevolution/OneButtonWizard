@@ -99,10 +99,12 @@ Wizard getFight(int n) {
     case 2:
     return new EnemyEyeball(width - 100, 500, true, new InputProcessor('.'));
     case 3:
-    return new EnemyWizard(width - 100, 500, true, new InputProcessor('.'));
+    return new EnemyBlob(width - 100, 500, true, new InputProcessor('.'));
     case 4:
-    return new EnemySquid(width - 100, 500, true, new InputProcessor('.'));
+    return new EnemyWizard(width - 100, 500, true, new InputProcessor('.'));
     case 5:
+    return new EnemySquid(width - 100, 500, true, new InputProcessor('.'));
+    case 6:
     return new EnemyFly(width - 100, 500, true, new InputProcessor('.'));
   }
 }

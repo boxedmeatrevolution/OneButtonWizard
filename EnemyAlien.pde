@@ -30,7 +30,7 @@ class EnemyAlien extends Wizard {
       return;
     }
     
-    if (lastSpellTime > 5) {
+    if (lastSpellTime > 6.5) {
       lastSpellTime = 0;
       int d6 = floor(random(7));
       
@@ -54,6 +54,7 @@ class EnemyAlien extends Wizard {
           if (entity.velocityX > 0) {
             if (random(1) > 0.85 && shieldSpell.getManaCost() < this._mana) {
               shieldSpell.invoke(this);
+              this._mana -= shieldSpell.getManaCost();
               break;
             }
           }

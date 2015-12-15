@@ -45,6 +45,9 @@ class Hazard extends Collider {
   
   void update(int phase, float delta) {
     super.update(phase, delta);
+    if (x < -200 || x > width + 200 || y < -200 || y > height + 200) {
+      removeEntity(this);
+    }
   }
   
   int depth() {

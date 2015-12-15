@@ -39,14 +39,14 @@ class EnemyEgg extends Wizard {
     
     if (eggMode) {
       //EGG MODE
-      if (shieldTimer > 4) {
+      if (shieldTimer > 3.5) {
         shieldTimer = 0;
         boolean hasShield = false;
-        for (Entity entity : entities) {
-          if (entity.owner == player2 && entity instanceof Shield) {
-            hasShield = true;
-          }
-        }
+//        for (Entity entity : entities) {
+//          if (entity.owner == player2 && entity instanceof Shield) {
+//            hasShield = true;
+//          }
+//        }
         if (!hasShield && _mana > shieldSpell.getManaCost()) {
           shieldSpell.invoke(this);
           _mana -= shieldSpell.getManaCost();

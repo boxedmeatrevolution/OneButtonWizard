@@ -93,7 +93,8 @@ Wizard getFight(int n) {
   n -= 1;
   switch(n % 4) {
     case 0:
-    return new EnemyEyeball(width - 100, 500, true, new InputProcessor('.'));
+    return new EnemyAlien(width - 100, 500, true, new InputProcessor('.'));
+//    return new EnemyEyeball(width - 100, 500, true, new InputProcessor('.'));
     case 1:
     return new EnemyWizard(width - 100, 500, true, new InputProcessor('.'));
     case 2:

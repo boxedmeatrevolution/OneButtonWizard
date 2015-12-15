@@ -1,11 +1,12 @@
 class EnemySquid extends Wizard {
   
   EnemySquid(float x_, float y_, boolean leftFacing, InputProcessor inputProcessor) {
-    super(x_, y_, 100.0f, 60.0f, leftFacing, inputProcessor);
+    super(x_, y_, 100.0f, 100.0f, leftFacing, inputProcessor);
   }
   
-  float phaseTimer = 0.0f;
+  float goingToPhaseTimer = 0.0f;
   float comboTimer = 0.0f;
+  boolean didPhase = false;
   
   void create() {
     super.create();
@@ -22,10 +23,10 @@ class EnemySquid extends Wizard {
     wizardStunAnimation = wizardStandingAnimation;
     
     rapidShotSpell = new RapidShotSpell();
-    manaOrbSpell = new ManaSpell();
     phaseSpell = new PhaseSpell();
     piercerSpell = new PiercerSpell();
-    MANA_REGEN_RATE = 4.0f;
+    highSpell = new HighFireballSpell();
+    MANA_REGEN_RATE = 10.0f;
   }
   
   void update(int phase, float delta) {
@@ -33,18 +34,20 @@ class EnemySquid extends Wizard {
     if (preFight || stunned || winner || loser) {
       return;
     }
-    phaseTimer += delta;
-    if (phaseTimer > 3.0f && _mana > phaseSpell.getManaCost()) {
+    goingToPhaseTimer += delta;
+    if (goingToPhaseTimer > 3.0f && _mana > phaseSpell.getManaCost() && !didPhase) {
       phaseSpell.invoke(this);
       _mana -= phaseSpell.getManaCost();
       phaseTimer = 10.0f;
+      didPhase = true;
     }
-    if (phaseTimer > 13.0f) {
-      phaseTimer = 0.0f;
+    if (goingToPhaseTimer > 13.0f) {
+      goingToPhaseTimer = 0.0f;
+      didPhase = false;
     }
     
     comboTimer += delta;
-    if (comboTimer > 3.0f) {
+    if (comboTimer > 13.0f && phased) {
       if (_mana > piercerSpell.getManaCost()) {
         piercerSpell.invoke(this);
         _mana -= piercerSpell.getManaCost();
@@ -53,11 +56,11 @@ class EnemySquid extends Wizard {
         rapidShotSpell.invoke(this);
         _mana -= rapidShotSpell.getManaCost();
       }
+      if (_mana > highSpell.getManaCost()) {
+        highSpell.invoke(this);
+        _mana -= highSpell.getManaCost();
+      }
       comboTimer = 0.0f;
-    }
-    
-    if (random(1) > 1 - 0.2 * delta) {
-      manaOrbSpell.invoke(this);
     }
   }
   
@@ -76,7 +79,7 @@ class EnemySquid extends Wizard {
   RapidShotSpell rapidShotSpell;
   PiercerSpell piercerSpell;
   PhaseSpell phaseSpell;
-  ManaSpell manaOrbSpell;
+  HighFireballSpell highSpell;
   
 }
 

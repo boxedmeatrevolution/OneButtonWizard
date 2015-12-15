@@ -602,7 +602,7 @@ void keyPressed() {
     for(InputProcessor ip : inputProcessors) {     
       ip.keyPressed();
     }
-    if (key == 'q') {
+    if (key == 'q' && state == STATE_FIGHT) {
       player2._health = -10;
     }
   }

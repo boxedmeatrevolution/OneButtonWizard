@@ -14,8 +14,13 @@ class Hazard extends Collider {
     super.onCollision(other, wasHandled);
     if (other instanceof Wizard) {
       if ((Wizard) other != owner) {
-        ((Wizard) other).hurt(damage);
-        triggered = true;
+        if(other instanceof EnemyMirror && velocityX > 1.5 * velocityY) {          
+          owner = (Wizard) other;
+          velocityX *= -1;
+        } else {          
+          ((Wizard) other).hurt(damage);
+          triggered = true;
+        }
       }
     }
     if (other instanceof Summon) {

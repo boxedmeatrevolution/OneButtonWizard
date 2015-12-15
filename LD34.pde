@@ -1,4 +1,4 @@
-/* @pjs preload="/assets/enemy4.png, /assets/tutorial_boss.png, /assets/tutorial_text.png, /assets/poof_strip.png, /assets/enemy0.png, /assets/enemy1.png, /assets/enemy2.png, /assets/enemy3.png, /assets/menu_background.png, /assets/character_spritesheet.png, /assets/ui.png, /assets/reflector.png, /assets/lose_text.png, /assets/win_text.png, /assets/p1wins_text.png, /assets/p2wins_text.png, /assets/background0.png, /assets/background1.png, /assets/background2.png, /assets/mana_suck.png, /assets/mana_steal.png, /assets/zapper.png, /assets/zap.png, /assets/shield.png, /assets/desert_background.png, /assets/blueFireball.png, /assets/meteor.png, /assets/gravityWell.png, /assets/healthOrb.png, /assets/manaOrb.png, /assets/spinningFireball.png, /assets/piercer.png, /assets/wind.png, /assets/spellOrb.png, /assets/123go.png; */
+/* @pjs preload="/assets/tutorial_boss.png, /assets/tutorial_text.png, /assets/poof_strip.png, /assets/enemy0.png, /assets/enemy1.png, /assets/enemy2.png, /assets/enemy3.png, /assets/enemy4.png, /assets/enemy5.png, /assets/enemy6.png, /assets/menu_background.png, /assets/character_spritesheet.png, /assets/ui.png, /assets/reflector.png, /assets/lose_text.png, /assets/win_text.png, /assets/p1wins_text.png, /assets/p2wins_text.png, /assets/background0.png, /assets/background1.png, /assets/background2.png, /assets/mana_suck.png, /assets/mana_steal.png, /assets/zapper.png, /assets/zap.png, /assets/shield.png, /assets/desert_background.png, /assets/blueFireball.png, /assets/meteor.png, /assets/gravityWell.png, /assets/healthOrb.png, /assets/manaOrb.png, /assets/spinningFireball.png, /assets/piercer.png, /assets/wind.png, /assets/spellOrb.png, /assets/123go.png; */
 
 class Entity {
   // Called when the entity is added to the game
@@ -91,7 +91,7 @@ Wizard getFight(int n) {
     return new EnemyTutorial(width - 100, 500, true, new InputProcessor('.'));
   }
   n -= 1;
-  switch(n % 5) {
+  switch(n % 4) {
     case 0:
     return new EnemyAlien(width - 100, 500, true, new InputProcessor('.'));
     case 1:
@@ -252,7 +252,7 @@ void setup () {
   p1WinsText = loadImage("/assets/p1wins_text.png");
   p2WinsText = loadImage("/assets/p2wins_text.png");
   
-  loadAudio("fireball", "/assets/music/fireball.wav");
+  loadAudio("fireball", "/assets/music/fireball2.wav");
   loadAudio("gravityWell", "/assets/music/gravityWellSFX.ogg");
   loadAudio("meteor", "/assets/music/meteorSFX.ogg");
   loadAudio("miniFireball", "/assets/music/miniFireballSFX.ogg");

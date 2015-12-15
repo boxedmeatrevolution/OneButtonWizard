@@ -30,7 +30,7 @@ class EnemyBlob extends Wizard {
       return;
     }
     
-    if (!copiedSpells.contains(player1.lastSpell)) {
+    if (!copiedSpells.contains(player1.lastSpell) && player1.lastSpell != null) {
       copiedSpells.add(player1.lastSpell);
       if (copiedSpells > 3) {
         copiedSpells.remove(0);
@@ -38,8 +38,8 @@ class EnemyBlob extends Wizard {
     }
     
     spellTimer += delta;
-    if (spellTimer >= 3.0f && copiedSpells.size() != 0) {
-      Spell spell = copiedSpells.get(int(random(3)));
+    if (spellTimer >= 3.0f && copiedSpells.size() > 0) {
+      Spell spell = copiedSpells.get(int(random(copiedSpells.size())));
       if (_mana > spell.getManaCost()) {
         spell.invoke(this);
         _mana -= spell.getManaCost();

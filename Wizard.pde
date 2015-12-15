@@ -120,6 +120,7 @@ class Wizard extends Collider{
           castTimer = 0.25;
           _mana -= spell.getManaCost();
           spell.invoke(this);
+          lastSpell = spell;
           if (_mana < 0.0f) {
             playSound("stun");
             _mana = 0.0f;
@@ -203,6 +204,8 @@ class Wizard extends Collider{
   Animation wizardLoseAnimation;
   Animation wizardFadeAnimation;
   Animation wizardStunAnimation;
+  
+  Spell lastSpell;
 }
 
 SpriteSheet characterSpritesheet;

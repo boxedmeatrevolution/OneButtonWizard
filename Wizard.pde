@@ -128,7 +128,9 @@ class Wizard extends Collider{
             stunTimer = 3.0f;
           }
           else {
-            playSound("invoke");
+            if(!(spell instanceof FireballSpell || spell instanceof HighFireballSpell)) {
+              playSound("invoke");
+            }
           }
           break;
         }

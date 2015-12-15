@@ -248,7 +248,7 @@ void setup () {
   p1WinsText = loadImage("/assets/p1wins_text.png");
   p2WinsText = loadImage("/assets/p2wins_text.png");
   
-  loadAudio("fireball", "/assets/music/fireball.wav");
+  loadAudio("fireball", "/assets/music/fireball2.wav");
   loadAudio("gravityWell", "/assets/music/gravityWellSFX.ogg");
   loadAudio("meteor", "/assets/music/meteorSFX.ogg");
   loadAudio("miniFireball", "/assets/music/miniFireballSFX.ogg");

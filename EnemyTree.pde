@@ -22,10 +22,11 @@ class EnemyTree extends Wizard {
     fireballSpell = new FireballSpell();
     rapidShotSpell = new RapidShotSpell();
     shieldSpell = new ShieldSpell();
-    zapSpell = new zapSpell();
+    zapSpell = new ZappyOrbSpell();
     manaSuckSpell = new ManaSuckerSpell();
     piercerSpell = new PiercerSpell();
     meteorSpell = new MeteorShowerSpell();
+    reflectorSpell = new ReflectorSpell();
     MANA_REGEN_RATE = 3.0f;
   }
   
@@ -35,11 +36,11 @@ class EnemyTree extends Wizard {
       return;
     }
     
-    if (lastSpellTime > 5.5) {
+    if (lastSpellTime > 7 && _health / _maxHealth >= 0.2) {
       lastSpellTime = 0;
       int d10 = floor(random(10));
       
-      if (d10 == 0 || d10 == 1 || d10 == 2) {
+      if (d10 == 0 || d10 == 1 || d10 == 2 || d10 == 8) {
         boolean hasSuck = false;
         for (Entity entity : entities) {
           if (entity.owner == player2 && entity instanceof ManaSucker) {
@@ -51,13 +52,13 @@ class EnemyTree extends Wizard {
           manaSuckSpell.invoke(this);
           this._mana -= manaSuckSpell.getManaCost();
         } else if (hasSuck && fireballSpell.getManaCost() < this._mana) {
-          fireballSpell.invoke(this);
-          this._mana -= fireballSpell.getManaCost();
+//          fireballSpell.invoke(this);
+//          this._mana -= fireballSpell.getManaCost();
         }
-      }else if (d10 == 3 || d10 == 4 || d10 == 5) {
+      }else if (d10 == 3 || d10 == 4 || d10 == 5 || d10 == 7) {
         boolean hasZap = false;
         for (Entity entity : entities) {
-          if (entity.owner == player2 && entity instanceof Zapper) {
+          if (entity.owner == player2 && entity instanceof ZappyOrb) {
             hasZap = true;
             break;
           }
@@ -69,13 +70,16 @@ class EnemyTree extends Wizard {
           piercerSpell.invoke(this);
           this._mana -= piercerSpell.getManaCost();
         }
-      } else if (_health / _maxHealth < 0.2) {
-        if (meteorSpell.getManaCost() < this._mana) {
-          meteorSpell.invoke(this);
-          this._mana -= meteorSpell.getManaCost();
-        }
       } 
     }
+    
+    if (_health / _maxHealth < 0.2 && lastSpellTime > 4) {
+      lastSpellTime = 0;
+      if (meteorSpell.getManaCost() < this._mana) {
+        meteorSpell.invoke(this);
+        this._mana -= meteorSpell.getManaCost();
+      }
+    } 
     
     if (shieldTimer > 5) {
       shieldTimer = 0;
@@ -136,6 +140,7 @@ class EnemyTree extends Wizard {
   ManaSuckerSpell manaSuckSpell;
   PiercerSpell piercerSpell;
   MeteorShowerSpell meteorSpell;
+  ReflectorSpell reflectorSpell;
   
 }
 

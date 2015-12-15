@@ -75,9 +75,9 @@ class EnemyTree extends Wizard {
     
     if (_health / _maxHealth < 0.2 && lastSpellTime > 4) {
       lastSpellTime = 0;
-      if (meteorSpell.getManaCost() < this._mana) {
-        meteorSpell.invoke(this);
-        this._mana -= meteorSpell.getManaCost();
+      if (rapidShotSpell.getManaCost() < this._mana) {
+        rapidShotSpell.invoke(this);
+        this._mana -= rapidShotSpell.getManaCost();
       }
     } 
     
@@ -130,8 +130,8 @@ class EnemyTree extends Wizard {
   }
   
   
-  float shieldTimer = 0;
-  float lastSpellTime = 0;
+  float shieldTimer = 5;
+  float lastSpellTime = 3;
   FireballSpell fireballSpell;
   RapidShotSpell rapidShotSpell;
   ShieldSpell shieldSpell;

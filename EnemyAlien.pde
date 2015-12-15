@@ -52,7 +52,7 @@ class EnemyAlien extends Wizard {
       for (Entity entity : entities) {
         if (entity instanceof Fireball || entity instanceof RapidShot) {
           if (entity.velocityX > 0) {
-            if (random(1) > 0.85 && shieldSpell.getManaCost() < this._mana) {
+            if (random(1) > 0.75 && shieldSpell.getManaCost() < this._mana) {
               shieldSpell.invoke(this);
               this._mana -= shieldSpell.getManaCost();
               break;
@@ -79,8 +79,8 @@ class EnemyAlien extends Wizard {
   }
   
   
-  float shieldTimer = 0;
-  float lastSpellTime = 0;
+  float shieldTimer = 3;
+  float lastSpellTime = 3;
   FireballSpell fireballSpell;
   RapidShotSpell rapidShotSpell;
   ShieldSpell shieldSpell;

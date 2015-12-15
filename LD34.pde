@@ -91,15 +91,16 @@ Wizard getFight(int n) {
     return new EnemyTutorial(width - 100, 500, true, new InputProcessor('.'));
   }
   n -= 1;
-  switch(n % 4) {
+  switch(n % 5) {
     case 0:
     return new EnemyAlien(width - 100, 500, true, new InputProcessor('.'));
-//    return new EnemyEyeball(width - 100, 500, true, new InputProcessor('.'));
     case 1:
-    return new EnemyWizard(width - 100, 500, true, new InputProcessor('.'));
+    return new EnemyEyeball(width - 100, 500, true, new InputProcessor('.'));
     case 2:
-    return new EnemySquid(width - 100, 500, true, new InputProcessor('.'));
+    return new EnemyWizard(width - 100, 500, true, new InputProcessor('.'));
     case 3:
+    return new EnemySquid(width - 100, 500, true, new InputProcessor('.'));
+    case 4:
     return new EnemyFly(width - 100, 500, true, new InputProcessor('.'));
   }
 }

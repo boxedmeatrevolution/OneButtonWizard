@@ -122,7 +122,7 @@ class GustParticle extends Moving {
   void create() {
     super.create();
     if (windSpritesheet == null) {
-      windSpritesheet = loadSpriteSheet("/assets/wind.png", 4, 1, 240, 240);
+      windSpritesheet = loadSpriteSheet("./assets/wind.png", 4, 1, 240, 240);
     }
     windAnimation = new Animation(windSpritesheet, LIFETIME/4, 0, 1, 2, 3);
   }

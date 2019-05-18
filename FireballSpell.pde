@@ -20,7 +20,7 @@ class Fireball extends Hazard {
   void create() {
     super.create();
     if (fireballSpritesheet == null) {
-      fireballSpritesheet = loadSpriteSheet("/assets/blueFireball.png", 4, 1, 150, 150);
+      fireballSpritesheet = loadSpriteSheet("./assets/blueFireball.png", 4, 1, 150, 150);
     }
     playSound("fireball");
     fireballAnimation = new Animation(fireballSpritesheet, 0.05, 0, 1, 2, 3);

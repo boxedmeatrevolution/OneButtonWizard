@@ -11,7 +11,7 @@ class ZappyOrb extends Summon {
     super(x_, y_, 32.0f, 0.0f, 1.0f);
     
     if (zappySpritesheet == null) {
-      zappySpritesheet = loadSpriteSheet("/assets/zapper.png", 3, 1, 200, 200);
+      zappySpritesheet = loadSpriteSheet("./assets/zapper.png", 3, 1, 200, 200);
     }
     zappyAnimation = new Animation(zappySpritesheet, 0.2, 0, 1, 2);
     
@@ -138,7 +138,7 @@ class ZappyShot extends Hazard {
   void create() {
     super.create();
     if (zappyShotSpritesheet == null) {
-      zappyShotSpritesheet = loadSpriteSheet("/assets/zap.png", 2, 1, 50, 50);
+      zappyShotSpritesheet = loadSpriteSheet("./assets/zap.png", 2, 1, 50, 50);
     }
     zappyShotAnimation = new Animation(zappyShotSpritesheet, 0.02, 0, 1);
     playSound("zappyShoot");

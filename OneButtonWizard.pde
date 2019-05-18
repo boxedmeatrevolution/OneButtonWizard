@@ -1,4 +1,4 @@
-/* @pjs preload="/assets/enemy7.png, /assets/mirror.png, /assets/tutorial_boss.png, /assets/tutorial_text.png, /assets/poof_strip.png, /assets/enemy0.png, /assets/enemy1.png, /assets/enemy2.png, /assets/enemy3.png, /assets/enemy4.png, /assets/enemy5.png, /assets/enemy6.png, /assets/menu_background.png, /assets/character_spritesheet.png, /assets/ui.png, /assets/reflector.png, /assets/lose_text.png, /assets/win_text.png, /assets/p1wins_text.png, /assets/p2wins_text.png, /assets/background0.png, /assets/background1.png, /assets/background2.png, /assets/mana_suck.png, /assets/mana_steal.png, /assets/zapper.png, /assets/zap.png, /assets/shield.png, /assets/desert_background.png, /assets/blueFireball.png, /assets/meteor.png, /assets/gravityWell.png, /assets/healthOrb.png, /assets/manaOrb.png, /assets/spinningFireball.png, /assets/piercer.png, /assets/wind.png, /assets/spellOrb.png, /assets/123go.png; */
+/* @pjs preload="./assets/enemy7.png, ./assets/mirror.png, ./assets/tutorial_boss.png, ./assets/tutorial_text.png, ./assets/poof_strip.png, ./assets/enemy0.png, ./assets/enemy1.png, ./assets/enemy2.png, ./assets/enemy3.png, ./assets/enemy4.png, ./assets/enemy5.png, ./assets/enemy6.png, ./assets/menu_background.png, ./assets/character_spritesheet.png, ./assets/ui.png, ./assets/reflector.png, ./assets/lose_text.png, ./assets/win_text.png, ./assets/p1wins_text.png, ./assets/p2wins_text.png, ./assets/background0.png, ./assets/background1.png, ./assets/background2.png, ./assets/mana_suck.png, ./assets/mana_steal.png, ./assets/zapper.png, ./assets/zap.png, ./assets/shield.png, ./assets/desert_background.png, ./assets/blueFireball.png, ./assets/meteor.png, ./assets/gravityWell.png, ./assets/healthOrb.png, ./assets/manaOrb.png, ./assets/spinningFireball.png, ./assets/piercer.png, ./assets/wind.png, ./assets/spellOrb.png, ./assets/123go.png; */
 
 class Entity {
   // Called when the entity is added to the game
@@ -237,50 +237,50 @@ PImage backgroundImage, lastBackground;
 void setup () {  
   size(1000, 680);
   
-  spellOrbSpritesheet = loadSpriteSheet("/assets/spellOrb.png", 2, 2, 64, 64);  
+  spellOrbSpritesheet = loadSpriteSheet("./assets/spellOrb.png", 2, 2, 64, 64);  
   dotOrbAnimation = new Animation(spellOrbSpritesheet, 0.25, 2, 3);
   dashOrbAnimation = new Animation(spellOrbSpritesheet, 0.25, 0, 1);
   
-  readySetGoSpritesheet = loadSpriteSheet("/assets/123go.png", 4, 1, 300, 300);  
+  readySetGoSpritesheet = loadSpriteSheet("./assets/123go.png", 4, 1, 300, 300);  
   
-  userInterface = loadImage("/assets/ui.png");
+  userInterface = loadImage("./assets/ui.png");
   backgrounds = new PImage[] {
-    loadImage("/assets/background0.png"),
-    loadImage("/assets/background1.png"),
-    loadImage("/assets/background2.png") };
+    loadImage("./assets/background0.png"),
+    loadImage("./assets/background1.png"),
+    loadImage("./assets/background2.png") };
     
   backgroundImage = backgrounds[int(random(backgrounds.length))];
-  menuBackground = loadImage("/assets/menu_background.png");
+  menuBackground = loadImage("./assets/menu_background.png");
   
-  loseText = loadImage("/assets/lose_text.png");
-  winText = loadImage("/assets/win_text.png");
-  p1WinsText = loadImage("/assets/p1wins_text.png");
-  p2WinsText = loadImage("/assets/p2wins_text.png");
+  loseText = loadImage("./assets/lose_text.png");
+  winText = loadImage("./assets/win_text.png");
+  p1WinsText = loadImage("./assets/p1wins_text.png");
+  p2WinsText = loadImage("./assets/p2wins_text.png");
   
-  loadAudio("fireball", "/assets/music/fireball2.wav");
-  loadAudio("gravityWell", "/assets/music/gravityWellSFX.ogg");
-  loadAudio("meteor", "/assets/music/meteorSFX.ogg");
-  loadAudio("miniFireball", "/assets/music/miniFireballSFX.ogg");
-  loadAudio("reflector", "/assets/music/reflectorSFX.ogg");
-  loadAudio("shieldBreaker", "/assets/music/shieldBreakerSFX.ogg");
-  loadAudio("shieldDeactivate", "/assets/music/shieldBreakerSFX.ogg");
-  loadAudio("shield", "/assets/music/shieldSFX.ogg");
-  loadAudio("hit", "/assets/music/hit.ogg");
-  loadAudio("orb", "/assets/music/orb.ogg");
-  loadAudio("stun", "/assets/music/stun.ogg");
-  loadAudio("phase", "/assets/music/phase.ogg");
-  loadAudio("music", "/assets/music/ld34.ogg");
-  loadAudio("invoke", "/assets/music/invoke.wav");
-  loadAudio("dot_orb", "/assets/music/dot_orb.wav");
-  loadAudio("meteor", "/assets/music/meteor.wav");
-  loadAudio("summonBlackHole", "/assets/music/summon_black_hole.wav");
-  loadAudio("blackHole", "/assets/music/black_hole.wav");
-  loadAudio("poof", "/assets/music/poof.wav");
-  loadAudio("manaSteal0", "/assets/music/mana_steal_0.wav");
-  loadAudio("manaSteal1", "/assets/music/mana_steal.wav");
-  loadAudio("zappyShoot", "/assets/music/zappy_shoot.wav");
-  loadAudio("piercer", "/assets/music/piercer.wav");
-  loadAudio("rapidFire", "/assets/music/rapid_fire.wav");
+  loadAudio("fireball", "./assets/music/fireball2.wav");
+  loadAudio("gravityWell", "./assets/music/gravityWellSFX.ogg");
+  loadAudio("meteor", "./assets/music/meteorSFX.ogg");
+  loadAudio("miniFireball", "./assets/music/miniFireballSFX.ogg");
+  loadAudio("reflector", "./assets/music/reflectorSFX.ogg");
+  loadAudio("shieldBreaker", "./assets/music/shieldBreakerSFX.ogg");
+  loadAudio("shieldDeactivate", "./assets/music/shieldBreakerSFX.ogg");
+  loadAudio("shield", "./assets/music/shieldSFX.ogg");
+  loadAudio("hit", "./assets/music/hit.ogg");
+  loadAudio("orb", "./assets/music/orb.ogg");
+  loadAudio("stun", "./assets/music/stun.ogg");
+  loadAudio("phase", "./assets/music/phase.ogg");
+  loadAudio("music", "./assets/music/ld34.ogg");
+  loadAudio("invoke", "./assets/music/invoke.wav");
+  loadAudio("dot_orb", "./assets/music/dot_orb.wav");
+  loadAudio("meteor", "./assets/music/meteor.wav");
+  loadAudio("summonBlackHole", "./assets/music/summon_black_hole.wav");
+  loadAudio("blackHole", "./assets/music/black_hole.wav");
+  loadAudio("poof", "./assets/music/poof.wav");
+  loadAudio("manaSteal0", "./assets/music/mana_steal_0.wav");
+  loadAudio("manaSteal1", "./assets/music/mana_steal.wav");
+  loadAudio("zappyShoot", "./assets/music/zappy_shoot.wav");
+  loadAudio("piercer", "./assets/music/piercer.wav");
+  loadAudio("rapidFire", "./assets/music/rapid_fire.wav");
   sounds["music"].loop = true;
   //sounds["music"].play();
   

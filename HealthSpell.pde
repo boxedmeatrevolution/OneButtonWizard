@@ -31,7 +31,7 @@ class HealthOrb extends Collider{
   void create() {
     super.create();
     if (healthOrbSpritesheet == null) {
-      healthOrbSpritesheet = loadSpriteSheet("/assets/healthOrb.png", 2, 1, 60, 60);
+      healthOrbSpritesheet = loadSpriteSheet("./assets/healthOrb.png", 2, 1, 60, 60);
     }
     healthOrbAnimation = new Animation(healthOrbSpritesheet, 0.5, 0, 1);
   }

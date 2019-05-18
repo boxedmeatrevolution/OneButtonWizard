@@ -26,7 +26,7 @@ class Piercer extends Hazard {
   void create() {
     super.create();
     if (piercerSpritesheet == null) {
-      piercerSpritesheet = loadSpriteSheet("/assets/piercer.png", 4, 1, 120, 120);
+      piercerSpritesheet = loadSpriteSheet("./assets/piercer.png", 4, 1, 120, 120);
     }
     playSound("piercer");
     piercerAnimation = new Animation(piercerSpritesheet, 0.3, 0, 1);

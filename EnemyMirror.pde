@@ -12,7 +12,7 @@ class EnemyMirror extends Wizard {
   void create() {
     super.create();
     if (enemyMirrorSpritesheet == null) {
-      enemyMirrorSpritesheet = loadSpriteSheet("/assets/mirror.png", 3, 1, 250, 250);
+      enemyMirrorSpritesheet = loadSpriteSheet("./assets/mirror.png", 3, 1, 250, 250);
     }
     wizardStandingAnimation = new Animation(enemyMirrorSpritesheet, 0.25, 0, 1);
     wizardCastPrepAnimation = wizardStandingAnimation;

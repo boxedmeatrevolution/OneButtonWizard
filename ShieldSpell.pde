@@ -23,7 +23,7 @@ class Shield extends Hazard {
   void create() {
     super.create();
     if (shieldSpritesheet == null) {
-      shieldSpritesheet = loadSpriteSheet("/assets/shield.png", 4, 1, 400, 400);
+      shieldSpritesheet = loadSpriteSheet("./assets/shield.png", 4, 1, 400, 400);
     }
     shieldAnimation = new Animation(shieldSpritesheet, 0.2, 0, 1, 2, 3);
   }

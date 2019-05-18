@@ -7,7 +7,7 @@ class EnemyEgg extends Wizard {
   void create() {
     super.create();
     if (enemyEggSpritesheet == null) {
-      enemyEggSpritesheet = loadSpriteSheet("/assets/enemy7.png", 5, 1, 250, 250);
+      enemyEggSpritesheet = loadSpriteSheet("./assets/enemy7.png", 5, 1, 250, 250);
     }
     wizardStandingAnimation = new Animation(enemyEggSpritesheet, 0.25, 0, 1);
     wizardCastPrepAnimation = wizardStandingAnimation;

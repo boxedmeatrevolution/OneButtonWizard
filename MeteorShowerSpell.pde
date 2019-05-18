@@ -96,7 +96,7 @@ class Meteor extends Hazard {
   void create() {
     super.create();
     if (meteorSpritesheet == null) {
-      meteorSpritesheet = loadSpriteSheet("/assets/meteor.png", 2, 1, 250, 250);
+      meteorSpritesheet = loadSpriteSheet("./assets/meteor.png", 2, 1, 250, 250);
     }
     playSound("meteor");
     meteorAnimation = new Animation(meteorSpritesheet, 0.25, 0, 1);

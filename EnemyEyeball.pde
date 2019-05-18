@@ -13,7 +13,7 @@ class EnemyEyeball extends Wizard {
   void create() {
     super.create();
     if (eyeballSpritesheet == null) {
-      eyeballSpritesheet = loadSpriteSheet("/assets/enemy0.png", 3, 1, 250, 250);
+      eyeballSpritesheet = loadSpriteSheet("./assets/enemy0.png", 3, 1, 250, 250);
     }
     wizardStandingAnimation = new Animation(eyeballSpritesheet, 0.25, 0, 1);
     wizardCastPrepAnimation = wizardStandingAnimation;

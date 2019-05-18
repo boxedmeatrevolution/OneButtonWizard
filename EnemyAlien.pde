@@ -7,7 +7,7 @@ class EnemyAlien extends Wizard {
   void create() {
     super.create();
     if (enemyAlienSpritesheet == null) {
-      enemyAlienSpritesheet = loadSpriteSheet("/assets/enemy4.png", 3, 1, 250, 250);
+      enemyAlienSpritesheet = loadSpriteSheet("./assets/enemy4.png", 3, 1, 250, 250);
     }
     wizardStandingAnimation = new Animation(enemyAlienSpritesheet, 0.25, 0, 1);
     wizardCastPrepAnimation = wizardStandingAnimation;

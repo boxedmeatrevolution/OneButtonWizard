@@ -11,12 +11,12 @@ class ManaSucker extends Summon {
     super(x_, y_, 32.0f, 0.0f, 1.0f);
     
     if (suckerShotSpritesheet == null) {
-      manaSuckerSpritesheet = loadSpriteSheet("/assets/mana_suck.png", 3, 1, 200, 200);
+      manaSuckerSpritesheet = loadSpriteSheet("./assets/mana_suck.png", 3, 1, 200, 200);
     }
     manaSuckerAnimation = new Animation(manaSuckerSpritesheet, 0.15, 0, 1, 2);
     
     if (manaBeamSpritesheet == null) {
-      manaBeamSpritesheet = loadSpriteSheet("/assets/mana_steal.png", 2, 1, 600, 400);
+      manaBeamSpritesheet = loadSpriteSheet("./assets/mana_steal.png", 2, 1, 600, 400);
     }
     manaBeamAnimation = new Animation(manaBeamSpritesheet, 0.15, 0, 1);
     
@@ -146,7 +146,7 @@ class ManaSuckerShot extends Collider {
   void create() {
     super.create();
     if (suckerShotSpritesheet == null) {
-      suckerShotSpritesheet = loadSpriteSheet("/assets/manaOrb.png", 2, 1, 60, 60);
+      suckerShotSpritesheet = loadSpriteSheet("./assets/manaOrb.png", 2, 1, 60, 60);
     }
     suckerShotAnimation = new Animation(suckerShotSpritesheet, 0.05, 0, 1);
     playSound("manaSteal0");

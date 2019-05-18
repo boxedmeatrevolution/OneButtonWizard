@@ -17,7 +17,7 @@ class Poof extends Moving {
   void create() {
     super.create();
     if (poofSpriteSheet == null) {
-      poofSpriteSheet = loadSpriteSheet("/assets/poof_strip.png", 3, 1, 128, 128);
+      poofSpriteSheet = loadSpriteSheet("./assets/poof_strip.png", 3, 1, 128, 128);
     }
     animation = new Animation(poofSpriteSheet, 0.05, 0, 1, 2);
     playSound("poof");

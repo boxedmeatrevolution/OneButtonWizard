@@ -10,7 +10,7 @@ class EnemyBlob extends Wizard {
   void create() {
     super.create();
     if (enemyBlobSpritesheet == null) {
-      enemyBlobSpritesheet = loadSpriteSheet("/assets/enemy6.png", 3, 1, 250, 250);
+      enemyBlobSpritesheet = loadSpriteSheet("./assets/enemy6.png", 3, 1, 250, 250);
     }
     wizardStandingAnimation = new Animation(enemyBlobSpritesheet, 0.25, 0, 1);
     wizardCastPrepAnimation = wizardStandingAnimation;

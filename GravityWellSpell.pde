@@ -17,7 +17,7 @@ class GravityWell extends Collider {
   void create() {
     super.create();
     if (gravityWellSpritesheet == null) {
-      gravityWellSpritesheet = loadSpriteSheet("/assets/gravityWell.png", 2, 1, 150, 150);
+      gravityWellSpritesheet = loadSpriteSheet("./assets/gravityWell.png", 2, 1, 150, 150);
     }
     gravityWellAnimation = new Animation(gravityWellSpritesheet, 0.25, 0, 1);
     //playSound("summonBlackHole");

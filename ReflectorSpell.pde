@@ -9,7 +9,7 @@ class Reflector extends Hazard {
     super(x_, y_, initialRadius, 20.0, 10.0, owner);
     
     if (reflectorSpritesheet == null) {
-      reflectorSpritesheet = loadSpriteSheet("/assets/reflector.png", 4, 1, 400, 400);
+      reflectorSpritesheet = loadSpriteSheet("./assets/reflector.png", 4, 1, 400, 400);
     }
     reflectorAnimation = new Animation(reflectorSpritesheet, 0.3, 0, 1, 2, 3);
     

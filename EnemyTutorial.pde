@@ -9,10 +9,10 @@ class EnemyTutorial extends Wizard {
   void create() {
     super.create();
     if (enemyScarecrowSheet == null) {
-      enemyScarecrowSheet = loadSpriteSheet("/assets/tutorial_boss.png", 4, 1, 250, 250);
+      enemyScarecrowSheet = loadSpriteSheet("./assets/tutorial_boss.png", 4, 1, 250, 250);
     }
     if (tutorialTextSheet == null) {
-      tutorialTextSheet = loadSpriteSheet("/assets/tutorial_text.png", 9, 1, 500, 250);
+      tutorialTextSheet = loadSpriteSheet("./assets/tutorial_text.png", 9, 1, 500, 250);
     }
     
     player1._mana = 0.0f;

@@ -31,7 +31,7 @@ class ManaOrb extends Collider{
   void create() {
     super.create();
     if (manaOrbSpritesheet == null) {
-      manaOrbSpritesheet = loadSpriteSheet("/assets/manaOrb.png", 2, 1, 60, 60);
+      manaOrbSpritesheet = loadSpriteSheet("./assets/manaOrb.png", 2, 1, 60, 60);
     }
     manaOrbAnimation = new Animation(manaOrbSpritesheet, 0.5, 0, 1);
   }

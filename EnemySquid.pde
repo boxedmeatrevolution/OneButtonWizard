@@ -11,7 +11,7 @@ class EnemySquid extends Wizard {
   void create() {
     super.create();
     if (enemySquidSpriteSheet == null) {
-      enemySquidSpriteSheet = loadSpriteSheet("/assets/enemy3.png", 4, 1, 250, 250);
+      enemySquidSpriteSheet = loadSpriteSheet("./assets/enemy3.png", 4, 1, 250, 250);
     }
     wizardStandingAnimation = new Animation(enemySquidSpriteSheet, 0.25, 0, 1);
     wizardCastPrepAnimation = wizardStandingAnimation;

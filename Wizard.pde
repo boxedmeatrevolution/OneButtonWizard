@@ -51,7 +51,7 @@ class Wizard extends Collider{
   void create() {
     super.create();
     if (characterSpritesheet == null) {
-      characterSpritesheet = loadSpriteSheet("/assets/character_spritesheet.png", 5, 5, 250, 250);
+      characterSpritesheet = loadSpriteSheet("./assets/character_spritesheet.png", 5, 5, 250, 250);
     }
     wizardStandingAnimation = new Animation(characterSpritesheet, 0.25, 0, 1);
     wizardCastPrepAnimation = new Animation(characterSpritesheet, 0.2, 2);

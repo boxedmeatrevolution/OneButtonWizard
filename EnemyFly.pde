@@ -94,4 +94,3 @@ class EnemyFly extends Wizard {
 }
 
 SpriteSheet enemyFlySpritesheet;
-

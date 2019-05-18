@@ -83,4 +83,3 @@ class EnemyWizard extends Wizard {
 }
 
 SpriteSheet enemyWizardSpriteSheet;
-

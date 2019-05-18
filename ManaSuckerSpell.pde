@@ -190,4 +190,3 @@ class ManaSuckerShot extends Collider {
 SpriteSheet manaBeamSpritesheet;
 SpriteSheet suckerShotSpritesheet;
 SpriteSheet manaSuckerSpritesheet;
-

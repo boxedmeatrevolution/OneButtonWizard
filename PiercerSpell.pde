@@ -101,4 +101,3 @@ class PiercerSpell extends Spell {
     return combination;
   }
 }
-

@@ -76,9 +76,3 @@ SpriteSheet loadSpriteSheet (String filename, int x, int y, int w, int h) {
   }
   return new SpriteSheet(sprites);
 }
-
-
-
-
-
-

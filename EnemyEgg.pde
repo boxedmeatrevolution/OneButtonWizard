@@ -117,4 +117,3 @@ class EnemyEgg extends Wizard {
 }
 
 SpriteSheet enemyEggSpritesheet;
-

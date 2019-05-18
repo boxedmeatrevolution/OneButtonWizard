@@ -182,4 +182,3 @@ class ZappyShot extends Hazard {
 
 SpriteSheet zappyShotSpritesheet;
 SpriteSheet zappySpritesheet;
-

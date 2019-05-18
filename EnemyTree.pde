@@ -145,4 +145,3 @@ class EnemyTree extends Wizard {
 }
 
 SpriteSheet enemyTreeSpritesheet;
-

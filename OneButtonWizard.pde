@@ -27,7 +27,6 @@ PImage[] backgrounds;
 ArrayList<InputProcessor> inputProcessors = new ArrayList<InputProcessor>();
 
 int MENU_STATE = 0, GAME_START_STATE = 1, IN_GAME_STATE = 2, GAME_OVER_STATE = 3;
-int state = 0;
 
 ArrayList<Entity> entities = new ArrayList<Entity>();
 ArrayList<Entity> entitiesToBeAdded = new ArrayList<Entity>();
@@ -74,9 +73,9 @@ float player2HealthGradual;
 float player1ManaGradual;
 float player2ManaGradual;
 
-int state = STATE_MAIN_MENU;
-
 int STATE_PRE_DUEL = -1, STATE_DUEL = 0, STATE_POST_DUEL = 1, STATE_MAIN_MENU = 2, STATE_PRE_FIGHT = 3, STATE_FIGHT = 4, STATE_POST_FIGHT_LOSE = 5, STATE_POST_FIGHT_WIN = 6;
+
+int state = STATE_MAIN_MENU;
 
 void cleanState() {
   entities.clear();
@@ -233,7 +232,7 @@ void gotoPostFightLoseState() {
   timer = 3.0f;
 }
 
-PImage backgroundImage;
+PImage backgroundImage, lastBackground;
 
 void setup () {  
   size(1000, 680);

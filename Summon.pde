@@ -14,4 +14,3 @@ class Summon extends Collider {
     }
   }
 }
-

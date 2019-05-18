@@ -55,4 +55,3 @@ class Hazard extends Collider {
   }
   
 }
-

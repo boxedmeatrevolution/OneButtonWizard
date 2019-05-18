@@ -78,4 +78,3 @@ class EnemyMirror extends Wizard {
 }
 
 SpriteSheet enemyMirrorSpritesheet;
-

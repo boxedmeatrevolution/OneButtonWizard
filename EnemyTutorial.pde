@@ -114,4 +114,3 @@ class EnemyTutorial extends Wizard {
 
 SpriteSheet enemyScarecrowSheet;
 SpriteSheet tutorialTextSheet;
-

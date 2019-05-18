@@ -96,4 +96,3 @@ class EnemyEyeball extends Wizard {
 }
 
 SpriteSheet eyeballSpritesheet;
-

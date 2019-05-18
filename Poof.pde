@@ -46,4 +46,3 @@ class Poof extends Moving {
 }
 
 SpriteSheet poofSpriteSheet;
-

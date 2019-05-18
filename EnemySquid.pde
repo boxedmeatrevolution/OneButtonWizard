@@ -84,4 +84,3 @@ class EnemySquid extends Wizard {
 }
 
 SpriteSheet enemySquidSpriteSheet;
-

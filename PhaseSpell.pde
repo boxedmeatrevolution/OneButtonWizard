@@ -22,4 +22,3 @@ class PhaseSpell extends Spell {
     return combination;
   }
 }
-

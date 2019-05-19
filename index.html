@@ -3,9 +3,14 @@
     <head>
         <meta charset="utf8">
         <script src="processing.js" type="text/javascript"></script>
+        <style>
+            #gameCanvas:focus {
+                outline: none;
+            }
+        </style>
     </head>
     <body>
-        <canvas id="canvas" width=1000 height=680 data-processing-sources="
+        <canvas id="gameCanvas" width="1000px" height="680px" data-processing-sources="
                 OneButtonWizard.pde
                 Audio.pde
                 Collider.pde
@@ -44,6 +49,11 @@
                 ZappyOrbSpell.pde">
             <p>HTML5 canvas not supported.</p>
         </canvas>
+        <script>
+            let canvas = document.getElementById('gameCanvas');
+            canvas.setAttribute('tabindex', '0');
+            canvas.focus();
+        </script>
     </body>
 </html>
 
